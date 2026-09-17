@@ -1,6 +1,6 @@
-# Interview notes — Phase 1
+# Interview notes — Phases 1–2
 
-Only decisions actually implemented in Phase 1 are described as completed. Agent, RAG, embedding, cosine-similarity, UI and model-evaluation decisions remain for later phases.
+Only decisions actually implemented in Phases 1–2 are described as completed. Agent, RAG, embedding, cosine-similarity, UI and model-evaluation decisions remain for later phases.
 
 ## How to explain this phase in one minute
 
@@ -87,9 +87,63 @@ Only decisions actually implemented in Phase 1 are described as completed. Agent
 - **Disadvantages:** More explicit parsing code; the exact distinct-value audit holds sets in memory and is not a big-data profiler.
 - **At scale:** Streaming/database profiling or approximate cardinality sketches; use the appropriate library when it simplifies a real requirement. The unittest tests can later run under pytest.
 
-## Questions to settle in Phase 2
+## Business policy decisions completed in Phase 2
 
-Define successful orders, payment-based revenue, AOV denominator, cancellation denominator, late-delivery eligibility and timestamp policy; choose how to handle multiple reviews and multi-seller attribution. Then build manually verified reference queries. The 20 Phase 1 checks are data-engineering checks, not SQL-generation accuracy or groundedness measurements.
+The [metric contract](../knowledge_base/metrics.md) now defines success as delivered, revenue as recorded successful-order payments, AOV over delivered orders with payments, cancellation over all orders, strict timestamp lateness and valid-review selection. Eleven SQL queries are checked against independent raw-CSV calculations and frozen reference results. The 20 Phase 1 checks remain data-engineering checks, not SQL-generation accuracy or groundedness measurements.
+
+## Why a deterministic baseline before an agent?
+
+- **Chosen:** Fixed SQL plus independently calculated expected results before generation.
+- **Why:** Without ground truth, executable but wrong SQL can look successful. A baseline also makes a later model's mistakes inspectable.
+- **Alternative:** Start with prompts and judge a handful of answers manually.
+- **Advantages:** Business policy is explicit, reproducible and testable. Hand-calculated cases expose fanout and denominator mistakes.
+- **Disadvantages:** Eleven references are narrow and not the promised full benchmark. They cannot establish general natural-language capability.
+- **At scale:** Version metric contracts, broaden benchmark populations and keep unseen questions separate from development examples. An agent earns its role by composing operations for questions outside the fixed catalogue.
+
+## Why distinguish payment revenue from category/seller item sales?
+
+- **Chosen:** Delivered payment values for global/state/month revenue; item price sums for category/seller rankings.
+- **Why:** One payment may cover multiple items, categories, sellers and freight. The data does not supply a unique seller-level allocation.
+- **Alternative:** Proportionally allocate payment value across item values, or call all item sales revenue.
+- **Advantages:** No invented attribution; exact source values and clear units.
+- **Disadvantages:** Category totals do not reconcile to payment revenue; the label must remain explicit. Payment revenue is still a project proxy, not accounting truth.
+- **At scale:** Work with finance/product stakeholders on recognition, refunds, discounts and allocation. Keep additive metrics at their natural grain.
+
+## Why this AOV denominator and NULL policy?
+
+- **Chosen:** Use delivered orders with observed payment rows, including recorded zero payments. Report missing coverage; undefined rates/means are NULL.
+- **Why:** Missing is not zero, and multiple payments are not multiple orders.
+- **Alternative:** Divide by every delivered order or impute missing payments as zero.
+- **Advantages:** Numerator and denominator refer to the same observed population.
+- **Disadvantages:** Observed-payment AOV may be biased if missingness is systematic; it is not an estimate for unobserved payments.
+- **At scale:** Track coverage by cohort and reconcile against the payment system; only impute under a justified model.
+
+## Why latest eligible review rather than averaging every review row?
+
+- **Chosen:** Valid chronology first, then latest answer, latest creation, largest review ID per order.
+- **Why:** Avoid overweighting orders with multiple reviews and make tie outcomes reproducible.
+- **Alternative:** Earliest review, mean per order, or all review rows.
+- **Advantages:** One score per order and explicit missing-review coverage.
+- **Disadvantages:** The source does not prove reviews are edits; selection is an assumption, and chronology filtering changes the population.
+- **At scale:** Determine review event semantics and evaluate sensitivity to competing selection rules. Order-level scores shared across sellers are not independent direct seller ratings.
+
+## Why descriptive screens rather than significance or anomaly claims?
+
+- **Chosen:** Compare means/rates and show sample sizes; use explicit minimum sample thresholds for seller/category rankings.
+- **Why:** This phase establishes reference aggregates, not statistical inference. Late delivery may correlate with geography, product mix and other factors.
+- **Alternative:** Run many tests and rank p-values, or label every above-average seller anomalous.
+- **Advantages:** Easy to explain, no unjustified causal/significance claims.
+- **Disadvantages:** Thresholds of 20/30 are transparent screening conventions, not validated precision guarantees. Rankings may be unstable for small groups.
+- **At scale:** Define hypotheses and units of independence, consider confidence intervals, multiple comparisons, confounding and repeated buyers/orders before choosing tests.
+
+## Why independent CSV calculations and frozen snapshots?
+
+- **Chosen:** SQL outputs compared to Python dictionaries/sets, Decimal sums and datetime differences over original CSVs; commit expected results with source/contract/SQL hashes.
+- **Why:** Re-running the same SQL twice is not independent verification, and silently regenerating expected values hides regressions.
+- **Alternative:** Use only execution success or hardcode one aggregate total.
+- **Advantages:** Every output cell and its ordering is checked. Hand-calculated adversarial fixtures complement full-data agreement.
+- **Disadvantages:** Two implementations need maintenance and can still share a mistaken written policy. Floating-point duration averages require a small absolute tolerance.
+- **At scale:** Automated lineage, curated gold data, peer review, holdout questions and explicit versioned benchmark updates. Do not use these development questions to claim unseen-model accuracy.
 
 ## Planned later decisions (not yet implemented or evaluated)
 
