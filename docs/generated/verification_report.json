@@ -1,0 +1,341 @@
+{
+  "source_files": {
+    "customers": {
+      "rows": 99441,
+      "sha256": "983a422239e1712ded753b3bf9ecf47dc73f144d306029dcfa99e70a226883d2"
+    },
+    "sellers": {
+      "rows": 3095,
+      "sha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e"
+    },
+    "category_translations": {
+      "rows": 71,
+      "sha256": "a81f0d1f27b27e7293f761bc79e3ce8f348ee39c4b3ed3e49bde38f478586278"
+    },
+    "products": {
+      "rows": 32951,
+      "sha256": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc"
+    },
+    "orders": {
+      "rows": 99441,
+      "sha256": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf"
+    },
+    "order_items": {
+      "rows": 112650,
+      "sha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279"
+    },
+    "payments": {
+      "rows": 103886,
+      "sha256": "4f713964f2815dbbaa40b9488268c55aac3627bfce5aa96cf58d1f3616de3cc0"
+    },
+    "reviews": {
+      "rows": 99224,
+      "sha256": "012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7"
+    },
+    "geolocation": {
+      "rows": 1000163,
+      "sha256": "b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6"
+    }
+  },
+  "checks": [
+    {
+      "name": "customers: CSV row count preserved",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM customers"
+    },
+    {
+      "name": "sellers: CSV row count preserved",
+      "actual": 3095,
+      "expected": 3095,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM sellers"
+    },
+    {
+      "name": "category_translations: CSV row count preserved",
+      "actual": 71,
+      "expected": 71,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM category_translations"
+    },
+    {
+      "name": "products: CSV row count preserved",
+      "actual": 32951,
+      "expected": 32951,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM products"
+    },
+    {
+      "name": "orders: CSV row count preserved",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM orders"
+    },
+    {
+      "name": "order_items: CSV row count preserved",
+      "actual": 112650,
+      "expected": 112650,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM order_items"
+    },
+    {
+      "name": "payments: CSV row count preserved",
+      "actual": 103886,
+      "expected": 103886,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM payments"
+    },
+    {
+      "name": "reviews: CSV row count preserved",
+      "actual": 99224,
+      "expected": 99224,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM reviews"
+    },
+    {
+      "name": "geolocation: CSV row count preserved",
+      "actual": 1000163,
+      "expected": 1000163,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM geolocation"
+    },
+    {
+      "name": "SQLite integrity",
+      "actual": "ok",
+      "expected": "ok",
+      "passed": true,
+      "sql": null
+    },
+    {
+      "name": "Enforced foreign keys",
+      "actual": 0,
+      "expected": 0,
+      "passed": true,
+      "sql": null
+    },
+    {
+      "name": "orders -> customers",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM orders o JOIN customers c ON c.customer_id=o.customer_id"
+    },
+    {
+      "name": "items -> orders/products/sellers",
+      "actual": 112650,
+      "expected": 112650,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM order_items i\n                JOIN orders o ON o.order_id=i.order_id\n                JOIN products p ON p.product_id=i.product_id\n                JOIN sellers s ON s.seller_id=i.seller_id"
+    },
+    {
+      "name": "payments -> orders",
+      "actual": 103886,
+      "expected": 103886,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM payments p JOIN orders o ON o.order_id=p.order_id"
+    },
+    {
+      "name": "reviews -> orders",
+      "actual": 99224,
+      "expected": 99224,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM reviews r JOIN orders o ON o.order_id=r.order_id"
+    },
+    {
+      "name": "products -> optional translations",
+      "actual": 32951,
+      "expected": 32951,
+      "passed": true,
+      "sql": "SELECT COUNT(*) FROM products p LEFT JOIN category_translations t\n                ON p.product_category_name=t.product_category_name"
+    },
+    {
+      "name": "orders -> preaggregated child tables",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true,
+      "sql": "WITH i AS (SELECT order_id, COUNT(*) n FROM order_items GROUP BY order_id),\n                p AS (SELECT order_id, SUM(payment_value_cents) paid FROM payments GROUP BY order_id),\n                r AS (SELECT order_id, COUNT(*) n FROM reviews GROUP BY order_id)\n                SELECT COUNT(*) FROM orders o LEFT JOIN i ON i.order_id=o.order_id\n                LEFT JOIN p ON p.order_id=o.order_id LEFT JOIN r ON r.order_id=o.order_id"
+    },
+    {
+      "name": "Exact source monetary reconciliation: price_cents",
+      "actual": 1359164370,
+      "expected": 1359164370,
+      "passed": true,
+      "sql": "SELECT SUM(price_cents) FROM order_items"
+    },
+    {
+      "name": "Exact source monetary reconciliation: freight_value_cents",
+      "actual": 225190954,
+      "expected": 225190954,
+      "passed": true,
+      "sql": "SELECT SUM(freight_value_cents) FROM order_items"
+    },
+    {
+      "name": "Exact source monetary reconciliation: payment_value_cents",
+      "actual": 1600887212,
+      "expected": 1600887212,
+      "passed": true,
+      "sql": "SELECT SUM(payment_value_cents) FROM payments"
+    }
+  ],
+  "all_checks_passed": true,
+  "quality_findings": {
+    "orders_without_items": {
+      "value": 775,
+      "sql": "SELECT COUNT(*) FROM orders o WHERE NOT EXISTS (SELECT 1 FROM order_items i WHERE i.order_id=o.order_id)"
+    },
+    "orders_without_payments": {
+      "value": 1,
+      "sql": "SELECT COUNT(*) FROM orders o WHERE NOT EXISTS (SELECT 1 FROM payments p WHERE p.order_id=o.order_id)"
+    },
+    "orders_without_reviews": {
+      "value": 768,
+      "sql": "SELECT COUNT(*) FROM orders o WHERE NOT EXISTS (SELECT 1 FROM reviews r WHERE r.order_id=o.order_id)"
+    },
+    "orders_with_multiple_reviews": {
+      "value": 547,
+      "sql": "SELECT COUNT(*) FROM (SELECT order_id FROM reviews GROUP BY order_id HAVING COUNT(*)>1)"
+    },
+    "review_ids_shared_by_orders": {
+      "value": 789,
+      "sql": "SELECT COUNT(*) FROM (SELECT review_id FROM reviews GROUP BY review_id HAVING COUNT(*)>1)"
+    },
+    "orders_with_multiple_payments": {
+      "value": 2961,
+      "sql": "SELECT COUNT(*) FROM (SELECT order_id FROM payments GROUP BY order_id HAVING COUNT(*)>1)"
+    },
+    "orders_with_multiple_sellers": {
+      "value": 1278,
+      "sql": "SELECT COUNT(*) FROM (SELECT order_id FROM order_items GROUP BY order_id HAVING COUNT(DISTINCT seller_id)>1)"
+    },
+    "customers_with_repeat_identity": {
+      "value": 2997,
+      "sql": "SELECT COUNT(*) FROM (SELECT customer_unique_id FROM customers GROUP BY customer_unique_id HAVING COUNT(*)>1)"
+    },
+    "products_missing_category": {
+      "value": 610,
+      "sql": "SELECT COUNT(*) FROM products WHERE product_category_name IS NULL"
+    },
+    "products_with_untranslated_category": {
+      "value": 13,
+      "sql": "SELECT COUNT(*) FROM products p WHERE product_category_name IS NOT NULL\n                AND NOT EXISTS (SELECT 1 FROM category_translations t WHERE t.product_category_name=p.product_category_name)"
+    },
+    "geolocation_exact_duplicate_excess": {
+      "value": 261831,
+      "sql": "SELECT SUM(n-1) FROM (SELECT COUNT(*) n FROM geolocation\n                GROUP BY geolocation_zip_code_prefix, geolocation_lat, geolocation_lng, geolocation_city, geolocation_state)"
+    },
+    "zip_prefixes_with_multiple_city_labels": {
+      "value": 8556,
+      "sql": "SELECT COUNT(*) FROM (SELECT geolocation_zip_code_prefix FROM geolocation GROUP BY geolocation_zip_code_prefix HAVING COUNT(DISTINCT geolocation_city)>1)"
+    },
+    "zip_prefixes_with_multiple_states": {
+      "value": 8,
+      "sql": "SELECT COUNT(*) FROM (SELECT geolocation_zip_code_prefix FROM geolocation GROUP BY geolocation_zip_code_prefix HAVING COUNT(DISTINCT geolocation_state)>1)"
+    },
+    "customers_without_geolocation": {
+      "value": 278,
+      "sql": "SELECT COUNT(*) FROM customers c WHERE NOT EXISTS\n                (SELECT 1 FROM geolocation g WHERE g.geolocation_zip_code_prefix=c.customer_zip_code_prefix)"
+    },
+    "sellers_without_geolocation": {
+      "value": 7,
+      "sql": "SELECT COUNT(*) FROM sellers s WHERE NOT EXISTS\n                (SELECT 1 FROM geolocation g WHERE g.geolocation_zip_code_prefix=s.seller_zip_code_prefix)"
+    },
+    "coordinates_outside_broad_brazil_box": {
+      "value": 31,
+      "sql": "SELECT COUNT(*) FROM geolocation WHERE\n                geolocation_lat NOT BETWEEN -34 AND 6 OR geolocation_lng NOT BETWEEN -74 AND -28"
+    },
+    "delivered_orders_missing_delivery_timestamp": {
+      "value": 8,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_status='delivered' AND order_delivered_customer_date IS NULL"
+    },
+    "nondelivered_orders_with_delivery_timestamp": {
+      "value": 6,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_status<>'delivered' AND order_delivered_customer_date IS NOT NULL"
+    },
+    "approval_before_purchase": {
+      "value": 0,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_approved_at < order_purchase_timestamp"
+    },
+    "carrier_before_purchase": {
+      "value": 166,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_delivered_carrier_date < order_purchase_timestamp"
+    },
+    "delivery_before_purchase": {
+      "value": 0,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_delivered_customer_date < order_purchase_timestamp"
+    },
+    "delivery_before_carrier": {
+      "value": 23,
+      "sql": "SELECT COUNT(*) FROM orders WHERE order_delivered_customer_date < order_delivered_carrier_date"
+    },
+    "review_created_before_purchase": {
+      "value": 74,
+      "sql": "SELECT COUNT(*) FROM reviews r JOIN orders o ON o.order_id=r.order_id WHERE r.review_creation_date < o.order_purchase_timestamp"
+    },
+    "zero_payment_rows": {
+      "value": 9,
+      "sql": "SELECT COUNT(*) FROM payments WHERE payment_value_cents=0"
+    },
+    "zero_installment_rows": {
+      "value": 2,
+      "sql": "SELECT COUNT(*) FROM payments WHERE payment_installments=0"
+    },
+    "zero_weight_products": {
+      "value": 4,
+      "sql": "SELECT COUNT(*) FROM products WHERE product_weight_g=0"
+    }
+  },
+  "order_status_counts": [
+    {
+      "order_status": "delivered",
+      "orders": 96478
+    },
+    {
+      "order_status": "shipped",
+      "orders": 1107
+    },
+    {
+      "order_status": "canceled",
+      "orders": 625
+    },
+    {
+      "order_status": "unavailable",
+      "orders": 609
+    },
+    {
+      "order_status": "invoiced",
+      "orders": 314
+    },
+    {
+      "order_status": "processing",
+      "orders": 301
+    },
+    {
+      "order_status": "created",
+      "orders": 5
+    },
+    {
+      "order_status": "approved",
+      "orders": 2
+    }
+  ],
+  "purchase_range": {
+    "earliest": "2016-09-04 21:15:19",
+    "latest": "2018-10-17 17:30:18"
+  },
+  "untranslated_categories": [
+    {
+      "product_category_name": "pc_gamer",
+      "products": 3
+    },
+    {
+      "product_category_name": "portateis_cozinha_e_preparadores_de_alimentos",
+      "products": 10
+    }
+  ],
+  "join_fanout_example": {
+    "source_payment_cents": 1600887212,
+    "naive_item_join_payment_cents": 2030813471
+  }
+}

@@ -1,0 +1,2 @@
+# Phase 1 uses only the Python 3.11+ standard library.
+# Installable application dependencies will be added when their phases start.

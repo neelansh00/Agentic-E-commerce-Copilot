@@ -1,0 +1,16 @@
+# Original data and reproducible local database stay out of source control.
+*.zip
+data/raw/
+data/processed/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
