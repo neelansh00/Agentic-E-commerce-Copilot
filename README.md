@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phases 1–2 complete — audited database and deterministic analytics baseline.** Eleven reference SQL queries have independently verified results and explicit metric definitions. The LLM, RAG, restricted Python analytics tool, Streamlit UI and full 50-question benchmark are not built yet.
+**Current status: Phases 1–2 complete; Phase 3 implemented and tested offline.** The project now has schema retrieval, modular structured SQL generation, read-only validation/execution, bounded repair and evidence-linked explanations. Per user request, model responses are scripted in tests/demos; **live LLM quality has not been evaluated**. RAG, the Python analytics tool, agent routing, Streamlit and the full benchmark remain later phases.
 
 ## Problem and business motivation
 
@@ -14,7 +14,7 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **25/25 automated tests passed**, covering ingestion, hand-calculated analytics edge cases and frozen-result regression detection with dataset-independent fixtures.
+- **53/53 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures and evidence references.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
 - No LLM accuracy, RAG performance, experimental improvements or business-impact claims have been measured.
 
@@ -22,18 +22,24 @@ Read the [CSV audit](docs/generated/dataset_audit.md), [data model](docs/data_mo
 
 For the completed analytics baseline, start with the [walkthrough](docs/baseline_walkthrough.md), [metric contract](knowledge_base/metrics.md) and [measured query results](docs/generated/baseline_report.md).
 
+For Phase 3, read the [text-to-SQL walkthrough](docs/text_to_sql.md) and [offline integration evidence](docs/generated/text_to_sql_report.md). Reference SQL replay is explicitly distinguished from model-generated SQL accuracy.
+
 ## Local setup and reproduction
 
-Requires Python **3.11+** (verified here with Python 3.12.2). Phases 1–2 have no third-party dependencies, API key, network request or database service requirement.
+Requires Python **3.11+** (verified here with Python 3.12.2). Phases 1–2 remain standard-library-only. Phase 3 adds SQLGlot, Pydantic, python-dotenv and a replaceable OpenAI SDK adapter; offline execution needs no API key or model request. Dependency installation requires package access.
 
 Place the supplied ZIP in the repository root, then run:
 
 ```powershell
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements.txt
 python scripts/inspect_dataset.py
 python scripts/load_database.py
 python scripts/verify_database.py
 python scripts/run_baseline.py
-python -m unittest discover -s tests -v
+.venv/Scripts/python.exe -m unittest discover -s tests -v
+.venv/Scripts/python.exe scripts/ask.py --demo count --json
+.venv/Scripts/python.exe scripts/verify_text_to_sql.py
 ```
 
 If there is more than one archive, select it explicitly:
@@ -103,7 +109,7 @@ flowchart TD
 
 The loader checks exact headers, field types, non-null keys, composite-key uniqueness, six FK relationships, basic domain constraints and source checksums. Its SQL identifiers come from fixed code, and inserted values use parameters. It does not execute user-provided SQL.
 
-`connect_readonly()` opens an existing SQLite database in read-only/query-only mode. This is a connection primitive, **not the future LLM SQL safety validator**. AST validation, analytical function restrictions, query budgets and bounded SQL repair belong to Phase 3.
+Phase 3 adds SQLGlot AST validation, physical-table and function allowlists, SQLite authorization independent of the parser, query-only/read-only connections, execution/output limits and at most three SQL attempts. `--json` exposes the selected schema, SQL, data, retries and timing. Safe execution does not imply semantically correct metrics; see the [safety limits](docs/text_to_sql.md).
 
 Tests cover extraction traversal protection, CSV record counting including multiline text, precision-safe conversion, row preservation, repeatable rebuilds, FK/PK failures, schema drift, score validation, read-only writes and atomic recovery after failed ingestion.
 
@@ -120,13 +126,14 @@ Phase 1 evidence is in [generated verification reports](docs/generated/verificat
 - How do selected review averages differ between late and on-time deliveries?
 - Which sellers combine high sales with poor delivery performance?
 
-These are fixed reference queries run by the baseline script, not chat commands. The generated report separates observations from interpretations and exposes SQL, data and denominators. Revenue is delivered-order payment value; category/seller sales are item value, and the distinction is explicit.
+These fixed queries have verified baseline results. Offline Phase 3 demos replay fixed responses; they do not perform arbitrary natural-language generation. The optional `scripts/ask.py --live --question "..." --json` path requires explicit local model configuration and has not been used. Revenue is delivered-order payment value; category/seller sales are item value, and the distinction is explicit.
 
 ## Project structure
 
 ```text
 app/database/       Schema, ingestion, read-only connection, verification
 app/analytics/      Fixed-query registry, SQL, independent CSV reference, reports
+app/text_to_sql/    Model adapter, schema matching, validator, executor, bounded loop
 knowledge_base/     Versioned business definitions (not indexed for RAG yet)
 evaluation/         Frozen reference questions and expected results
 data/raw/           Extracted supplied CSVs (ignored)
@@ -137,6 +144,7 @@ docs/generated/     Reproducible audit, loading and verification reports
 docs/data_model.md  Grain, ER model, key choices and PostgreSQL migration
 docs/data_quality.md
 docs/baseline_walkthrough.md
+docs/text_to_sql.md
 docs/interview_notes.md
 docs/project_metrics.md
 ```
@@ -145,4 +153,4 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Next: **Phase 3 — schema-aware text-to-SQL with validation and bounded repair**, followed by business RAG, a single agent with tools, UI, evaluation, and final packaging. Docker and model configuration will be added when there is an application to package. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Next: **Phase 4 — business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Live model evaluation is pending the user's decision to enable it. Interview explanations are maintained in [interview notes](docs/interview_notes.md).

@@ -23,9 +23,17 @@ def write_project_metrics(root: Path):
                   f"- Reference result rows checked: {sum(len(q.get('rows', [])) for q in queries.values())}.",
                   f"- Frozen ground-truth comparison: {baseline['snapshot_status']}.",
                   f"- Baseline run wall time: {baseline['elapsed_seconds']} seconds (single local run, includes reference verification; not an improvement claim)."]
-    lines += ['- LLM execution accuracy, answer accuracy, retrieval accuracy, latency improvement and cost: not measured.',
+    text_sql_path = root / 'docs/generated/text_to_sql_report.json'
+    if text_sql_path.exists():
+        text_sql = json.loads(text_sql_path.read_text(encoding='utf-8'))
+        results = text_sql['results']
+        lines += [f"- Phase 3 offline reference replays matching ground truth: {sum(r['expected_result_match'] for r in results.values())}/{len(results)} (not model-generated SQL).",
+                  f"- Keyword schema retrieval contains required tables: {sum(r['retrieval_contains_expected'] for r in results.values())}/{len(results)} reference questions (development set).",
+                  f"- Database unchanged after guarded execution: {text_sql['database_unchanged']}.",
+                  f"- Phase 3 model API calls: {text_sql['model_api_calls']} (offline by user request)."]
+    lines += ['- LLM execution accuracy, answer accuracy, RAG retrieval accuracy, latency improvement and cost: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
-              'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md).', '']
+              'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')
 
 

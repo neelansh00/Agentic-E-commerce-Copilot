@@ -1,6 +1,6 @@
-# Interview notes — Phases 1–2
+# Interview notes — Phases 1–3
 
-Only decisions actually implemented in Phases 1–2 are described as completed. Agent, RAG, embedding, cosine-similarity, UI and model-evaluation decisions remain for later phases.
+Only decisions actually implemented in Phases 1–3 are described as completed. Phase 3 was tested offline at the user's request, not with live LLM calls. Agent routing, RAG, embeddings, cosine similarity, UI and model evaluation remain for later phases.
 
 ## How to explain this phase in one minute
 
@@ -147,4 +147,49 @@ The [metric contract](../knowledge_base/metrics.md) now defines success as deliv
 
 ## Planned later decisions (not yet implemented or evaluated)
 
-The requested direction is one primary agent with clearly defined SQL, business-definition retrieval and restricted Python tools. A small, inspectable native routing loop is the starting candidate; a framework must earn its complexity. RAG would retrieve changeable definitions with citations, while fine-tuning would not supply transactional facts. Schema matching, embedding model/dimension, cosine similarity, chunking, top-k, routing and retries must be justified by their later evaluations. No claims of improved accuracy are available yet.
+The requested direction is one primary agent with clearly defined SQL, business-definition retrieval and restricted Python tools. Phase 3 now implements the SQL loop; multi-tool routing remains later work. RAG would retrieve changeable definitions with citations, while fine-tuning would not supply transactional facts. Embedding model/dimension, cosine similarity, chunking and top-k are pending. Schema matching and retry policies are implemented but their effect on live-model accuracy has not been evaluated. No claims of improved accuracy are available yet.
+
+## Why keyword schema retrieval with join paths?
+
+- **Chosen:** Match question words to tables, add shortest paths through the relational model, and inspect actual metadata only for selected tables.
+- **Why:** Small known schema; this policy can be drawn and debugged. Initial selections/reasons and one optional targeted expansion are logged.
+- **Alternative:** Full-schema prompts or embedding-based schema retrieval.
+- **Advantages:** Lower irrelevant context and no embedding service; bridge tables are retained for joins.
+- **Disadvantages:** Synonyms and ambiguous phrases may be missed. Development-reference recall does not prove unseen-question accuracy or token/latency improvements.
+- **At scale:** Evaluate paraphrases and larger schemas; adopt semantic retrieval only if it improves measured result accuracy.
+
+## Why both SQLGlot and SQLite authorization?
+
+- **Chosen:** Parse SELECT/CTE structure and allowlists, then independently restrict database operations and functions at preparation time with SQLite's authorizer on a read-only connection.
+- **Why:** Keyword blocking confuses comments/strings and misses SQL structure; relying on a model's promise is insufficient. Independent layers cover parser mistakes and unexpected SQL.
+- **Alternative:** Regex-only validation, only `mode=ro`, or unrestricted execution in a writable connection.
+- **Advantages:** Reject mutations, attachments, PRAGMAs, system reads and extension/file functions. Tests exercise the authorizer without the parser as well.
+- **Disadvantages:** Conservative allowlists reject some useful queries. A SELECT can still have a wrong join or expensive intermediate computation; this is not semantic proof or an OS sandbox.
+- **At scale:** A least-privilege DB role, read replica, server statement/resource budgets and isolated workers; maintain query-level correctness evaluation.
+
+## Why at most three SQL attempts?
+
+- **Chosen:** Initial generation plus up to two repairs, feeding back validation/SQLite diagnostics and previous SQL. Provider SDK retries are disabled.
+- **Why:** Fixable syntax/schema/aggregate mistakes should not immediately abort, but loops need bounded cost and latency.
+- **Alternative:** No repair, unlimited retries or framework-managed hidden retries.
+- **Advantages:** Visible trace, bounded SQL attempt count and clear terminal failure. Missing data cannot turn into fabricated results after retries.
+- **Disadvantages:** Repairs can change intended semantics; timeout per query is not a whole-request deadline. Three attempts are a configured engineering bound, not an experimentally proven optimum.
+- **At scale:** Evaluate correction success/cost and error classes, enforce end-to-end budgets and stop early on nonrepairable errors.
+
+## Why typed model outputs and evidence-cell explanations?
+
+- **Chosen:** Pydantic SQL plans and explanation references. The model chooses a result cell; Python inserts its actual value. Bad references fall back to literal results.
+- **Why:** Structured output separates query/clarify/unsupported outcomes; numbers should originate in executed data.
+- **Alternative:** Markdown SQL extraction and unconstrained narrative answers.
+- **Advantages:** Inspectable schema, deterministic failure handling, no model-authored numeric value field. Fixed caveats prohibit unrestricted statistical claims.
+- **Disadvantages:** A valid reference may still have a misleading label, and SQL itself may be semantically incorrect. This is not complete automatic groundedness certification.
+- **At scale:** Semantic claim review, better evidence granularity and human-labelled groundedness evaluation. Don't claim a score without measuring it.
+
+## Why a native pipeline and offline provider tests?
+
+- **Chosen:** Ordinary Python loop plus a small model protocol. OpenAI structured-output adapter is available but live calls were deliberately not used; ScriptedModel is visibly named as offline.
+- **Why:** Phase 3 has one sequential task and clear boundaries, so a graph/multi-agent framework would add little. Offline tests exercise failures cheaply and reproducibly.
+- **Alternative:** LangGraph/LangChain orchestration, network-dependent tests or reporting reference replay as a successful model benchmark.
+- **Advantages:** Understandable control flow; testable refusal/error/repair behavior; replace provider without rewriting database logic.
+- **Disadvantages:** Mock responses do not test actual model quality, availability, token costs or provider behavior. SDK boundary tests are contract tests, not live integration proof.
+- **At scale:** Enable explicitly configured live evaluations, store model/prompt versions, add usage budgets and compare against the held-out benchmark. Add a framework only when orchestration complexity warrants it.

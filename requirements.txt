@@ -1,2 +1,6 @@
-# Phases 1–2 use only the Python 3.11+ standard library.
-# Installable application dependencies will be added when their phases start.
+# Python 3.11+. Phases 1–2 remain standard-library-only.
+# Direct Phase 3 dependencies pinned to the versions tested in the project venv.
+openai==3.16.0
+pydantic==2.13.5
+sqlglot==30.18.0
+python-dotenv==1.2.3

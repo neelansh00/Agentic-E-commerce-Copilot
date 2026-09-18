@@ -12,7 +12,11 @@ Regenerated from saved reports by the verification and baseline scripts. These a
 - Reference result rows checked: 171.
 - Frozen ground-truth comparison: matched.
 - Baseline run wall time: 93.153 seconds (single local run, includes reference verification; not an improvement claim).
-- LLM execution accuracy, answer accuracy, retrieval accuracy, latency improvement and cost: not measured.
+- Phase 3 offline reference replays matching ground truth: 11/11 (not model-generated SQL).
+- Keyword schema retrieval contains required tables: 11/11 reference questions (development set).
+- Database unchanged after guarded execution: True.
+- Phase 3 model API calls: 0 (offline by user request).
+- LLM execution accuracy, answer accuracy, RAG retrieval accuracy, latency improvement and cost: not measured.
 - The approximately 50-question agent evaluation and controlled experiments remain for later phases.
 
-Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md).
+Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).
