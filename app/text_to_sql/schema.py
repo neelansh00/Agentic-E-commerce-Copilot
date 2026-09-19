@@ -2,8 +2,9 @@
 from collections import deque
 import re
 from app.database.ingest import SOURCES, connect_readonly
+from app.database.metrics import VIEW_DEPENDENCIES, VIEW_NOTES, available_views
 
-TABLES = {spec[0] for spec in SOURCES}
+TABLES = {spec[0] for spec in SOURCES} | VIEW_DEPENDENCIES.keys()
 KEYWORDS = {
     'customers': {'customer', 'customers', 'buyer', 'buyers', 'state', 'states', 'region', 'regions', 'city', 'cities'},
     'orders': {'order', 'orders', 'delivery', 'deliveries', 'late', 'lateness', 'cancel', 'canceled', 'cancellation', 'month', 'months', 'monthly', 'trend'},
@@ -64,14 +65,15 @@ def schema_context(database, tables: list[str]) -> str:
     db = connect_readonly(database)
     try:
         blocks = []
-        for table in tables:
+        for table in sorted(set(tables) | available_views(tables)):
             columns = db.execute(f'PRAGMA table_info({table})').fetchall()
             if not columns:
                 raise ValueError(f'Missing table: {table}; rebuild database first')
             fields = ', '.join(f"{r['name']} {r['type']}" + (' NOT NULL' if r['notnull'] else '') for r in columns)
             pk = ', '.join(r['name'] for r in sorted(columns, key=lambda r: r['pk']) if r['pk'])
             fks = [f"{r['from']} -> {r['table']}.{r['to']}" for r in db.execute(f'PRAGMA foreign_key_list({table})')]
-            blocks.append(f"{table}({fields}); PK({pk}); FKs: {', '.join(fks) or 'none'}.\n{NOTES[table]}")
+            notes = VIEW_NOTES[table] if table in VIEW_NOTES else NOTES[table]
+            blocks.append(f"{table}({fields}); PK({pk}); FKs: {', '.join(fks) or 'none'}.\n{notes}")
         return '\n\n'.join(blocks)
     finally:
         db.close()

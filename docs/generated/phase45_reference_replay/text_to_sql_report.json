@@ -1,0 +1,778 @@
+{
+  "mode": "offline reference SQL replay; NOT LLM generation or accuracy",
+  "model_api_calls": 0,
+  "database_sha256": "73aa457f83e27454daa278991c57695dca75308c0efd95f53a4901a83f4bb918",
+  "database_unchanged": true,
+  "expected_snapshot_sha256": "47ee5f05f5bc3a15b8d53491ad450734eae259915e9980f76f28123bda7b62a0",
+  "results": {
+    "overview": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "customers",
+        "orders",
+        "payments"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "customers",
+        "payments"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 1,
+      "elapsed_ms": 3743.044,
+      "execution_ms": 3618.491,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "customers",
+            "orders",
+            "payments"
+          ],
+          "reasons": {
+            "customers": "Matched: buyers",
+            "orders": "Matched: cancellation, order, orders",
+            "payments": "Matched: aov, revenue"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT COUNT(*) AS total_orders,\n       COUNT(DISTINCT customer_unique_id) AS unique_buyers,\n       COUNT(CASE WHEN order_status = 'delivered' THEN 1 END) AS delivered_orders,\n       COUNT(CASE WHEN order_status = 'delivered' AND payment_rows > 0 THEN 1 END) AS paid_delivered_orders,\n       COUNT(CASE WHEN order_status = 'delivered' AND payment_rows = 0 THEN 1 END) AS delivered_missing_payment,\n       SUM(CASE WHEN order_status = 'delivered' THEN payment_cents END) AS revenue_cents,\n       ROUND(AVG(CASE WHEN order_status = 'delivered' THEN payment_cents END), 6) AS aov_cents,\n       COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) AS canceled_orders,\n       ROUND(100.0 * COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) / NULLIF(COUNT(*), 0), 6) AS cancellation_pct\nFROM order_facts;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT COUNT(*) AS total_orders,\n       COUNT(DISTINCT customer_unique_id) AS unique_buyers,\n       COUNT(CASE WHEN order_status = 'delivered' THEN 1 END) AS delivered_orders,\n       COUNT(CASE WHEN order_status = 'delivered' AND payment_rows > 0 THEN 1 END) AS paid_delivered_orders,\n       COUNT(CASE WHEN order_status = 'delivered' AND payment_rows = 0 THEN 1 END) AS delivered_missing_payment,\n       SUM(CASE WHEN order_status = 'delivered' THEN payment_cents END) AS revenue_cents,\n       ROUND(AVG(CASE WHEN order_status = 'delivered' THEN payment_cents END), 6) AS aov_cents,\n       COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) AS canceled_orders,\n       ROUND(100.0 * COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) / NULLIF(COUNT(*), 0), 6) AS cancellation_pct\nFROM order_facts;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 3618.491,
+          "returned_rows": 1,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "monthly_revenue": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "orders",
+        "payments"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "payments"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 26,
+      "elapsed_ms": 5614.893,
+      "execution_ms": 5478.169,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "orders",
+            "payments"
+          ],
+          "reasons": {
+            "orders": "Matched: month, order",
+            "payments": "Matched: payment, revenue"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, bounds AS (\n    SELECT DATE(MIN(order_purchase_timestamp), 'start of month') AS first_month,\n           DATE(MAX(order_purchase_timestamp), 'start of month') AS last_month FROM orders\n), months(month_start) AS (\n    SELECT first_month FROM bounds WHERE first_month IS NOT NULL\n    UNION ALL\n    SELECT DATE(month_start, '+1 month') FROM months, bounds WHERE month_start < last_month\n)\nSELECT SUBSTR(m.month_start, 1, 7) AS purchase_month,\n       CASE WHEN m.month_start IN (b.first_month, b.last_month) THEN 1 ELSE 0 END AS boundary_month,\n       COUNT(f.order_id) AS total_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' THEN 1 END) AS delivered_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' AND f.payment_rows > 0 THEN 1 END) AS paid_delivered_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' AND f.payment_rows = 0 THEN 1 END) AS delivered_missing_payment,\n       SUM(CASE WHEN f.order_status = 'delivered' THEN f.payment_cents END) AS revenue_cents,\n       ROUND(AVG(CASE WHEN f.order_status = 'delivered' THEN f.payment_cents END), 6) AS aov_cents\nFROM months m CROSS JOIN bounds b LEFT JOIN order_facts f\n  ON f.order_purchase_timestamp >= m.month_start\n AND f.order_purchase_timestamp < DATE(m.month_start, '+1 month')\nGROUP BY m.month_start, b.first_month, b.last_month ORDER BY purchase_month;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, bounds AS (\n    SELECT DATE(MIN(order_purchase_timestamp), 'start of month') AS first_month,\n           DATE(MAX(order_purchase_timestamp), 'start of month') AS last_month FROM orders\n), months(month_start) AS (\n    SELECT first_month FROM bounds WHERE first_month IS NOT NULL\n    UNION ALL\n    SELECT DATE(month_start, '+1 month') FROM months, bounds WHERE month_start < last_month\n)\nSELECT SUBSTR(m.month_start, 1, 7) AS purchase_month,\n       CASE WHEN m.month_start IN (b.first_month, b.last_month) THEN 1 ELSE 0 END AS boundary_month,\n       COUNT(f.order_id) AS total_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' THEN 1 END) AS delivered_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' AND f.payment_rows > 0 THEN 1 END) AS paid_delivered_orders,\n       COUNT(CASE WHEN f.order_status = 'delivered' AND f.payment_rows = 0 THEN 1 END) AS delivered_missing_payment,\n       SUM(CASE WHEN f.order_status = 'delivered' THEN f.payment_cents END) AS revenue_cents,\n       ROUND(AVG(CASE WHEN f.order_status = 'delivered' THEN f.payment_cents END), 6) AS aov_cents\nFROM months m CROSS JOIN bounds b LEFT JOIN order_facts f\n  ON f.order_purchase_timestamp >= m.month_start\n AND f.order_purchase_timestamp < DATE(m.month_start, '+1 month')\nGROUP BY m.month_start, b.first_month, b.last_month ORDER BY purchase_month;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 5478.169,
+          "returned_rows": 26,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "state_aov": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "customers",
+        "orders",
+        "payments"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "customers",
+        "payments"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 27,
+      "elapsed_ms": 3647.196,
+      "execution_ms": 3528.541,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "customers",
+            "orders",
+            "payments"
+          ],
+          "reasons": {
+            "customers": "Matched: customer, state",
+            "orders": "Matched: order",
+            "payments": "Matched: payment, value"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS delivered_orders,\n       COUNT(payment_cents) AS paid_delivered_orders,\n       COUNT(*) - COUNT(payment_cents) AS delivered_missing_payment,\n       SUM(payment_cents) AS revenue_cents, ROUND(AVG(payment_cents), 6) AS aov_cents\nFROM order_facts WHERE order_status = 'delivered'\nGROUP BY customer_state ORDER BY aov_cents DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS delivered_orders,\n       COUNT(payment_cents) AS paid_delivered_orders,\n       COUNT(*) - COUNT(payment_cents) AS delivered_missing_payment,\n       SUM(payment_cents) AS revenue_cents, ROUND(AVG(payment_cents), 6) AS aov_cents\nFROM order_facts WHERE order_status = 'delivered'\nGROUP BY customer_state ORDER BY aov_cents DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 3528.541,
+          "returned_rows": 27,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "state_cancellation": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "customers",
+        "orders"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "customers"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 27,
+      "elapsed_ms": 3616.476,
+      "execution_ms": 3529.055,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "customers",
+            "orders"
+          ],
+          "reasons": {
+            "customers": "Matched: customer, states",
+            "orders": "Matched: cancellation"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS total_orders,\n       COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) AS canceled_orders,\n       ROUND(100.0 * COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) / COUNT(*), 6) AS cancellation_pct\nFROM order_facts GROUP BY customer_state\nORDER BY cancellation_pct DESC, total_orders DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS total_orders,\n       COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) AS canceled_orders,\n       ROUND(100.0 * COUNT(CASE WHEN order_status = 'canceled' THEN 1 END) / COUNT(*), 6) AS cancellation_pct\nFROM order_facts GROUP BY customer_state\nORDER BY cancellation_pct DESC, total_orders DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 3529.055,
+          "returned_rows": 27,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "category_sales": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "category_translations",
+        "order_items",
+        "orders",
+        "products"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "order_items",
+        "products",
+        "category_translations"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 10,
+      "elapsed_ms": 1737.788,
+      "execution_ms": 1646.535,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "category_translations",
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "reasons": {
+            "order_items": "Matched: categories, freight, item, sales",
+            "products": "Matched: categories",
+            "category_translations": "Matched: categories",
+            "orders": "Central order grain"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT p.product_category_name AS category_key,\n       COALESCE(t.product_category_name_english, p.product_category_name, 'Unknown') AS category_label,\n       COUNT(*) AS item_count, COUNT(DISTINCT i.order_id) AS delivered_orders,\n       SUM(i.price_cents) AS item_sales_cents, SUM(i.freight_value_cents) AS freight_cents\nFROM order_items i JOIN orders o ON o.order_id = i.order_id\nJOIN products p ON p.product_id = i.product_id\nLEFT JOIN category_translations t ON t.product_category_name = p.product_category_name\nWHERE o.order_status = 'delivered'\nGROUP BY p.product_category_name, t.product_category_name_english\nORDER BY item_sales_cents DESC, category_key LIMIT 10;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT p.product_category_name AS category_key,\n       COALESCE(t.product_category_name_english, p.product_category_name, 'Unknown') AS category_label,\n       COUNT(*) AS item_count, COUNT(DISTINCT i.order_id) AS delivered_orders,\n       SUM(i.price_cents) AS item_sales_cents, SUM(i.freight_value_cents) AS freight_cents\nFROM order_items i JOIN orders o ON o.order_id = i.order_id\nJOIN products p ON p.product_id = i.product_id\nLEFT JOIN category_translations t ON t.product_category_name = p.product_category_name\nWHERE o.order_status = 'delivered'\nGROUP BY p.product_category_name, t.product_category_name_english\nORDER BY item_sales_cents DESC, category_key LIMIT 10;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "category_translations",
+            "customers",
+            "order_items",
+            "orders",
+            "payments",
+            "products",
+            "reviews"
+          ],
+          "execution_ms": 1646.535,
+          "returned_rows": 10,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "late_delivery": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "orders"
+      ],
+      "expected_relevant_tables": [
+        "orders"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 1,
+      "elapsed_ms": 3875.532,
+      "execution_ms": 3765.289,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "orders"
+          ],
+          "reasons": {
+            "orders": "Matched: orders"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT COUNT(*) AS delivered_orders,\n       COUNT(CASE WHEN delivery_eligible = 1 THEN 1 END) AS eligible_orders,\n       COUNT(CASE WHEN delivery_eligible = 0 THEN 1 END) AS excluded_orders,\n       COUNT(CASE WHEN delivery_eligible = 1 AND is_late = 1 THEN 1 END) AS late_orders,\n       ROUND(100.0 * SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END)\n           / NULLIF(SUM(delivery_eligible), 0), 6) AS late_pct,\n       ROUND(AVG(CASE WHEN delivery_eligible = 1 THEN delivery_days END), 6) AS mean_delivery_days,\n       COUNT(CASE WHEN delivery_eligible = 1 AND DATE(order_delivered_customer_date) > DATE(order_estimated_delivery_date) THEN 1 END) AS calendar_day_late_orders\nFROM order_facts WHERE order_status = 'delivered';\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT COUNT(*) AS delivered_orders,\n       COUNT(CASE WHEN delivery_eligible = 1 THEN 1 END) AS eligible_orders,\n       COUNT(CASE WHEN delivery_eligible = 0 THEN 1 END) AS excluded_orders,\n       COUNT(CASE WHEN delivery_eligible = 1 AND is_late = 1 THEN 1 END) AS late_orders,\n       ROUND(100.0 * SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END)\n           / NULLIF(SUM(delivery_eligible), 0), 6) AS late_pct,\n       ROUND(AVG(CASE WHEN delivery_eligible = 1 THEN delivery_days END), 6) AS mean_delivery_days,\n       COUNT(CASE WHEN delivery_eligible = 1 AND DATE(order_delivered_customer_date) > DATE(order_estimated_delivery_date) THEN 1 END) AS calendar_day_late_orders\nFROM order_facts WHERE order_status = 'delivered';\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 3765.289,
+          "returned_rows": 1,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "late_reviews": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "orders",
+        "reviews"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "reviews"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 2,
+      "elapsed_ms": 3336.881,
+      "execution_ms": 3177.081,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "orders",
+            "reviews"
+          ],
+          "reasons": {
+            "orders": "Matched: deliveries, late",
+            "reviews": "Matched: poor, review, scores"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT CASE WHEN is_late = 1 THEN 'late' ELSE 'on_time' END AS delivery_group,\n       COUNT(*) AS eligible_orders, COUNT(review_score) AS reviewed_orders,\n       COUNT(*) - COUNT(review_score) AS missing_eligible_review,\n       ROUND(AVG(review_score), 6) AS mean_review_score,\n       COUNT(CASE WHEN review_score <= 2 THEN 1 END) AS poor_review_orders,\n       ROUND(100.0 * COUNT(CASE WHEN review_score <= 2 THEN 1 END) / NULLIF(COUNT(review_score), 0), 6) AS poor_review_pct\nFROM order_facts WHERE delivery_eligible = 1\nGROUP BY is_late ORDER BY delivery_group;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT CASE WHEN is_late = 1 THEN 'late' ELSE 'on_time' END AS delivery_group,\n       COUNT(*) AS eligible_orders, COUNT(review_score) AS reviewed_orders,\n       COUNT(*) - COUNT(review_score) AS missing_eligible_review,\n       ROUND(AVG(review_score), 6) AS mean_review_score,\n       COUNT(CASE WHEN review_score <= 2 THEN 1 END) AS poor_review_orders,\n       ROUND(100.0 * COUNT(CASE WHEN review_score <= 2 THEN 1 END) / NULLIF(COUNT(review_score), 0), 6) AS poor_review_pct\nFROM order_facts WHERE delivery_eligible = 1\nGROUP BY is_late ORDER BY delivery_group;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 3177.081,
+          "returned_rows": 2,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "category_delivery": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "category_translations",
+        "order_items",
+        "orders",
+        "products"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "order_items",
+        "products",
+        "category_translations"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 10,
+      "elapsed_ms": 4425.654,
+      "execution_ms": 4289.4,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "category_translations",
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "reasons": {
+            "orders": "Matched: delivery, orders",
+            "order_items": "Matched: categories",
+            "products": "Matched: categories",
+            "category_translations": "Matched: categories"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, category_orders AS (\n    SELECT DISTINCT i.order_id, p.product_category_name AS category_key\n    FROM order_items i JOIN products p ON p.product_id = i.product_id\n)\nSELECT c.category_key, COALESCE(t.product_category_name_english, c.category_key, 'Unknown') AS category_label,\n       COUNT(*) AS eligible_orders, SUM(f.is_late) AS late_orders,\n       ROUND(100.0 * SUM(f.is_late) / COUNT(*), 6) AS late_pct,\n       ROUND(AVG(f.delivery_days), 6) AS mean_delivery_days\nFROM category_orders c JOIN order_facts f ON f.order_id = c.order_id\nLEFT JOIN category_translations t ON t.product_category_name = c.category_key\nWHERE f.delivery_eligible = 1\nGROUP BY c.category_key, t.product_category_name_english HAVING COUNT(*) >= 30\nORDER BY mean_delivery_days DESC, c.category_key LIMIT 10;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, category_orders AS (\n    SELECT DISTINCT i.order_id, p.product_category_name AS category_key\n    FROM order_items i JOIN products p ON p.product_id = i.product_id\n)\nSELECT c.category_key, COALESCE(t.product_category_name_english, c.category_key, 'Unknown') AS category_label,\n       COUNT(*) AS eligible_orders, SUM(f.is_late) AS late_orders,\n       ROUND(100.0 * SUM(f.is_late) / COUNT(*), 6) AS late_pct,\n       ROUND(AVG(f.delivery_days), 6) AS mean_delivery_days\nFROM category_orders c JOIN order_facts f ON f.order_id = c.order_id\nLEFT JOIN category_translations t ON t.product_category_name = c.category_key\nWHERE f.delivery_eligible = 1\nGROUP BY c.category_key, t.product_category_name_english HAVING COUNT(*) >= 30\nORDER BY mean_delivery_days DESC, c.category_key LIMIT 10;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "category_translations",
+            "customers",
+            "order_items",
+            "orders",
+            "payments",
+            "products",
+            "reviews"
+          ],
+          "execution_ms": 4289.4,
+          "returned_rows": 10,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "seller_performance": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "order_items",
+        "orders",
+        "reviews",
+        "sellers"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "order_items",
+        "reviews"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 20,
+      "elapsed_ms": 5626.334,
+      "execution_ms": 5487.437,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "order_items",
+            "orders",
+            "reviews",
+            "sellers"
+          ],
+          "reasons": {
+            "orders": "Matched: orders",
+            "order_items": "Matched: item, sales, sellers",
+            "reviews": "Matched: scores",
+            "sellers": "Matched: sellers"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, seller_orders AS (\n    SELECT seller_id, order_id, SUM(price_cents) AS item_sales_cents FROM order_items GROUP BY seller_id, order_id\n), platform AS (\n    SELECT AVG(review_score) AS mean_score FROM order_facts WHERE order_status = 'delivered'\n)\nSELECT s.seller_id, COUNT(*) AS delivered_orders, COUNT(f.review_score) AS reviewed_orders,\n       SUM(s.item_sales_cents) AS item_sales_cents,\n       ROUND(AVG(f.review_score), 6) AS mean_review_score,\n       ROUND(p.mean_score, 6) AS platform_mean_review_score\nFROM seller_orders s JOIN order_facts f ON f.order_id = s.order_id CROSS JOIN platform p\nWHERE f.order_status = 'delivered'\nGROUP BY s.seller_id, p.mean_score\nHAVING COUNT(f.review_score) >= 20 AND AVG(f.review_score) < p.mean_score\nORDER BY item_sales_cents DESC, s.seller_id LIMIT 20;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, seller_orders AS (\n    SELECT seller_id, order_id, SUM(price_cents) AS item_sales_cents FROM order_items GROUP BY seller_id, order_id\n), platform AS (\n    SELECT AVG(review_score) AS mean_score FROM order_facts WHERE order_status = 'delivered'\n)\nSELECT s.seller_id, COUNT(*) AS delivered_orders, COUNT(f.review_score) AS reviewed_orders,\n       SUM(s.item_sales_cents) AS item_sales_cents,\n       ROUND(AVG(f.review_score), 6) AS mean_review_score,\n       ROUND(p.mean_score, 6) AS platform_mean_review_score\nFROM seller_orders s JOIN order_facts f ON f.order_id = s.order_id CROSS JOIN platform p\nWHERE f.order_status = 'delivered'\nGROUP BY s.seller_id, p.mean_score\nHAVING COUNT(f.review_score) >= 20 AND AVG(f.review_score) < p.mean_score\nORDER BY item_sales_cents DESC, s.seller_id LIMIT 20;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "order_items",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 5487.437,
+          "returned_rows": 20,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "seller_lateness": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "order_items",
+        "orders",
+        "sellers"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "order_items"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 20,
+      "elapsed_ms": 4156.812,
+      "execution_ms": 4026.005,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "order_items",
+            "orders",
+            "sellers"
+          ],
+          "reasons": {
+            "orders": "Matched: deliveries, late",
+            "order_items": "Matched: sellers",
+            "sellers": "Matched: sellers"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, seller_orders AS (SELECT DISTINCT seller_id, order_id FROM order_items),\nplatform AS (SELECT AVG(1.0 * is_late) AS late_rate FROM order_facts WHERE delivery_eligible = 1)\nSELECT s.seller_id, COUNT(*) AS eligible_orders, SUM(f.is_late) AS late_orders,\n       ROUND(100.0 * AVG(f.is_late), 6) AS late_pct,\n       ROUND(100.0 * p.late_rate, 6) AS platform_late_pct\nFROM seller_orders s JOIN order_facts f ON f.order_id = s.order_id CROSS JOIN platform p\nWHERE f.delivery_eligible = 1\nGROUP BY s.seller_id, p.late_rate\nHAVING COUNT(*) >= 30 AND AVG(1.0 * f.is_late) > p.late_rate\nORDER BY late_pct DESC, eligible_orders DESC, s.seller_id LIMIT 20;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: customers, payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "customers",
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\n, seller_orders AS (SELECT DISTINCT seller_id, order_id FROM order_items),\nplatform AS (SELECT AVG(1.0 * is_late) AS late_rate FROM order_facts WHERE delivery_eligible = 1)\nSELECT s.seller_id, COUNT(*) AS eligible_orders, SUM(f.is_late) AS late_orders,\n       ROUND(100.0 * AVG(f.is_late), 6) AS late_pct,\n       ROUND(100.0 * p.late_rate, 6) AS platform_late_pct\nFROM seller_orders s JOIN order_facts f ON f.order_id = s.order_id CROSS JOIN platform p\nWHERE f.delivery_eligible = 1\nGROUP BY s.seller_id, p.late_rate\nHAVING COUNT(*) >= 30 AND AVG(1.0 * f.is_late) > p.late_rate\nORDER BY late_pct DESC, eligible_orders DESC, s.seller_id LIMIT 20;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "order_items",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 4026.005,
+          "returned_rows": 20,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    },
+    "regional_delivery": {
+      "status": "ok",
+      "expected_result_match": true,
+      "errors": [],
+      "initial_schema_tables": [
+        "customers",
+        "orders"
+      ],
+      "expected_relevant_tables": [
+        "orders",
+        "customers"
+      ],
+      "retrieval_contains_expected": true,
+      "result_rows": 27,
+      "elapsed_ms": 2668.036,
+      "execution_ms": 2592.448,
+      "trace": [
+        {
+          "tool": "schema_retrieval",
+          "tables": [
+            "customers",
+            "orders"
+          ],
+          "reasons": {
+            "customers": "Matched: customer, states",
+            "orders": "Matched: delivery, order"
+          }
+        },
+        {
+          "tool": "sql",
+          "attempt": 1,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS total_orders,\n       SUM(delivery_eligible) AS eligible_orders,\n       SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END) AS late_orders,\n       ROUND(100.0 * SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END)\n           / NULLIF(SUM(delivery_eligible), 0), 6) AS late_pct,\n       ROUND(AVG(CASE WHEN delivery_eligible = 1 THEN delivery_days END), 6) AS mean_delivery_days\nFROM order_facts GROUP BY customer_state ORDER BY total_orders DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "rejected",
+          "error": "Query needs known tables absent from retrieved schema: payments, reviews"
+        },
+        {
+          "tool": "schema_expansion",
+          "tables": [
+            "payments",
+            "reviews"
+          ]
+        },
+        {
+          "tool": "sql",
+          "attempt": 2,
+          "sql": "-- Shared, read-only CTEs. Each reference query is this prefix plus its SQL body.\n-- Grain: exactly one row per order. Never join raw items to raw payments/reviews.\nWITH RECURSIVE\npayment_totals AS (\n    SELECT order_id, SUM(payment_value_cents) AS payment_cents, COUNT(*) AS payment_rows\n    FROM payments GROUP BY order_id\n),\nranked_reviews AS (\n    SELECT r.order_id, r.review_score,\n           ROW_NUMBER() OVER (PARTITION BY r.order_id ORDER BY\n               r.review_answer_timestamp DESC, r.review_creation_date DESC, r.review_id DESC) AS position\n    FROM reviews r JOIN orders o ON o.order_id = r.order_id\n    WHERE r.review_creation_date >= o.order_purchase_timestamp\n      AND r.review_answer_timestamp >= r.review_creation_date\n),\norder_facts AS (\n    SELECT o.*, c.customer_state, c.customer_unique_id,\n           p.payment_cents, COALESCE(p.payment_rows, 0) AS payment_rows,\n           r.review_score,\n           CASE WHEN o.order_status = 'delivered'\n                  AND o.order_delivered_customer_date IS NOT NULL\n                  AND o.order_estimated_delivery_date IS NOT NULL\n                  AND o.order_delivered_customer_date >= o.order_purchase_timestamp\n                THEN 1 ELSE 0 END AS delivery_eligible,\n           CASE WHEN o.order_delivered_customer_date > o.order_estimated_delivery_date\n                THEN 1 ELSE 0 END AS is_late,\n           (JULIANDAY(o.order_delivered_customer_date) - JULIANDAY(o.order_purchase_timestamp)) AS delivery_days\n    FROM orders o JOIN customers c ON c.customer_id = o.customer_id\n    LEFT JOIN payment_totals p ON p.order_id = o.order_id\n    LEFT JOIN ranked_reviews r ON r.order_id = o.order_id AND r.position = 1\n)\n\nSELECT customer_state, COUNT(*) AS total_orders,\n       SUM(delivery_eligible) AS eligible_orders,\n       SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END) AS late_orders,\n       ROUND(100.0 * SUM(CASE WHEN delivery_eligible = 1 THEN is_late ELSE 0 END)\n           / NULLIF(SUM(delivery_eligible), 0), 6) AS late_pct,\n       ROUND(AVG(CASE WHEN delivery_eligible = 1 THEN delivery_days END), 6) AS mean_delivery_days\nFROM order_facts GROUP BY customer_state ORDER BY total_orders DESC, customer_state;\n",
+          "assumptions": [],
+          "status": "executed",
+          "tables": [
+            "customers",
+            "orders",
+            "payments",
+            "reviews"
+          ],
+          "execution_ms": 2592.448,
+          "returned_rows": 27,
+          "truncated": false
+        },
+        {
+          "stage": "explanation",
+          "status": "deterministic_fallback",
+          "error": "No evidence claims"
+        }
+      ]
+    }
+  },
+  "all_passed": true,
+  "elapsed_seconds": 43.252,
+  "live_model_evaluation": "not run; user requested offline only"
+}

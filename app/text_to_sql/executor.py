@@ -7,6 +7,7 @@ from app.database.ingest import connect_readonly
 from app.text_to_sql.config import QueryLimits
 from app.text_to_sql.contracts import QueryResult
 from app.text_to_sql.safety import SQLITE_FUNCTIONS, validate_sql
+from app.database.metrics import VIEW_DEPENDENCIES, VIEW_CONTEXTS
 
 
 class QueryExecutionError(ValueError):
@@ -18,7 +19,16 @@ def authorizer(allowed_tables):
     def authorize(action, arg1, arg2, db_name, trigger):
         if action in (sqlite3.SQLITE_SELECT, sqlite3.SQLITE_RECURSIVE):
             return sqlite3.SQLITE_OK
-        if action == sqlite3.SQLITE_READ and arg1 in allowed and db_name in ('main', None):
+        if action == sqlite3.SQLITE_READ and arg1 in allowed and db_name in ('main', 'temp', None):
+            return sqlite3.SQLITE_OK
+        if action == sqlite3.SQLITE_READ and db_name is None and arg2 == '' and any(
+                arg1 in VIEW_CONTEXTS[view] for view in allowed & VIEW_CONTEXTS.keys()):
+            return sqlite3.SQLITE_OK  # SQLite's materialized internal CTE count read.
+        # Internal reads are authorized only when SQLite identifies a trusted view
+        # as their source; raw query access to these dependencies is not broadened.
+        if action == sqlite3.SQLITE_READ and db_name == 'main' and any(
+                trigger in VIEW_CONTEXTS[view] and arg1 in VIEW_DEPENDENCIES[view]
+                for view in allowed & VIEW_DEPENDENCIES.keys()):
             return sqlite3.SQLITE_OK
         if action == sqlite3.SQLITE_FUNCTION and (arg2 or '').lower() in SQLITE_FUNCTIONS:
             return sqlite3.SQLITE_OK
@@ -34,7 +44,6 @@ def execute_sql(database, sql, allowed_tables=None, limits: QueryLimits | None =
     try:
         db = connect_readonly(database)
         db.execute('PRAGMA trusted_schema = OFF')
-        db.execute('PRAGMA temp_store = MEMORY')
         db.execute(f'PRAGMA busy_timeout = {max(1, min(5000, int(limits.timeout_seconds * 1000)))}')
         db.enable_load_extension(False)
         # SQLite also applies this limit while reading schema/record values. A small

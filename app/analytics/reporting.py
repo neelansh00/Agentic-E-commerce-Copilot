@@ -5,7 +5,7 @@ from pathlib import Path
 
 def write_project_metrics(root: Path):
     lines = ['# Measured project metrics', '',
-             'Regenerated from saved reports by the verification and baseline scripts. These are deterministic checks, not model accuracy.', '']
+             'Regenerated from saved reports. Deterministic checks, retrieval metrics and live development results are labeled separately.', '']
     verification_path = root / 'docs/generated/verification_report.json'
     if verification_path.exists():
         report = json.loads(verification_path.read_text(encoding='utf-8'))
@@ -41,7 +41,7 @@ def write_project_metrics(root: Path):
     live_path = root / 'docs/generated/live_evaluation.json'
     if live_path.exists():
         live = json.loads(live_path.read_text(encoding='utf-8'))
-        lines += [f"- Live model: `{live['model']}`; preliminary development evaluation, one sample per question/context."]
+        lines += [f"- Original live model evaluation: `{live['model']}`; preliminary development evaluation, one sample per question/context."]
         for mode, summary in live['summaries'].items():
             if not summary:
                 continue
@@ -51,6 +51,18 @@ def write_project_metrics(root: Path):
                   '- Semantic label review found wrong group/extrema claims despite valid cell references. See [live evaluation and answer review](generated/live_evaluation.md).']
     else:
         lines += ['- Live SQL generation and model answer quality: not measured.']
+    corrected_path = root / 'docs/generated/phase45_live_evaluation.json'
+    readiness_path = root / 'docs/generated/phase45_readiness.json'
+    if corrected_path.exists() and readiness_path.exists():
+        corrected = json.loads(corrected_path.read_text(encoding='utf-8'))
+        readiness = json.loads(readiness_path.read_text(encoding='utf-8'))
+        lines += ['', '- Phase 4.5: same eleven questions, output contracts, reference and model; observed development failures corrected, not an unseen test.']
+        for mode, summary in corrected['summaries'].items():
+            lines += [f"- Corrected {mode}: {summary['executed']}/{summary['questions']} executions and {summary['exact_results']}/{summary['questions']} exact results; {summary['explanation_fallbacks']} explicitly marked literal fallbacks."]
+        lines += [f"- Phase 4.5 offline tests: {readiness['offline_tests']}; all passed: {readiness['offline_tests_passed']}.",
+                  f"- All {readiness['reviewed_answers']} final rendered answers reviewed as non-misleading: {readiness['no_misleading_rendered_interpretations']} (assistant review, not independent human annotation).",
+                  f"- Phase 4.5 readiness gates met: {readiness['ready_for_phase5']}; Phase 5 started: {readiness['phase5_started']}.",
+                  '- Evidence: [correction report](generated/phase45_report.md). Safe captions and correct tables do not prove complete narrative quality or production readiness.']
     lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']

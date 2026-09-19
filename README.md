@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phases 1–4 implemented; initial live OpenAI evaluation completed before Phase 5.** Local RAG and guarded text-to-SQL are working. The configured GPT-4.1 mini snapshot matched 8/11 complete reference results with each of two context modes. Live testing exposed SQL-semantic and explanation-label failures; the project is not yet a reliably correct analyst. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
+**Current status: Phase 4.5 correction pass complete; Phase 5 has not started.** Both live context modes now execute and exactly match all 11 unchanged development questions. All 99 offline tests pass. Calendar coverage, delivery eligibility, aggregation grain and evidence captions have shared fixes. Five of 22 answers still use literal fallbacks, and some summaries omit useful metrics. These results support continuing development, not a claim of accuracy on unseen questions. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
 
 ## Problem and business motivation
 
@@ -14,7 +14,7 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **76/76 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
+- **99/99 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
 - Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small retrieval benchmark does not establish LLM accuracy or business impact. See the separate live evaluation below.
 
@@ -154,7 +154,7 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Next: **Phase 4 â€” business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Initial live evaluation is now available; fix its documented reliability gaps before Phase 5. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Phase 4 and its focused correction pass are complete. The next planned phase is a single agent with tools, followed by UI, evaluation and packaging; **Phase 5 has not started**. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
 
 ## Phase 4: local business knowledge RAG
 
@@ -182,3 +182,26 @@ The [live results and failure analysis](docs/generated/live_evaluation.md) recor
 Of 13 structurally accepted explanations, assistant review found two with incorrect seller attribution or extrema labels. Valid references and copied numbers alone do not guarantee truthful business prose. Eight other executions used literal fallback explanations; one question exhausted SQL retries. The [review annotations](evaluation/live_answer_review.json) separate label meaning, question coverage and underlying SQL accuracy.
 
 Read [methodology and reproduction](docs/live_evaluation.md). Live evaluation requires configured `.env` and explicit `--live`, caps API calls and preserves prior reports. Offline scripts and tests continue to use scripted models and make no API calls. The initial benchmark used 48 API calls, with an estimated cost of USD 0.063627 excluding connectivity smoke tests; this is a token-based estimate, not an invoice.
+
+
+## Phase 4.5: corrected live results
+
+The [correction report](docs/generated/phase45_report.md) preserves each original failure, its root cause, shared fix and regression test. Questions, model snapshot and reference answers were unchanged.
+
+| Context | SQL execution before → after | Exact results before → after |
+|---|---:|---:|
+| Full business definitions | 10/11 → 11/11 | 8/11 → 11/11 |
+| Retrieved definitions | 11/11 → 11/11 | 8/11 → 11/11 |
+
+Four connection-local metric views establish order, order/category, order/seller and calendar-month grains. Missing payments remain NULL; delivery duration and late flags use the same eligible population. Definition retrieval includes explicit prerequisite definitions. Explanation captions and group identities are rendered from evidence, removing unsupported model-written ranking labels.
+
+Validation passed **99 offline tests (23 new), 16 full-data metric checks and 11 guarded reference replays**. Inspection found no misleading interpretations in the 22 rendered answers. Seventeen model cell selections were accepted; five answers used safe literal fallbacks. This is constrained evidence selection, not a measurement of unrestricted narrative quality. Some summaries remain incomplete. The corrected live run used 46 API calls at an estimated USD 0.056504, not an invoice.
+
+Reproduce local checks without API calls after setup:
+
+```powershell
+.venv/Scripts/python.exe scripts/verify_metric_views.py
+.venv/Scripts/python.exe scripts/report_phase45.py
+```
+
+The report command reruns offline tests and checks the preserved live evidence and its review annotations; it does not generate a new live sample. See [implementation and trade-offs](docs/phase45_corrections.md) for full reproduction commands. This was one correction rerun on the development benchmark, not a held-out test or an isolated experiment proving which change helped.

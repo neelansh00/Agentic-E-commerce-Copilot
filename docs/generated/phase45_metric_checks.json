@@ -1,0 +1,156 @@
+{
+  "checks": [
+    {
+      "name": "one metric row per source order",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true
+    },
+    {
+      "name": "unique metric order keys",
+      "actual": 99441,
+      "expected": 99441,
+      "passed": true
+    },
+    {
+      "name": "delivered payment sum vs frozen independent CSV oracle",
+      "actual": 1542246177,
+      "expected": 1542246177,
+      "passed": true
+    },
+    {
+      "name": "AOV vs frozen independent CSV oracle",
+      "actual": 15985.635716,
+      "expected": 15985.635716,
+      "passed": true
+    },
+    {
+      "name": "eligible_orders vs frozen CSV oracle",
+      "actual": 96470,
+      "expected": 96470,
+      "passed": true
+    },
+    {
+      "name": "late_orders vs frozen CSV oracle",
+      "actual": 7826,
+      "expected": 7826,
+      "passed": true
+    },
+    {
+      "name": "mean_delivery_days vs frozen CSV oracle",
+      "actual": 12.558217,
+      "expected": 12.558217,
+      "passed": true
+    },
+    {
+      "name": "ineligible delivery observations are NULL",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "category aggregation preserves item count",
+      "actual": 112650,
+      "expected": 112650,
+      "passed": true
+    },
+    {
+      "name": "seller aggregation preserves item count",
+      "actual": 112650,
+      "expected": 112650,
+      "passed": true
+    },
+    {
+      "name": "metric_order_categories preserves item cents",
+      "actual": 1359164370,
+      "expected": 1359164370,
+      "passed": true
+    },
+    {
+      "name": "metric_order_categories join does not expand its grain",
+      "actual": 99470,
+      "expected": 99470,
+      "passed": true
+    },
+    {
+      "name": "metric_order_sellers preserves item cents",
+      "actual": 1359164370,
+      "expected": 1359164370,
+      "passed": true
+    },
+    {
+      "name": "metric_order_sellers join does not expand its grain",
+      "actual": 100010,
+      "expected": 100010,
+      "passed": true
+    },
+    {
+      "name": "continuous calendar including empty months",
+      "actual": [
+        "2016-09",
+        "2016-10",
+        "2016-11",
+        "2016-12",
+        "2017-01",
+        "2017-02",
+        "2017-03",
+        "2017-04",
+        "2017-05",
+        "2017-06",
+        "2017-07",
+        "2017-08",
+        "2017-09",
+        "2017-10",
+        "2017-11",
+        "2017-12",
+        "2018-01",
+        "2018-02",
+        "2018-03",
+        "2018-04",
+        "2018-05",
+        "2018-06",
+        "2018-07",
+        "2018-08",
+        "2018-09",
+        "2018-10"
+      ],
+      "expected": [
+        "2016-09",
+        "2016-10",
+        "2016-11",
+        "2016-12",
+        "2017-01",
+        "2017-02",
+        "2017-03",
+        "2017-04",
+        "2017-05",
+        "2017-06",
+        "2017-07",
+        "2017-08",
+        "2017-09",
+        "2017-10",
+        "2017-11",
+        "2017-12",
+        "2018-01",
+        "2018-02",
+        "2018-03",
+        "2018-04",
+        "2018-05",
+        "2018-06",
+        "2018-07",
+        "2018-08",
+        "2018-09",
+        "2018-10"
+      ],
+      "passed": true
+    },
+    {
+      "name": "database file unchanged",
+      "actual": "73aa457f83e27454daa278991c57695dca75308c0efd95f53a4901a83f4bb918",
+      "expected": "73aa457f83e27454daa278991c57695dca75308c0efd95f53a4901a83f4bb918",
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "source": "Existing frozen reference was independently verified against original CSVs; join reconciliations also use raw relational tables."
+}

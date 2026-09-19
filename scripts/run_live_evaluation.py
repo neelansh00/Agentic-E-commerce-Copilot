@@ -69,7 +69,7 @@ def main():
         max_api_calls=args.max_api_calls, complete=False, results=[], cases=cases,
         database_sha256=file_hash(database), reference_sha256=file_hash(ROOT / 'evaluation/baseline_expected.json'),
         method='11 development reference questions with explicit output contracts, two contexts, one sample each; not held-out accuracy. No reference SQL or values sent to model.',
-        source_hashes={str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for folder in ['app/text_to_sql', 'app/rag', 'knowledge_base'] for p in (ROOT / folder).glob('*') if p.is_file()},
+        source_hashes={str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for folder in ['app/text_to_sql', 'app/rag', 'app/database', 'knowledge_base'] for p in (ROOT / folder).glob('*') if p.is_file()},
         sql_timeout_seconds=30, explanation_review='Pending separate semantic review; structural validity is not answer quality',
         excluded_calls='Connectivity smoke tests and other requests made outside this runner are not included.')
     args.output.parent.mkdir(parents=True, exist_ok=True)

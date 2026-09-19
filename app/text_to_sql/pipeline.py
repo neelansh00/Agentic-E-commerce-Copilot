@@ -10,6 +10,8 @@ from app.text_to_sql.executor import execute_sql, QueryExecutionError
 from app.text_to_sql.prompts import planning_messages, explanation_messages
 from app.text_to_sql.safety import SQLSafetyError, SchemaMismatch
 from app.text_to_sql.schema import retrieve_schema, schema_context
+from app.text_to_sql.evidence import render_cell
+from app.text_to_sql.metric_validation import validate_metric_grain, validate_metric_result, requires_continuous_months
 
 CAVEATS = {
     'descriptive_only': 'Observations are descriptive; they do not establish causality or statistical significance.',
@@ -31,7 +33,7 @@ def render_explanation(explanation, result):
             raise ValueError('Unsupported inferential label')
         value = result.rows[claim.row_index][claim.column]
         # Values are copied from evidence, including NULL; no invented numeric prose.
-        observations.append(f"{claim.label}: {json.dumps(value, ensure_ascii=False)} [row {claim.row_index}, {claim.column}]")
+        observations.append(render_cell(result, claim.row_index, claim.column))
     if not observations:
         raise ValueError('No evidence claims')
     codes = set(explanation.caveats) | {'descriptive_only'}
@@ -47,7 +49,7 @@ def fallback_observations(result):
         if result.truncated:
             return ['Rows exist, but none fit the output preview budget. Narrow the selected columns.']
         return ['The query returned no rows; no numerical conclusion is available.']
-    return [f'{column}: {json.dumps(value, ensure_ascii=False)} [row 0, {column}]'
+    return [render_cell(result, 0, column, fallback=True)
             for column, value in list(result.rows[0].items())[:5]]
 
 
@@ -68,7 +70,7 @@ def answer_question(question, database, model, limits=None, retriever=None):
     if retriever is not None:
         from app.rag.retrieval import context_for
         try:
-            sources = retriever.retrieve(question)
+            sources = getattr(retriever, 'retrieve_for_sql', retriever.retrieve)(question)
             trace.append({'tool': 'business_knowledge', 'returned_chunks': len(sources)})
             if not sources:
                 return finish('clarification', 'No sufficiently relevant business definition was found. Please clarify the metric.')
@@ -92,7 +94,9 @@ def answer_question(question, database, model, limits=None, retriever=None):
         try:
             if not plan.sql:
                 raise SQLSafetyError('Query action requires SQL')
+            validate_metric_grain(plan.sql)
             result = execute_sql(database, plan.sql, tables, limits)
+            validate_metric_result(result, requires_continuous_months(question))
             entry.update(status='executed', tables=result.tables, execution_ms=result.execution_ms,
                          returned_rows=len(result.rows), truncated=result.truncated)
         except SchemaMismatch as exc:

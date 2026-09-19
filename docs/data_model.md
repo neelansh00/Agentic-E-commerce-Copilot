@@ -65,3 +65,17 @@ Aggregate children to one row per order before combining order metrics. For sell
 SQLite fits a single-user local placement demo and has successfully ingested this snapshot in one file. Python's standard-library driver keeps this phase reproducible without package downloads or server credentials. Indexes cover foreign keys, purchase time, order status, category, customer identity, states and ZIP lookup columns. Existing composite PK indexes cover order joins for items and payments. No ORM is needed for these simple bulk-load operations.
 
 For multi-user deployment, isolate access through `app/database`, add a PostgreSQL driver or SQLAlchemy Core, and replace SQLite-specific connection/PRAGMA/build mechanics. Use BIGINT for money, TIMESTAMP WITHOUT TIME ZONE until source timezone is known, and DOUBLE PRECISION for coordinates; retain IDs as text and preserve composite PK/FK semantics. Use COPY into staging tables, validate them, then transactionally publish. Rewrite any SQLite-specific date expressions in later analytics. This is a migration plan, not a claim that the current loader already supports PostgreSQL.
+
+
+## Phase 4.5 analytical views
+
+The nine persisted source tables are unchanged. Each read-only connection installs four trusted TEMP views before enabling query-only mode; these views do not modify the database file.
+
+| View | Grain | Purpose |
+|---|---|---|
+| `metric_orders` | One row per order | Aggregate payments, choose the latest eligible review, derive successful-order flags and nullable delivery metrics. |
+| `metric_order_categories` | One row per order/raw category | Prevent repeated items from weighting order-level category delivery metrics. |
+| `metric_order_sellers` | One row per order/seller | Separate item sales from distinct seller-order delivery and review metrics. |
+| `metric_months` | Every month between first and last purchase | Retain empty interior months and identify partial boundary coverage. |
+
+Payment aggregation and review eligibility happen before joining to orders. Delivery duration and late flags are NULL unless status is delivered, both delivery dates exist and delivery does not precede purchase. Revenue is NULL when no eligible payment observation exists; an observed zero payment remains zero. Seller/category views do not allocate order payments. The shared SQL lives in `app/database/metric_views.sql`; PostgreSQL migration must adapt TEMP-view installation and date expressions. See the [correction report](generated/phase45_report.md) for sixteen full-data checks, including unchanged database bytes.

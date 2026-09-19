@@ -10,6 +10,14 @@ from app.rag.embeddings import ROOT
 
 KNOWLEDGE = ROOT / 'knowledge_base'
 INDEX = ROOT / 'data/processed/knowledge_index'
+DEFINITION_DEPENDENCIES = {
+    'Average order value': ['Successful orders and revenue'],
+    'Category and seller sales; freight': ['Successful orders and revenue'],
+    'Delivery eligibility, lateness and duration': ['Successful orders and revenue'],
+    'Review score and poor reviews': ['Successful orders and revenue'],
+    'Seller and region screening': ['Review score and poor reviews', 'Delivery eligibility, lateness and duration', 'Category and seller sales; freight'],
+    'Time cohorts and missing periods': ['Successful orders and revenue', 'Average order value'],
+}
 
 
 def normalized(values):
@@ -78,6 +86,21 @@ class Retriever:
         scores, ids = self.index.search(query, min(top_k, self.index.ntotal))
         return [dict(self.metadata['chunks'][int(i)], score=round(float(score), 6))
                 for score, i in zip(scores[0], ids[0]) if i >= 0 and score >= self.threshold]
+
+    def retrieve_for_sql(self, question):
+        hits = self.retrieve(question)
+        seen = {h['id'] for h in hits}
+        queue = list(hits)
+        while queue:
+            parent = queue.pop(0)
+            for heading in DEFINITION_DEPENDENCIES.get(parent['heading'], []):
+                for chunk in self.metadata['chunks']:
+                    if chunk['source'] == 'metrics.md' and chunk['heading'] == heading and chunk['id'] not in seen:
+                        dependency = dict(chunk, score=None, retrieval_reason='Definition dependency of ' + parent['heading'])
+                        hits.append(dependency)
+                        queue.append(dependency)
+                        seen.add(chunk['id'])
+        return hits
 
 
 def context_for(hits):

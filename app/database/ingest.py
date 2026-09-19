@@ -151,6 +151,9 @@ def connect_readonly(database: Path) -> sqlite3.Connection:
     # cache avoids the tiny default cache becoming an I/O bottleneck on this data.
     connection.execute('PRAGMA cache_size = -65536')
     connection.execute('PRAGMA foreign_keys = ON')
+    connection.execute('PRAGMA temp_store = MEMORY')
+    from app.database.metrics import VIEW_SQL
+    connection.executescript(VIEW_SQL)
     connection.execute('PRAGMA query_only = ON')
     connection.row_factory = sqlite3.Row
     return connection

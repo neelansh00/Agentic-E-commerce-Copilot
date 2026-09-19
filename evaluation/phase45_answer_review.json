@@ -1,0 +1,204 @@
+{
+  "evaluation_sha256": "a33e73198034cccc77286cd8399dc51d34856efed03b2d380a5f6c768635279a",
+  "reviewer": "Coding assistant inspection of all 22 rendered answers, their result cells, group identities, metric units and reference outputs; not an independent human evaluation",
+  "results": [
+    {
+      "id": "overview",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "partial: five-cell selection omits cancellation rate",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "overview",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "partial: five-cell selection omits cancellation rate",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "monthly_revenue",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "literal_fallback",
+      "coverage": "partial: first-row preview, not a complete business summary",
+      "note": "Model label contained digits and was rejected. Rendered answer is explicitly marked as literal fallback; referenced values and identities agree with the exact result."
+    },
+    {
+      "id": "monthly_revenue",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "literal_fallback",
+      "coverage": "partial: first-row preview, not a complete business summary",
+      "note": "Model label contained digits and was rejected. Rendered answer is explicitly marked as literal fallback; referenced values and identities agree with the exact result."
+    },
+    {
+      "id": "state_aov",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "state_aov",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "state_cancellation",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "state_cancellation",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "category_sales",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "partial: category identities selected without sales values; full correct ranking remains in the table",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "category_sales",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "late_delivery",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "late_delivery",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "late_reviews",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "late_reviews",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "category_delivery",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "category_delivery",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "seller_performance",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "partial: observations mix sellers but each line now includes its correct seller identity; sales column omitted",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "seller_performance",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "literal_fallback",
+      "coverage": "partial: first-row preview, not a complete business summary",
+      "note": "Model label contained digits and was rejected. Rendered answer is explicitly marked as literal fallback; referenced values and identities agree with the exact result."
+    },
+    {
+      "id": "seller_lateness",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "seller_lateness",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "literal_fallback",
+      "coverage": "partial: first-row preview, not a complete business summary",
+      "note": "Model label contained digits and was rejected. Rendered answer is explicitly marked as literal fallback; referenced values and identities agree with the exact result."
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "static",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "model_cell_selection_with_deterministic_captions",
+      "coverage": "selected observations; full table retained",
+      "note": "Reviewed captions, values, units and copied group identity against the full result and reference; no unsupported ranking or causal interpretation is rendered."
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "rag",
+      "no_factually_misleading_rendered_interpretation": true,
+      "exact_result": true,
+      "output_mode": "literal_fallback",
+      "coverage": "partial: first-row preview, not a complete business summary",
+      "note": "Model label contained digits and was rejected. Rendered answer is explicitly marked as literal fallback; referenced values and identities agree with the exact result."
+    }
+  ]
+}

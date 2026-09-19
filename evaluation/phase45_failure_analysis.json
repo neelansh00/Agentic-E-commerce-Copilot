@@ -1,0 +1,327 @@
+{
+  "original_evaluation_sha256": "038a6aba0e550ff5fff246be57605b10a69c35d559bdbabe8756d0c14ff83c70",
+  "corrected_evaluation_sha256": "a33e73198034cccc77286cd8399dc51d34856efed03b2d380a5f6c768635279a",
+  "categories_not_primary_failures": [
+    "wrong table selection",
+    "incorrect ordering/ranking in SQL",
+    "business-definition ambiguity: definitions were already explicit; retrieval missed prerequisites"
+  ],
+  "failures": [
+    {
+      "id": "monthly_revenue",
+      "mode": "static",
+      "categories": [
+        "missing date/calendar rows",
+        "NULL handling",
+        "explanation-layer error"
+      ],
+      "root_cause": "Observed-month grouping omits an empty cohort; CASE ELSE 0/COALESCE turns unknown payments into zero. Model dates embedded in labels fail validation.",
+      "fix": "metric_months calendar spine; nullable metric_orders revenue; NULL/calendar result checks and repair feedback; indexed evidence and safe fallback.",
+      "regression_tests": [
+        "test_month_spine_retains_empty_month_with_null_money",
+        "test_zero_payments_are_observations_missing_payments_are_null",
+        "test_calendar_gap_rejected_only_for_continuous_series",
+        "test_recorded_monthly_failures_rejected_without_using_reference_answers",
+        "test_previous_invalid_explanations_still_fail_closed"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": false,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      }
+    },
+    {
+      "id": "monthly_revenue",
+      "mode": "rag",
+      "categories": [
+        "missing date/calendar rows",
+        "NULL handling",
+        "explanation-layer error"
+      ],
+      "root_cause": "Observed-month grouping omits an empty cohort; CASE ELSE 0/COALESCE turns unknown payments into zero. Model dates embedded in labels fail validation.",
+      "fix": "metric_months calendar spine; nullable metric_orders revenue; NULL/calendar result checks and repair feedback; indexed evidence and safe fallback.",
+      "regression_tests": [
+        "test_month_spine_retains_empty_month_with_null_money",
+        "test_zero_payments_are_observations_missing_payments_are_null",
+        "test_calendar_gap_rejected_only_for_continuous_series",
+        "test_recorded_monthly_failures_rejected_without_using_reference_answers",
+        "test_previous_invalid_explanations_still_fail_closed"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": false,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      }
+    },
+    {
+      "id": "state_aov",
+      "mode": "static",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "Model references row 30 in a 27-row table and embeds numerical values in labels.",
+      "fix": "Explicit row_index for each input row; canonical captions and exact copied state identity; out-of-range references remain rejected.",
+      "regression_tests": [
+        "test_explanation_rows_have_explicit_indices",
+        "test_previous_invalid_explanations_still_fail_closed",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "state_aov",
+      "mode": "rag",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "Model references row 30 in a 27-row table and embeds numerical values in labels.",
+      "fix": "Explicit row_index for each input row; canonical captions and exact copied state identity; out-of-range references remain rejected.",
+      "regression_tests": [
+        "test_explanation_rows_have_explicit_indices",
+        "test_previous_invalid_explanations_still_fail_closed",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "state_cancellation",
+      "mode": "static",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "Model embeds percentages inside labels.",
+      "fix": "Prompt separates selected value from caption; no model label is rendered; invalid labels still use a safe fallback.",
+      "regression_tests": [
+        "test_previous_invalid_explanations_still_fail_closed",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "category_sales",
+      "mode": "rag",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "Labels contain top10 plus unverified superlatives; the digit-bearing label triggers fallback despite correct SQL.",
+      "fix": "Indexed selection and deterministic captions; no unsupported ranking text is displayed.",
+      "regression_tests": [
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "late_delivery",
+      "mode": "rag",
+      "categories": [
+        "incorrect denominator/eligibility",
+        "incorrect aggregation"
+      ],
+      "root_cause": "Late counts filter eligibility, but mean delivery duration does not.",
+      "fix": "metric_orders makes duration and late flags NULL for every ineligible row; one canonical delivery population and explicit aggregation instructions.",
+      "regression_tests": [
+        "test_delivery_duration_and_lateness_share_eligible_population",
+        "test_inflated_late_numerator_rejected"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": false,
+        "explanation_fallback": false
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "category_delivery",
+      "mode": "static",
+      "categories": [
+        "wrong join/grain",
+        "incorrect aggregation"
+      ],
+      "root_cause": "COUNT DISTINCT corrects the denominator only; repeated category items still weight duration averages and late sums.",
+      "fix": "metric_order_categories stores one row per order/category; sum item quantities separately and average order duration at that grain.",
+      "regression_tests": [
+        "test_category_repeated_items_do_not_weight_delivery",
+        "test_raw_child_fanout_and_payment_allocation_rejected",
+        "test_payments_and_reviews_do_not_multiply_order_grain"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": false,
+        "explanation_fallback": false
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "seller_performance",
+      "mode": "static",
+      "categories": [
+        "SQL syntax/execution"
+      ],
+      "root_cause": "Safe EXISTS predicate is misclassified under the function allowlist; all three attempts repeat it.",
+      "fix": "Permit the EXISTS AST node without granting external functions/tables; shared eligible-review view also removes fragile hand-written latest-review subqueries.",
+      "regression_tests": [
+        "test_exists_is_valid_readonly_sql_and_executes",
+        "test_review_eligibility_precedes_latest_selection"
+      ],
+      "previous": {
+        "executed": false,
+        "result_match": false,
+        "explanation_fallback": false
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "seller_performance",
+      "mode": "rag",
+      "categories": [
+        "incorrect denominator/eligibility",
+        "explanation-layer error"
+      ],
+      "root_cause": "Non-null delivery date substitutes for delivered status; prerequisite definitions are absent from top-three context. Top seller captions mix several rows.",
+      "fix": "Status-derived flags and eligible-first review selection; RAG dependency expansion; deterministic seller identity per observation.",
+      "regression_tests": [
+        "test_delivery_timestamp_is_not_successful_order_status",
+        "test_review_eligibility_precedes_latest_selection",
+        "test_rag_includes_transitive_metric_dependencies",
+        "test_mixed_seller_rows_receive_their_own_identity"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": false,
+        "explanation_fallback": false
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      }
+    },
+    {
+      "id": "seller_lateness",
+      "mode": "static",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "The model copies numeric rates and counts into labels (including 34.883721%), violating the evidence-only label contract.",
+      "fix": "Copy seller identity as structured row context, never model prose.",
+      "regression_tests": [
+        "test_mixed_seller_rows_receive_their_own_identity",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "static",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "The model uses row 29 for SP in a 27-row result and miscounts other positions; the nonexistent reference triggers fallback.",
+      "fix": "Explicit row indices and copied state context; labels remain untrusted.",
+      "regression_tests": [
+        "test_explanation_rows_have_explicit_indices",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      }
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "rag",
+      "categories": [
+        "explanation-layer error"
+      ],
+      "root_cause": "Valid SE cells are falsely labeled highest order volume and lowest delivery duration; selected cells do not support those extrema.",
+      "fix": "Renderer discards free-form labels and makes no ranking assertions; states and metric captions come from selected evidence.",
+      "regression_tests": [
+        "test_wrong_highest_lowest_labels_never_enter_answer",
+        "test_recorded_explanation_failures_are_rejected_or_neutrally_rendered"
+      ],
+      "previous": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": false
+      },
+      "corrected": {
+        "executed": true,
+        "result_match": true,
+        "explanation_fallback": true
+      }
+    }
+  ]
+}
