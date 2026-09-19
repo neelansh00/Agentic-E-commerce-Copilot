@@ -30,8 +30,9 @@ def execute_sql(database, sql, allowed_tables=None, limits: QueryLimits | None =
     limits = limits or QueryLimits()
     checked = validate_sql(sql, allowed_tables, limits.max_sql_chars)
     start = time.perf_counter()
-    db = connect_readonly(database)
+    db = None
     try:
+        db = connect_readonly(database)
         db.execute('PRAGMA trusted_schema = OFF')
         db.execute('PRAGMA temp_store = MEMORY')
         db.execute(f'PRAGMA busy_timeout = {max(1, min(5000, int(limits.timeout_seconds * 1000)))}')
@@ -69,4 +70,5 @@ def execute_sql(database, sql, allowed_tables=None, limits: QueryLimits | None =
             raise QueryExecutionError('Query exceeded its execution time budget') from None
         raise QueryExecutionError(str(exc)[:500]) from None
     finally:
-        db.close()
+        if db is not None:
+            db.close()

@@ -147,6 +147,9 @@ def load_database(raw_dir: Path, database: Path) -> dict:
 
 def connect_readonly(database: Path) -> sqlite3.Connection:
     connection = sqlite3.connect(Path(database).resolve().as_uri() + '?mode=ro', uri=True)
+    # The order/customer/review joins repeatedly revisit pages. A bounded 64 MiB
+    # cache avoids the tiny default cache becoming an I/O bottleneck on this data.
+    connection.execute('PRAGMA cache_size = -65536')
     connection.execute('PRAGMA foreign_keys = ON')
     connection.execute('PRAGMA query_only = ON')
     connection.row_factory = sqlite3.Row

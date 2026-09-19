@@ -144,6 +144,10 @@ class PipelineTests(unittest.TestCase):
         response = answer_question('Total orders?', self.path.with_name('absent.sqlite'), ScriptedModel([]))
         self.assertEqual(response.status, 'failed')
 
+    def test_executor_connection_failure_uses_standard_error_boundary(self):
+        with self.assertRaises(QueryExecutionError):
+            execute_sql(self.path.with_name('missing.sqlite'), 'SELECT COUNT(*) FROM orders')
+
     def test_clarification_and_unsupported_skip_sql(self):
         for action in ('clarify', 'unsupported'):
             response = answer_question('Why did profit fall?', self.path, ScriptedModel([

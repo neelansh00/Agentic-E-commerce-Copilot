@@ -1,0 +1,116 @@
+{
+  "started_at_utc": "2026-09-18T18:17:42.440135+00:00",
+  "mode": "offline only; no model API calls",
+  "steps": [
+    {
+      "command": [
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.625,
+      "stdout_tail": "No broken requirements found.\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "-m",
+        "compileall",
+        "-q",
+        "app",
+        "scripts",
+        "tests"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.436,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/inspect_dataset.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 31.988,
+      "stdout_tail": "olist_customers_dataset.csv: 99,441 rows, 5 columns\nolist_geolocation_dataset.csv: 1,000,163 rows, 5 columns\nolist_order_items_dataset.csv: 112,650 rows, 7 columns\nolist_order_payments_dataset.csv: 103,886 rows, 5 columns\nolist_order_reviews_dataset.csv: 99,224 rows, 7 columns\nolist_orders_dataset.csv: 99,441 rows, 8 columns\nolist_products_dataset.csv: 32,951 rows, 9 columns\nolist_sellers_dataset.csv: 3,095 rows, 4 columns\nproduct_category_name_translation.csv: 71 rows, 2 columns\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/load_database.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 88.826,
+      "stdout_tail": "{\n  \"database\": \"olist.sqlite\",\n  \"schema_sha256\": \"d35b909d80a4971d62b142d4b45b327572441937af9f63932caef5d0abf8482f\",\n  \"tables\": {\n    \"customers\": {\n      \"file\": \"olist_customers_dataset.csv\",\n      \"rows\": 99441,\n      \"sha256\": \"983a422239e1712ded753b3bf9ecf47dc73f144d306029dcfa99e70a226883d2\"\n    },\n    \"sellers\": {\n      \"file\": \"olist_sellers_dataset.csv\",\n      \"rows\": 3095,\n      \"sha256\": \"1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e\"\n    },\n    \"category_translations\": {\n      \"file\": \"product_category_name_translation.csv\",\n      \"rows\": 71,\n      \"sha256\": \"a81f0d1f27b27e7293f761bc79e3ce8f348ee39c4b3ed3e49bde38f478586278\"\n    },\n    \"products\": {\n      \"file\": \"olist_products_dataset.csv\",\n      \"rows\": 32951,\n      \"sha256\": \"3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc\"\n    },\n    \"orders\": {\n      \"file\": \"olist_orders_dataset.csv\",\n      \"rows\": 99441,\n      \"sha256\": \"8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf\"\n    },\n    \"order_items\": {\n      \"file\": \"olist_order_items_dataset.csv\",\n      \"rows\": 112650,\n      \"sha256\": \"0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279\"\n    },\n    \"payments\": {\n      \"file\": \"olist_order_payments_dataset.csv\",\n      \"rows\": 103886,\n      \"sha256\": \"4f713964f2815dbbaa40b9488268c55aac3627bfce5aa96cf58d1f3616de3cc0\"\n    },\n    \"reviews\": {\n      \"file\": \"olist_order_reviews_dataset.csv\",\n      \"rows\": 99224,\n      \"sha256\": \"012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7\"\n    },\n    \"geolocation\": {\n      \"file\": \"olist_geolocation_dataset.csv\",\n      \"rows\": 1000163,\n      \"sha256\": \"b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6\"\n    }\n  },\n  \"total_rows\": 1550922,\n  \"foreign_key_violations\": 0,\n  \"integrity_check\": \"ok\",\n  \"elapsed_seconds\": 88.446\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/verify_database.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 74.723,
+      "stdout_tail": "Passed 20/20 checks.\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/run_baseline.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 240.643,
+      "stdout_tail": "overview: execution=True, CSV agreement=True\nmonthly_revenue: execution=True, CSV agreement=True\nstate_aov: execution=True, CSV agreement=True\nstate_cancellation: execution=True, CSV agreement=True\ncategory_sales: execution=True, CSV agreement=True\nlate_delivery: execution=True, CSV agreement=True\nlate_reviews: execution=True, CSV agreement=True\ncategory_delivery: execution=True, CSV agreement=True\nseller_performance: execution=True, CSV agreement=True\nseller_lateness: execution=True, CSV agreement=True\nregional_delivery: execution=True, CSV agreement=True\nAll passed: True; snapshot: matched; elapsed: 239.918s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/verify_text_to_sql.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 204.854,
+      "stdout_tail": "overview: ok, result_match=True\nmonthly_revenue: ok, result_match=True\nstate_aov: ok, result_match=True\nstate_cancellation: ok, result_match=True\ncategory_sales: ok, result_match=True\nlate_delivery: ok, result_match=True\nlate_reviews: ok, result_match=True\ncategory_delivery: ok, result_match=True\nseller_performance: ok, result_match=True\nseller_lateness: ok, result_match=True\nregional_delivery: ok, result_match=True\nAll passed: True; elapsed=202.904s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/ask.py",
+        "--demo",
+        "count",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.998,
+      "stdout_tail": "{\n  \"status\": \"ok\",\n  \"answer\": \"Total orders: 99441 [row 0, total_orders]\",\n  \"observations\": [\n    \"Total orders: 99441 [row 0, total_orders]\"\n  ],\n  \"caveats\": [\n    \"Observations are descriptive; they do not establish causality or statistical significance.\"\n  ],\n  \"schema_tables\": [\n    \"orders\"\n  ],\n  \"schema_reasons\": {\n    \"orders\": \"Matched: orders\"\n  },\n  \"result\": {\n    \"sql\": \"SELECT COUNT(*) AS total_orders FROM orders\",\n    \"tables\": [\n      \"orders\"\n    ],\n    \"columns\": [\n      \"total_orders\"\n    ],\n    \"rows\": [\n      {\n        \"total_orders\": 99441\n      }\n    ],\n    \"truncated\": false,\n    \"execution_ms\": 11.805\n  },\n  \"trace\": [\n    {\n      \"tool\": \"schema_retrieval\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"reasons\": {\n        \"orders\": \"Matched: orders\"\n      }\n    },\n    {\n      \"tool\": \"sql\",\n      \"attempt\": 1,\n      \"sql\": \"SELECT COUNT(*) AS total_orders FROM orders\",\n      \"assumptions\": [],\n      \"status\": \"executed\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"execution_ms\": 11.805,\n      \"returned_rows\": 1,\n      \"truncated\": false\n    },\n    {\n      \"stage\": \"explanation\",\n      \"status\": \"evidence_references_validated\"\n    }\n  ],\n  \"usage\": [],\n  \"elapsed_ms\": 58.532,\n  \"model\": \"offline-scripted-not-an-llm\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/ask.py",
+        "--demo",
+        "cancellation",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.157,
+      "stdout_tail": "{\n  \"status\": \"ok\",\n  \"answer\": \"Cancellation percentage: 0.628513 [row 0, cancellation_pct]\",\n  \"observations\": [\n    \"Cancellation percentage: 0.628513 [row 0, cancellation_pct]\"\n  ],\n  \"caveats\": [\n    \"Observations are descriptive; they do not establish causality or statistical significance.\"\n  ],\n  \"schema_tables\": [\n    \"orders\"\n  ],\n  \"schema_reasons\": {\n    \"orders\": \"Matched: cancellation\"\n  },\n  \"result\": {\n    \"sql\": \"SELECT COUNT(*) total_orders, SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) canceled_orders, ROUND(100.0 * SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) / NULLIF(COUNT(*),0),6) cancellation_pct FROM orders\",\n    \"tables\": [\n      \"orders\"\n    ],\n    \"columns\": [\n      \"total_orders\",\n      \"canceled_orders\",\n      \"cancellation_pct\"\n    ],\n    \"rows\": [\n      {\n        \"total_orders\": 99441,\n        \"canceled_orders\": 625,\n        \"cancellation_pct\": 0.628513\n      }\n    ],\n    \"truncated\": false,\n    \"execution_ms\": 17.779\n  },\n  \"trace\": [\n    {\n      \"tool\": \"schema_retrieval\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"reasons\": {\n        \"orders\": \"Matched: cancellation\"\n      }\n    },\n    {\n      \"tool\": \"sql\",\n      \"attempt\": 1,\n      \"sql\": \"SELECT COUNT(*) total_orders, SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) canceled_orders, ROUND(100.0 * SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) / NULLIF(COUNT(*),0),6) cancellation_pct FROM orders\",\n      \"assumptions\": [],\n      \"status\": \"executed\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"execution_ms\": 17.779,\n      \"returned_rows\": 1,\n      \"truncated\": false\n    },\n    {\n      \"stage\": \"explanation\",\n      \"status\": \"evidence_references_validated\"\n    }\n  ],\n  \"usage\": [],\n  \"elapsed_ms\": 40.748,\n  \"model\": \"offline-scripted-not-an-llm\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 14.01,
+      "stdout_tail": "",
+      "stderr_tail": "test_model_failure_is_explicit (test_text_to_sql.PipelineTests.test_model_failure_is_explicit) ... ok\ntest_no_rows_not_a_zero_business_answer (test_text_to_sql.PipelineTests.test_no_rows_not_a_zero_business_answer) ... ok\ntest_nonfinite_output_rejected (test_text_to_sql.PipelineTests.test_nonfinite_output_rejected) ... ok\ntest_retry_exhaustion_has_no_fabricated_result (test_text_to_sql.PipelineTests.test_retry_exhaustion_has_no_fabricated_result) ... ok\ntest_row_limit_marks_truncation (test_text_to_sql.PipelineTests.test_row_limit_marks_truncation) ... ok\ntest_schema_expansion_is_traceable_and_bounded (test_text_to_sql.PipelineTests.test_schema_expansion_is_traceable_and_bounded) ... ok\ntest_schema_retrieval_avoids_unrelated_tables (test_text_to_sql.PipelineTests.test_schema_retrieval_avoids_unrelated_tables) ... ok\ntest_sqlite_authorizer_blocks_mutations_even_without_parser (test_text_to_sql.PipelineTests.test_sqlite_authorizer_blocks_mutations_even_without_parser) ... ok\ntest_syntax_and_wrong_table_repaired_within_three_attempts (test_text_to_sql.PipelineTests.test_syntax_and_wrong_table_repaired_within_three_attempts) ... ok\ntest_valid_select_and_result_transparency (test_text_to_sql.PipelineTests.test_valid_select_and_result_transparency) ... ok\ntest_write_attempt_never_changes_database (test_text_to_sql.PipelineTests.test_write_attempt_never_changes_database) ... ok\ntest_adapter_does_not_expose_provider_secrets (test_text_to_sql.ProviderTests.test_adapter_does_not_expose_provider_secrets) ... ok\ntest_adapter_uses_structured_output_and_no_storage (test_text_to_sql.ProviderTests.test_adapter_uses_structured_output_and_no_storage) ... ok\ntest_missing_credentials_no_network_fallback (test_text_to_sql.ProviderTests.test_missing_credentials_no_network_fallback) ... ok\ntest_refusal_or_incomplete_response_is_explicit (test_text_to_sql.ProviderTests.test_refusal_or_incomplete_response_is_explicit) ... ok\ntest_comments_strings_ctes_unions_and_alias_shadowing (test_text_to_sql.SQLSafetyTests.test_comments_strings_ctes_unions_and_alias_shadowing) ... ok\ntest_empty_oversized_malformed_sql (test_text_to_sql.SQLSafetyTests.test_empty_oversized_malformed_sql) ... ok\ntest_forbidden_sql_corpus (test_text_to_sql.SQLSafetyTests.test_forbidden_sql_corpus) ... ok\ntest_unknown_table_and_schema_scope (test_text_to_sql.SQLSafetyTests.test_unknown_table_and_schema_scope) ... ok\n\n----------------------------------------------------------------------\nRan 54 tests in 12.724s\n\nOK\n"
+    }
+  ],
+  "all_passed": true,
+  "finished_at_utc": "2026-09-18T18:28:43.704041+00:00"
+}
