@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phase 4.5 correction pass complete; Phase 5 has not started.** Both live context modes now execute and exactly match all 11 unchanged development questions. All 99 offline tests pass. Calendar coverage, delivery eligibility, aggregation grain and evidence captions have shared fixes. Five of 22 answers still use literal fallbacks, and some summaries omit useful metrics. These results support continuing development, not a claim of accuracy on unseen questions. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
+**Current status: Phase 5 implemented: one bounded analytics agent with SQL, local RAG and one restricted Python comparison tool.** A deterministic router selects tools; live SQL reuses the tested model pipeline. Phase 4.5 matched all 11 development questions in both context modes; Phase 5 adds separate routing and tool-integration checks. These are not unseen-question accuracy claims. Streamlit, the full benchmark and packaging remain later phases.
 
 ## Problem and business motivation
 
@@ -14,7 +14,7 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **99/99 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
+- **114/114 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
 - Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small retrieval benchmark does not establish LLM accuracy or business impact. See the separate live evaluation below.
 
@@ -80,7 +80,7 @@ flowchart LR
 
 The [data-model document](docs/data_model.md) includes an ER diagram, source-to-table mapping, PK/FK definitions and the migration plan. Storage uses integer cents for currency, text IDs/ZIP prefixes, validated timestamp strings, and indexed join/filter columns. Missing values stay NULL.
 
-Planned subsequent architecture:
+Target architecture (agent/tools now implemented; Streamlit remains Phase 6):
 
 ```mermaid
 flowchart TD
@@ -131,6 +131,8 @@ These fixed queries have verified baseline results. Offline Phase 3 demos replay
 ## Project structure
 
 ```text
+app/agent/          Deterministic routing and single-agent tool orchestration
+app/tools/          Restricted Python histogram comparison
 app/database/       Schema, ingestion, read-only connection, verification
 app/analytics/      Fixed-query registry, SQL, independent CSV reference, reports
 app/text_to_sql/    Model adapter, schema matching, validator, executor, bounded loop
@@ -154,7 +156,7 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Phase 4 and its focused correction pass are complete. The next planned phase is a single agent with tools, followed by UI, evaluation and packaging; **Phase 5 has not started**. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Phases 1–5 are complete. The next planned phase is Streamlit UI, followed by broader evaluation and packaging; Phase 6 has not started. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
 
 ## Phase 4: local business knowledge RAG
 
@@ -205,3 +207,18 @@ Reproduce local checks without API calls after setup:
 ```
 
 The report command reruns offline tests and checks the preserved live evidence and its review annotations; it does not generate a new live sample. See [implementation and trade-offs](docs/phase45_corrections.md) for full reproduction commands. This was one correction rerun on the development benchmark, not a held-out test or an isolated experiment proving which change helped.
+
+
+## Phase 5: one agent, three tools
+
+The [agent walkthrough](docs/phase5_agent.md) explains the route rules, tool contracts, statistical assumptions and limitations. No new dependencies or multi-agent framework were added. All five SQL/RAG/Python combinations are exercised; the Python tool currently supports one global delivery/review comparison. Other statistical requests are explicitly unsupported, and follow-ups must restate their scope.
+
+```powershell
+.venv/Scripts/python.exe scripts/ask_agent.py --question "What does late delivery mean?" --json
+.venv/Scripts/python.exe scripts/ask_agent.py --question "Are late deliveries associated with lower ratings?" --json
+.venv/Scripts/python.exe scripts/ask_agent.py --live --question "Which states generated the most revenue?" --json
+```
+
+The first two commands need no API calls. The third uses the existing `.env` and guarded text-to-SQL. `--json` exposes routing reasons, actual tool execution, SQL, complete histogram inputs, sources, usage and timing. Python computes descriptive statistics over the database result, never generated code. It does not claim statistical significance or causation.
+
+[Phase 5 verification](docs/generated/phase5_final_verification.json) records **114 passing tests**, **29/29 manually defined routing cases**, an exact histogram match against independently processed raw CSVs and **2/2 live SQL smoke matches**. The live smoke is preserved from the second verification attempt; the final offline rerun fixes an ambiguous test request and makes no further API calls. The original network failure and test failure remain visible. These are development checks, not a held-out agent benchmark. Phase 6 has not started.

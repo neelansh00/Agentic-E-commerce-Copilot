@@ -1,5 +1,6 @@
 """Evidence reports for the deterministic baseline."""
 import json
+import re
 from pathlib import Path
 
 
@@ -61,8 +62,20 @@ def write_project_metrics(root: Path):
             lines += [f"- Corrected {mode}: {summary['executed']}/{summary['questions']} executions and {summary['exact_results']}/{summary['questions']} exact results; {summary['explanation_fallbacks']} explicitly marked literal fallbacks."]
         lines += [f"- Phase 4.5 offline tests: {readiness['offline_tests']}; all passed: {readiness['offline_tests_passed']}.",
                   f"- All {readiness['reviewed_answers']} final rendered answers reviewed as non-misleading: {readiness['no_misleading_rendered_interpretations']} (assistant review, not independent human annotation).",
-                  f"- Phase 4.5 readiness gates met: {readiness['ready_for_phase5']}; Phase 5 started: {readiness['phase5_started']}.",
+                  f"- At the end of Phase 4.5: readiness gates met: {readiness['ready_for_phase5']}; Phase 5 started: {readiness['phase5_started']}.",
                   '- Evidence: [correction report](generated/phase45_report.md). Safe captions and correct tables do not prove complete narrative quality or production readiness.']
+    phase5_path = root / 'docs/generated/phase5_final_verification.json'
+    if phase5_path.exists():
+        phase5 = json.loads(phase5_path.read_text(encoding='utf-8'))
+        routing = phase5['routing']
+        live = phase5['live_smoke']
+        test_count = re.search(r'Ran (\d+) tests', phase5['test_output'])
+        lines += ['', f"- Phase 5 verification passed: {phase5['all_passed']}; offline tests passed: {phase5['tests_passed']}.",
+                  f"- Phase 5 offline tests executed: {test_count.group(1) if test_count else 'not recorded'}.",
+                  f"- Deterministic routing development cases: {sum(r['passed'] for r in routing)}/{len(routing)} (not held-out language coverage).",
+                  f"- Complete delivery/review histogram agrees with independent raw CSV calculation: {phase5['histogram_matches_independent_csv']}.",
+                  f"- Phase 5 live smoke exact matches: {sum(r['reference_match'] for r in live)}/{len(live)}; two-question smoke, not a new full benchmark.",
+                  '- One restricted Python operation; all five SQL/RAG/Python tool combinations exercised. See [Phase 5](phase5_agent.md).']
     lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']

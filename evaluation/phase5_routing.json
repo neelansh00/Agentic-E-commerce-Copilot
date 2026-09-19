@@ -1,0 +1,197 @@
+[
+  {
+    "question": "How many orders are there?",
+    "tools": [
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "List the ten sellers with most items sold",
+    "tools": [
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "Count customers by state",
+    "tools": [
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "Which months have most orders?",
+    "tools": [
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "What does late delivery mean?",
+    "tools": [
+      "rag"
+    ],
+    "operation": "definition"
+  },
+  {
+    "question": "Define average order value",
+    "tools": [
+      "rag"
+    ],
+    "operation": "definition"
+  },
+  {
+    "question": "What is revenue?",
+    "tools": [
+      "rag"
+    ],
+    "operation": "definition"
+  },
+  {
+    "question": "Explain the order lifecycle",
+    "tools": [
+      "rag"
+    ],
+    "operation": "definition"
+  },
+  {
+    "question": "How is revenue calculated?",
+    "tools": [
+      "rag"
+    ],
+    "operation": "definition"
+  },
+  {
+    "question": "Which states have the highest cancellation rate?",
+    "tools": [
+      "rag",
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "Which sellers violate our definition of poor delivery performance?",
+    "tools": [
+      "rag",
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "What proportion of orders arrive late?",
+    "tools": [
+      "rag",
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "Which months generated the highest revenue?",
+    "tools": [
+      "rag",
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "How does average order value vary across states?",
+    "tools": [
+      "rag",
+      "sql"
+    ],
+    "operation": "query"
+  },
+  {
+    "question": "Are late deliveries associated with lower ratings?",
+    "tools": [
+      "sql",
+      "python"
+    ],
+    "operation": "late_reviews"
+  },
+  {
+    "question": "Is late delivery associated with lower customer review scores?",
+    "tools": [
+      "sql",
+      "python"
+    ],
+    "operation": "late_reviews"
+  },
+  {
+    "question": "Compare review scores between late and on-time deliveries",
+    "tools": [
+      "sql",
+      "python"
+    ],
+    "operation": "late_reviews"
+  },
+  {
+    "question": "Using business definitions, are late deliveries associated with lower ratings?",
+    "tools": [
+      "rag",
+      "sql",
+      "python"
+    ],
+    "operation": "late_reviews"
+  },
+  {
+    "question": "According to our definitions, compare ratings for late and on time deliveries",
+    "tools": [
+      "rag",
+      "sql",
+      "python"
+    ],
+    "operation": "late_reviews"
+  },
+  {
+    "question": "Are late deliveries associated with lower ratings in SP?",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "Are late deliveries associated with lower ratings in 2018?",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "Calculate correlation between freight and rating",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "Test statistical significance of review differences",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "Forecast next month revenue",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "Why did revenue fall during July?",
+    "tools": [],
+    "operation": "clarify"
+  },
+  {
+    "question": "Prove late delivery causes poor reviews",
+    "tools": [],
+    "operation": "clarify"
+  },
+  {
+    "question": "What about those sellers?",
+    "tools": [],
+    "operation": "clarify"
+  },
+  {
+    "question": "DROP TABLE orders",
+    "tools": [],
+    "operation": "unsupported"
+  },
+  {
+    "question": "",
+    "tools": [],
+    "operation": "clarify"
+  }
+]

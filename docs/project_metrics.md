@@ -31,8 +31,15 @@ Regenerated from saved reports. Deterministic checks, retrieval metrics and live
 - Corrected rag: 11/11 executions and 11/11 exact results; 4 explicitly marked literal fallbacks.
 - Phase 4.5 offline tests: 99; all passed: True.
 - All 22 final rendered answers reviewed as non-misleading: True (assistant review, not independent human annotation).
-- Phase 4.5 readiness gates met: True; Phase 5 started: False.
+- At the end of Phase 4.5: readiness gates met: True; Phase 5 started: False.
 - Evidence: [correction report](generated/phase45_report.md). Safe captions and correct tables do not prove complete narrative quality or production readiness.
+
+- Phase 5 verification passed: True; offline tests passed: True.
+- Phase 5 offline tests executed: 114.
+- Deterministic routing development cases: 29/29 (not held-out language coverage).
+- Complete delivery/review histogram agrees with independent raw CSV calculation: True.
+- Phase 5 live smoke exact matches: 2/2; two-question smoke, not a new full benchmark.
+- One restricted Python operation; all five SQL/RAG/Python tool combinations exercised. See [Phase 5](phase5_agent.md).
 - Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
 - The approximately 50-question agent evaluation and controlled experiments remain for later phases.
 

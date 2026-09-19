@@ -1,0 +1,1210 @@
+{
+  "tests_passed": false,
+  "test_output": "test_definition_needs_no_database_or_model (test_agent.AgentTests.test_definition_needs_no_database_or_model) ... ok\ntest_missing_tools_and_provider_failure (test_agent.AgentTests.test_missing_tools_and_provider_failure) ... ok\ntest_rag_failure_and_empty_hits (test_agent.AgentTests.test_rag_failure_and_empty_hits) ... ok\ntest_rejected_query_retry_limit_propagates (test_agent.AgentTests.test_rejected_query_retry_limit_propagates) ... ok\ntest_sql_only_and_sql_rag (test_agent.AgentTests.test_sql_only_and_sql_rag) ... ERROR\ntest_statistics_complete_sql_to_python (test_agent.AgentTests.test_statistics_complete_sql_to_python) ... ok\ntest_statistics_with_knowledge (test_agent.AgentTests.test_statistics_with_knowledge) ... ok\ntest_truncated_statistics_and_database_failure (test_agent.AgentTests.test_truncated_statistics_and_database_failure) ... ok\ntest_hand_calculated_distribution (test_agent.PythonTests.test_hand_calculated_distribution) ... ok\ntest_incomplete_empty_invalid_and_duplicate_inputs (test_agent.PythonTests.test_incomplete_empty_invalid_and_duplicate_inputs) ... ok\ntest_all_five_combinations (test_agent.RoutingTests.test_all_five_combinations) ... ok\ntest_business_drop_and_explain_are_not_commands_or_definitions (test_agent.RoutingTests.test_business_drop_and_explain_are_not_commands_or_definitions) ... ok\ntest_causal_writes_followups_and_limits (test_agent.RoutingTests.test_causal_writes_followups_and_limits) ... ok\ntest_filtered_statistical_request_not_silently_global (test_agent.RoutingTests.test_filtered_statistical_request_not_silently_global) ... ok\ntest_no_python_for_sql_aggregation (test_agent.RoutingTests.test_no_python_for_sql_aggregation) ... ok\ntest_category_sales_retains_unknown_and_untranslated (test_analytics.AnalyticsTests.test_category_sales_retains_unknown_and_untranslated) ... ok\ntest_cli_frozen_snapshot_detects_regression_without_overwriting (test_analytics.AnalyticsTests.test_cli_frozen_snapshot_detects_regression_without_overwriting) ... ok\ntest_comparator_detects_wrong_values_order_and_nulls (test_analytics.AnalyticsTests.test_comparator_detects_wrong_values_order_and_nulls) ... ok\ntest_each_sql_query_matches_independent_fixture_reference (test_analytics.AnalyticsTests.test_each_sql_query_matches_independent_fixture_reference) ... ok\ntest_hand_calculated_revenue_aov_and_cancellations (test_analytics.AnalyticsTests.test_hand_calculated_revenue_aov_and_cancellations) ... ok\ntest_latest_valid_review_tiebreak_and_missing_coverage (test_analytics.AnalyticsTests.test_latest_valid_review_tiebreak_and_missing_coverage) ... ok\ntest_month_spine_keeps_empty_period_and_boundaries (test_analytics.AnalyticsTests.test_month_spine_keeps_empty_period_and_boundaries) ... ok\ntest_no_deliveries_produces_undefined_rates_not_zero (test_analytics.AnalyticsTests.test_no_deliveries_produces_undefined_rates_not_zero) ... ok\ntest_query_names_and_parameters_are_fixed (test_analytics.AnalyticsTests.test_query_names_and_parameters_are_fixed) ... ok\ntest_repeated_category_items_do_not_weight_delivery (test_analytics.AnalyticsTests.test_repeated_category_items_do_not_weight_delivery) ... ok\ntest_seller_deduplication_and_thresholds (test_analytics.AnalyticsTests.test_seller_deduplication_and_thresholds) ... ok\ntest_strict_timestamp_lateness_and_invalid_dates (test_analytics.AnalyticsTests.test_strict_timestamp_lateness_and_invalid_dates) ... ok\ntest_counts_csv_records_not_physical_lines (test_audit.AuditTests.test_counts_csv_records_not_physical_lines) ... ok\ntest_extraction_preserves_bytes (test_audit.AuditTests.test_extraction_preserves_bytes) ... ok\ntest_path_traversal_is_rejected (test_audit.AuditTests.test_path_traversal_is_rejected) ... ok\ntest_conversion_rejects_precision_loss_and_bad_dates (test_database.DatabaseTests.test_conversion_rejects_precision_loss_and_bad_dates) ... ok\ntest_duplicate_composite_key_is_rejected (test_database.DatabaseTests.test_duplicate_composite_key_is_rejected) ... ok\ntest_failed_rebuild_preserves_previous_database (test_database.DatabaseTests.test_failed_rebuild_preserves_previous_database) ... ok\ntest_header_drift_is_rejected (test_database.DatabaseTests.test_header_drift_is_rejected) ... ok\ntest_invalid_review_score_is_rejected (test_database.DatabaseTests.test_invalid_review_score_is_rejected) ... ok\ntest_load_preserves_grain_types_nulls_and_sources (test_database.DatabaseTests.test_load_preserves_grain_types_nulls_and_sources) ... ok\ntest_readonly_connection_supports_select_rejects_write (test_database.DatabaseTests.test_readonly_connection_supports_select_rejects_write) ... ok\ntest_rebuild_is_idempotent (test_database.DatabaseTests.test_rebuild_is_idempotent) ... ok\ntest_reviews_allow_shared_id_across_orders (test_database.DatabaseTests.test_reviews_allow_shared_id_across_orders) ... ok\ntest_untranslated_category_is_preserved (test_database.DatabaseTests.test_untranslated_category_is_preserved) ... ok\ntest_budget_prevents_extra_calls (test_live_evaluation.LiveEvaluationTests.test_budget_prevents_extra_calls) ... ok\ntest_execution_and_answer_format_do_not_imply_result_accuracy (test_live_evaluation.LiveEvaluationTests.test_execution_and_answer_format_do_not_imply_result_accuracy) ... ok\ntest_failed_provider_call_consumes_attempt_budget (test_live_evaluation.LiveEvaluationTests.test_failed_provider_call_consumes_attempt_budget) ... ok\ntest_row_order_does_not_change_group_accuracy (test_live_evaluation.LiveEvaluationTests.test_row_order_does_not_change_group_accuracy) ... ok\ntest_wrong_values_missing_rows_and_columns_fail (test_live_evaluation.LiveEvaluationTests.test_wrong_values_missing_rows_and_columns_fail) ... ok\ntest_category_repeated_items_do_not_weight_delivery (test_phase45.MetricViewsTests.test_category_repeated_items_do_not_weight_delivery) ... ok\ntest_delivery_duration_and_lateness_share_eligible_population (test_phase45.MetricViewsTests.test_delivery_duration_and_lateness_share_eligible_population) ... ok\ntest_delivery_timestamp_is_not_successful_order_status (test_phase45.MetricViewsTests.test_delivery_timestamp_is_not_successful_order_status) ... ok\ntest_exists_is_valid_readonly_sql_and_executes (test_phase45.MetricViewsTests.test_exists_is_valid_readonly_sql_and_executes) ... ok\ntest_month_spine_retains_empty_month_with_null_money (test_phase45.MetricViewsTests.test_month_spine_retains_empty_month_with_null_money) ... ok\ntest_payments_and_reviews_do_not_multiply_order_grain (test_phase45.MetricViewsTests.test_payments_and_reviews_do_not_multiply_order_grain) ... ok\ntest_review_eligibility_precedes_latest_selection (test_phase45.MetricViewsTests.test_review_eligibility_precedes_latest_selection) ... ok\ntest_seller_order_grain_preserves_item_sales_and_single_review (test_phase45.MetricViewsTests.test_seller_order_grain_preserves_item_sales_and_single_review) ... ok\ntest_views_survive_executor_setup_and_do_not_modify_database (test_phase45.MetricViewsTests.test_views_survive_executor_setup_and_do_not_modify_database) ... ok\ntest_zero_payments_are_observations_missing_payments_are_null (test_phase45.MetricViewsTests.test_zero_payments_are_observations_missing_payments_are_null) ... ok\ntest_benchmark_questions_are_exactly_unchanged (test_phase45.SemanticBoundaryTests.test_benchmark_questions_are_exactly_unchanged) ... ok\ntest_calendar_gap_rejected_only_for_continuous_series (test_phase45.SemanticBoundaryTests.test_calendar_gap_rejected_only_for_continuous_series) ... ok\ntest_explanation_rows_have_explicit_indices (test_phase45.SemanticBoundaryTests.test_explanation_rows_have_explicit_indices) ... ok\ntest_inflated_late_numerator_rejected (test_phase45.SemanticBoundaryTests.test_inflated_late_numerator_rejected) ... ok\ntest_mixed_seller_rows_receive_their_own_identity (test_phase45.SemanticBoundaryTests.test_mixed_seller_rows_receive_their_own_identity) ... ok\ntest_previous_invalid_explanations_still_fail_closed (test_phase45.SemanticBoundaryTests.test_previous_invalid_explanations_still_fail_closed) ... ok\ntest_rag_includes_transitive_metric_dependencies (test_phase45.SemanticBoundaryTests.test_rag_includes_transitive_metric_dependencies) ... ok\ntest_raw_child_fanout_and_payment_allocation_rejected (test_phase45.SemanticBoundaryTests.test_raw_child_fanout_and_payment_allocation_rejected) ... ok\ntest_recorded_explanation_failures_are_rejected_or_neutrally_rendered (test_phase45.SemanticBoundaryTests.test_recorded_explanation_failures_are_rejected_or_neutrally_rendered) ... ok\ntest_recorded_monthly_failures_rejected_without_using_reference_answers (test_phase45.SemanticBoundaryTests.test_recorded_monthly_failures_rejected_without_using_reference_answers) ... ok\ntest_wrong_highest_lowest_labels_never_enter_answer (test_phase45.SemanticBoundaryTests.test_wrong_highest_lowest_labels_never_enter_answer) ... ok\ntest_zero_denominator_aov_rejected (test_phase45.SemanticBoundaryTests.test_zero_denominator_aov_rejected) ... ok\ntest_zero_revenue_without_payment_records_rejected (test_phase45.SemanticBoundaryTests.test_zero_revenue_without_payment_records_rejected) ... ok\ntest_abstention_and_no_invented_answer (test_rag.RagTests.test_abstention_and_no_invented_answer) ... ok\ntest_chunk_bounds_and_overlap (test_rag.RagTests.test_chunk_bounds_and_overlap) ... ok\ntest_chunks_preserve_exact_lines_and_stable_ids (test_rag.RagTests.test_chunks_preserve_exact_lines_and_stable_ids) ... ok\ntest_corrupt_index_rejected (test_rag.RagTests.test_corrupt_index_rejected) ... ok\ntest_cosine_ranking_and_citations (test_rag.RagTests.test_cosine_ranking_and_citations) ... ok\ntest_dimension_mismatch_rejected (test_rag.RagTests.test_dimension_mismatch_rejected) ... ok\ntest_edit_during_build_preserves_previous_index (test_rag.RagTests.test_edit_during_build_preserves_previous_index) ... ok\ntest_input_limits (test_rag.RagTests.test_input_limits) ... ok\ntest_long_paragraph_rejected (test_rag.RagTests.test_long_paragraph_rejected) ... ok\ntest_missing_model_is_explicit_without_download (test_rag.RagTests.test_missing_model_is_explicit_without_download) ... ok\ntest_model_mismatch_rejected (test_rag.RagTests.test_model_mismatch_rejected) ... ok\ntest_pipeline_no_match_does_not_call_model (test_rag.RagTests.test_pipeline_no_match_does_not_call_model) ... ok\ntest_pipeline_stale_index_reports_failure (test_rag.RagTests.test_pipeline_stale_index_reports_failure) ... ok\ntest_retrieved_context_replaces_full_contract (test_rag.RagTests.test_retrieved_context_replaces_full_contract) ... ok\ntest_sql_pipeline_receives_citations_and_keeps_query_evidence (test_rag.RagTests.test_sql_pipeline_receives_citations_and_keeps_query_evidence) ... ok\ntest_stale_documents_rejected_after_loading (test_rag.RagTests.test_stale_documents_rejected_after_loading) ... ok\ntest_token_overflow_rejected_instead_of_silent_truncation (test_rag.RagTests.test_token_overflow_rejected_instead_of_silent_truncation) ... ok\ntest_byte_limit_does_not_claim_zero_rows (test_text_to_sql.PipelineTests.test_byte_limit_does_not_claim_zero_rows) ... ok\ntest_clarification_and_unsupported_skip_sql (test_text_to_sql.PipelineTests.test_clarification_and_unsupported_skip_sql) ... ok\ntest_duplicate_column_alias_rejected (test_text_to_sql.PipelineTests.test_duplicate_column_alias_rejected) ... ok\ntest_executor_connection_failure_uses_standard_error_boundary (test_text_to_sql.PipelineTests.test_executor_connection_failure_uses_standard_error_boundary) ... ok\ntest_expensive_query_times_out (test_text_to_sql.PipelineTests.test_expensive_query_times_out) ... ok\ntest_invalid_aggregation_then_repair (test_text_to_sql.PipelineTests.test_invalid_aggregation_then_repair) ... ok\ntest_invalid_column_then_bounded_correction (test_text_to_sql.PipelineTests.test_invalid_column_then_bounded_correction) ... ok\ntest_invalid_evidence_uses_literal_fallback (test_text_to_sql.PipelineTests.test_invalid_evidence_uses_literal_fallback) ... ok\ntest_malformed_model_output_fails_closed (test_text_to_sql.PipelineTests.test_malformed_model_output_fails_closed) ... ok\ntest_missing_database_is_handled (test_text_to_sql.PipelineTests.test_missing_database_is_handled) ... ok\ntest_model_failure_is_explicit (test_text_to_sql.PipelineTests.test_model_failure_is_explicit) ... ok\ntest_no_rows_not_a_zero_business_answer (test_text_to_sql.PipelineTests.test_no_rows_not_a_zero_business_answer) ... ok\ntest_nonfinite_output_rejected (test_text_to_sql.PipelineTests.test_nonfinite_output_rejected) ... ok\ntest_retry_exhaustion_has_no_fabricated_result (test_text_to_sql.PipelineTests.test_retry_exhaustion_has_no_fabricated_result) ... ok\ntest_row_limit_marks_truncation (test_text_to_sql.PipelineTests.test_row_limit_marks_truncation) ... ok\ntest_schema_expansion_is_traceable_and_bounded (test_text_to_sql.PipelineTests.test_schema_expansion_is_traceable_and_bounded) ... ok\ntest_schema_retrieval_avoids_unrelated_tables (test_text_to_sql.PipelineTests.test_schema_retrieval_avoids_unrelated_tables) ... ok\ntest_sqlite_authorizer_blocks_mutations_even_without_parser (test_text_to_sql.PipelineTests.test_sqlite_authorizer_blocks_mutations_even_without_parser) ... ok\ntest_syntax_and_wrong_table_repaired_within_three_attempts (test_text_to_sql.PipelineTests.test_syntax_and_wrong_table_repaired_within_three_attempts) ... ok\ntest_valid_select_and_result_transparency (test_text_to_sql.PipelineTests.test_valid_select_and_result_transparency) ... ok\ntest_write_attempt_never_changes_database (test_text_to_sql.PipelineTests.test_write_attempt_never_changes_database) ... ok\ntest_adapter_does_not_expose_provider_secrets (test_text_to_sql.ProviderTests.test_adapter_does_not_expose_provider_secrets) ... ok\ntest_adapter_uses_structured_output_and_no_storage (test_text_to_sql.ProviderTests.test_adapter_uses_structured_output_and_no_storage) ... ok\ntest_missing_credentials_no_network_fallback (test_text_to_sql.ProviderTests.test_missing_credentials_no_network_fallback) ... ok\ntest_refusal_or_incomplete_response_is_explicit (test_text_to_sql.ProviderTests.test_refusal_or_incomplete_response_is_explicit) ... ok\ntest_comments_strings_ctes_unions_and_alias_shadowing (test_text_to_sql.SQLSafetyTests.test_comments_strings_ctes_unions_and_alias_shadowing) ... ok\ntest_empty_oversized_malformed_sql (test_text_to_sql.SQLSafetyTests.test_empty_oversized_malformed_sql) ... ok\ntest_forbidden_sql_corpus (test_text_to_sql.SQLSafetyTests.test_forbidden_sql_corpus) ... ok\ntest_unknown_table_and_schema_scope (test_text_to_sql.SQLSafetyTests.test_unknown_table_and_schema_scope) ... ok\n\n======================================================================\nERROR: test_sql_only_and_sql_rag (test_agent.AgentTests.test_sql_only_and_sql_rag)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\neela\\Desktop\\Agentic E-commerce Analytics Copilot\\tests\\test_agent.py\", line 103, in test_sql_only_and_sql_rag\n    self.assertEqual(result.result.rows[0]['n'], 6)\n                     ^^^^^^^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'rows'\n\n----------------------------------------------------------------------\nRan 114 tests in 20.680s\n\nFAILED (errors=1)\n",
+  "routing": [
+    {
+      "case": {
+        "question": "How many orders are there?",
+        "tools": [
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Ordinary aggregation belongs in SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "List the ten sellers with most items sold",
+        "tools": [
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Ordinary aggregation belongs in SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Count customers by state",
+        "tools": [
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Ordinary aggregation belongs in SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Which months have most orders?",
+        "tools": [
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Ordinary aggregation belongs in SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "What does late delivery mean?",
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition"
+      },
+      "actual": {
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition",
+        "reason": "Retrieve cited business definitions without querying transactions."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Define average order value",
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition"
+      },
+      "actual": {
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition",
+        "reason": "Retrieve cited business definitions without querying transactions."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "What is revenue?",
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition"
+      },
+      "actual": {
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition",
+        "reason": "Retrieve cited business definitions without querying transactions."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Explain the order lifecycle",
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition"
+      },
+      "actual": {
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition",
+        "reason": "Retrieve cited business definitions without querying transactions."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "How is revenue calculated?",
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition"
+      },
+      "actual": {
+        "tools": [
+          "rag"
+        ],
+        "operation": "definition",
+        "reason": "Retrieve cited business definitions without querying transactions."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Which states have the highest cancellation rate?",
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Retrieve metric conventions before SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Which sellers violate our definition of poor delivery performance?",
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Retrieve metric conventions before SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "What proportion of orders arrive late?",
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Retrieve metric conventions before SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Which months generated the highest revenue?",
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Retrieve metric conventions before SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "How does average order value vary across states?",
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Retrieve metric conventions before SQL."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Are late deliveries associated with lower ratings?",
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews"
+      },
+      "actual": {
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews",
+        "reason": "Compare complete review histograms at one eligible order per observation."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Is late delivery associated with lower customer review scores?",
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews"
+      },
+      "actual": {
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews",
+        "reason": "Compare complete review histograms at one eligible order per observation."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Compare review scores between late and on-time deliveries",
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews"
+      },
+      "actual": {
+        "tools": [
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews",
+        "reason": "Compare complete review histograms at one eligible order per observation."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Using business definitions, are late deliveries associated with lower ratings?",
+        "tools": [
+          "rag",
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews",
+        "reason": "Compare complete review histograms at one eligible order per observation."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "According to our definitions, compare ratings for late and on time deliveries",
+        "tools": [
+          "rag",
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews"
+      },
+      "actual": {
+        "tools": [
+          "rag",
+          "sql",
+          "python"
+        ],
+        "operation": "late_reviews",
+        "reason": "Compare complete review histograms at one eligible order per observation."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Are late deliveries associated with lower ratings in SP?",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "Currently supported Python analysis: compare review scores for all late and on-time eligible deliveries. Filtered comparisons and inferential tests are not implemented."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Are late deliveries associated with lower ratings in 2018?",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "Currently supported Python analysis: compare review scores for all late and on-time eligible deliveries. Filtered comparisons and inferential tests are not implemented."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Calculate correlation between freight and rating",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "Currently supported Python analysis: compare review scores for all late and on-time eligible deliveries. Filtered comparisons and inferential tests are not implemented."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Test statistical significance of review differences",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "Currently supported Python analysis: compare review scores for all late and on-time eligible deliveries. Filtered comparisons and inferential tests are not implemented."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Forecast next month revenue",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "Currently supported Python analysis: compare review scores for all late and on-time eligible deliveries. Filtered comparisons and inferential tests are not implemented."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Why did revenue fall during July?",
+        "tools": [],
+        "operation": "clarify"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "clarify",
+        "reason": "These observational data cannot establish causes. Ask for a descriptive comparison and specify its scope."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "Prove late delivery causes poor reviews",
+        "tools": [],
+        "operation": "clarify"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "clarify",
+        "reason": "These observational data cannot establish causes. Ask for a descriptive comparison and specify its scope."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "What about those sellers?",
+        "tools": [],
+        "operation": "clarify"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "clarify",
+        "reason": "Requests are independent. Restate the metric, population and period explicitly."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "DROP TABLE orders",
+        "tools": [],
+        "operation": "unsupported"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "unsupported",
+        "reason": "This assistant provides read-only analytics."
+      },
+      "passed": true
+    },
+    {
+      "case": {
+        "question": "",
+        "tools": [],
+        "operation": "clarify"
+      },
+      "actual": {
+        "tools": [],
+        "operation": "clarify",
+        "reason": "Provide a nonempty question of at most 4000 characters."
+      },
+      "passed": true
+    }
+  ],
+  "tool_results": [
+    {
+      "question": "What does late delivery mean?",
+      "response": {
+        "status": "ok",
+        "answer": "[metrics.md:31-35 | Delivery eligibility, lateness and duration]\nEligible delivery = status `delivered`, non-null delivered and estimated timestamps, and delivered timestamp >= purchase timestamp. Excluded delivered orders are counted. This is a purchase-to-customer metric and does not require a carrier timestamp.\n\nLate means `order_delivered_customer_date > order_estimated_delivery_date` using the full timestamp. Equality is on time. Arrival later on the estimated calendar date counts late under this strict rule; this is deliberate and must be disclosed. A calendar-day sensitivity count is also reported, but does not replace the strict definition. NULL dates are unknown, never on time.\n\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.\n\n[metrics.md:47-51 | Seller and region screening]\nSeller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\n\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\n\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.\n\n[metrics.md:55-57 | Time cohorts and missing periods]\nAssign revenue to purchase month of the eventually delivered order, not payment or delivery month. Calendar months between first and last purchase are included, including months without orders. Empty-month observed revenue and AOV are NULL; counts are zero. An observed cohort with payment records totaling zero has revenue zero.\n\nFlag the first and last observed purchase months as dataset-boundary months. Also report delivered/payment coverage. Interior months are not guaranteed complete; recent cohorts can be immature at the snapshot. Do not interpret apparent decline as causal evidence or compare incomplete cohorts without qualification. A revenue-change explanation would require explicit period selection, coverage checks and descriptive decomposition in later work.",
+        "observations": [],
+        "caveats": [],
+        "sources": [
+          {
+            "id": "bcd37fda08d2ca59",
+            "source": "metrics.md",
+            "heading": "Delivery eligibility, lateness and duration",
+            "start_line": 31,
+            "end_line": 35,
+            "text": "Eligible delivery = status `delivered`, non-null delivered and estimated timestamps, and delivered timestamp >= purchase timestamp. Excluded delivered orders are counted. This is a purchase-to-customer metric and does not require a carrier timestamp.\n\nLate means `order_delivered_customer_date > order_estimated_delivery_date` using the full timestamp. Equality is on time. Arrival later on the estimated calendar date counts late under this strict rule; this is deliberate and must be disclosed. A calendar-day sensitivity count is also reported, but does not replace the strict definition. NULL dates are unknown, never on time.\n\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.",
+            "score": 0.788369
+          },
+          {
+            "id": "bb27556ad2ac6ccb",
+            "source": "metrics.md",
+            "heading": "Seller and region screening",
+            "start_line": 47,
+            "end_line": 51,
+            "text": "Seller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\n\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\n\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.",
+            "score": 0.653862
+          },
+          {
+            "id": "a22bb35274856387",
+            "source": "metrics.md",
+            "heading": "Time cohorts and missing periods",
+            "start_line": 55,
+            "end_line": 57,
+            "text": "Assign revenue to purchase month of the eventually delivered order, not payment or delivery month. Calendar months between first and last purchase are included, including months without orders. Empty-month observed revenue and AOV are NULL; counts are zero. An observed cohort with payment records totaling zero has revenue zero.\n\nFlag the first and last observed purchase months as dataset-boundary months. Also report delivered/payment coverage. Interior months are not guaranteed complete; recent cohorts can be immature at the snapshot. Do not interpret apparent decline as causal evidence or compare incomplete cohorts without qualification. A revenue-change explanation would require explicit period selection, coverage checks and descriptive decomposition in later work.",
+            "score": 0.61906
+          }
+        ],
+        "schema_tables": [],
+        "schema_reasons": {},
+        "result": null,
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "rag"
+            ],
+            "operation": "definition",
+            "reason": "Retrieve cited business definitions without querying transactions."
+          },
+          {
+            "tool": "business_knowledge",
+            "returned_chunks": 3
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 42.337,
+        "model": "deterministic-tools",
+        "route": {
+          "tools": [
+            "rag"
+          ],
+          "operation": "definition",
+          "reason": "Retrieve cited business definitions without querying transactions."
+        },
+        "analysis": {}
+      }
+    },
+    {
+      "question": "Are late deliveries associated with lower ratings?",
+      "response": {
+        "status": "ok",
+        "answer": "Reviewed eligible orders: 7,661 late; 88,160 on time.\nMean review score: late 2.565; on time 4.294 (one-to-five scale).\nLate minus on-time mean: -1.729 score points.\nAcross all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs.",
+        "observations": [
+          "Reviewed eligible orders: 7,661 late; 88,160 on time.",
+          "Mean review score: late 2.565; on time 4.294 (one-to-five scale).",
+          "Late minus on-time mean: -1.729 score points.",
+          "Across all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs."
+        ],
+        "caveats": [
+          "Descriptive association only; no causal effect or statistical significance is established.",
+          "Reviews are ordinal. Mean scores assume equally spaced score points; pairwise comparisons preserve ordering.",
+          "Population: delivered orders with valid delivery dates and an eligible selected review. Missing reviews are excluded; this can introduce selection bias.",
+          "Repeated customers and shared sellers can create dependence. No independent-observation hypothesis test is performed."
+        ],
+        "sources": [],
+        "schema_tables": [],
+        "schema_reasons": {},
+        "result": {
+          "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+          "tables": [
+            "metric_orders"
+          ],
+          "columns": [
+            "is_late",
+            "review_score",
+            "n"
+          ],
+          "rows": [
+            {
+              "is_late": 0,
+              "review_score": 1,
+              "n": 5810
+            },
+            {
+              "is_late": 0,
+              "review_score": 2,
+              "n": 2318
+            },
+            {
+              "is_late": 0,
+              "review_score": 3,
+              "n": 7043
+            },
+            {
+              "is_late": 0,
+              "review_score": 4,
+              "n": 17944
+            },
+            {
+              "is_late": 0,
+              "review_score": 5,
+              "n": 55045
+            },
+            {
+              "is_late": 1,
+              "review_score": 1,
+              "n": 3540
+            },
+            {
+              "is_late": 1,
+              "review_score": 2,
+              "n": 602
+            },
+            {
+              "is_late": 1,
+              "review_score": 3,
+              "n": 872
+            },
+            {
+              "is_late": 1,
+              "review_score": 4,
+              "n": 944
+            },
+            {
+              "is_late": 1,
+              "review_score": 5,
+              "n": 1703
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 4422.282
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "sql",
+              "python"
+            ],
+            "operation": "late_reviews",
+            "reason": "Compare complete review histograms at one eligible order per observation."
+          },
+          {
+            "tool": "sql",
+            "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+            "status": "executed",
+            "returned_rows": 10,
+            "execution_ms": 4422.282
+          },
+          {
+            "tool": "python",
+            "operation": "compare_review_histograms",
+            "status": "completed"
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 4507.312,
+        "model": "deterministic-tools",
+        "route": {
+          "tools": [
+            "sql",
+            "python"
+          ],
+          "operation": "late_reviews",
+          "reason": "Compare complete review histograms at one eligible order per observation."
+        },
+        "analysis": {
+          "on_time_orders": 88160,
+          "late_orders": 7661,
+          "on_time_mean": 4.294192377495463,
+          "late_mean": 2.565069834225297,
+          "mean_difference_late_minus_on_time": -1.729122543270166,
+          "probability_late_score_lower": 0.6741358581696105,
+          "probability_equal_score": 0.20548768913707466,
+          "probability_late_score_higher": 0.12037645269331482
+        }
+      }
+    },
+    {
+      "question": "Using business definitions, are late deliveries associated with lower ratings?",
+      "response": {
+        "status": "ok",
+        "answer": "Reviewed eligible orders: 7,661 late; 88,160 on time.\nMean review score: late 2.565; on time 4.294 (one-to-five scale).\nLate minus on-time mean: -1.729 score points.\nAcross all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs.",
+        "observations": [
+          "Reviewed eligible orders: 7,661 late; 88,160 on time.",
+          "Mean review score: late 2.565; on time 4.294 (one-to-five scale).",
+          "Late minus on-time mean: -1.729 score points.",
+          "Across all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs."
+        ],
+        "caveats": [
+          "Descriptive association only; no causal effect or statistical significance is established.",
+          "Reviews are ordinal. Mean scores assume equally spaced score points; pairwise comparisons preserve ordering.",
+          "Population: delivered orders with valid delivery dates and an eligible selected review. Missing reviews are excluded; this can introduce selection bias.",
+          "Repeated customers and shared sellers can create dependence. No independent-observation hypothesis test is performed."
+        ],
+        "sources": [
+          {
+            "id": "bcd37fda08d2ca59",
+            "source": "metrics.md",
+            "heading": "Delivery eligibility, lateness and duration",
+            "start_line": 31,
+            "end_line": 35,
+            "text": "Eligible delivery = status `delivered`, non-null delivered and estimated timestamps, and delivered timestamp >= purchase timestamp. Excluded delivered orders are counted. This is a purchase-to-customer metric and does not require a carrier timestamp.\n\nLate means `order_delivered_customer_date > order_estimated_delivery_date` using the full timestamp. Equality is on time. Arrival later on the estimated calendar date counts late under this strict rule; this is deliberate and must be disclosed. A calendar-day sensitivity count is also reported, but does not replace the strict definition. NULL dates are unknown, never on time.\n\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.",
+            "score": 0.777314
+          },
+          {
+            "id": "bb27556ad2ac6ccb",
+            "source": "metrics.md",
+            "heading": "Seller and region screening",
+            "start_line": 47,
+            "end_line": 51,
+            "text": "Seller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\n\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\n\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.",
+            "score": 0.775109
+          },
+          {
+            "id": "c1a3debe6318e9d0",
+            "source": "metrics.md",
+            "heading": "Review score and poor reviews",
+            "start_line": 39,
+            "end_line": 43,
+            "text": "Scores range from 1 to 5; poor means 1 or 2. First retain reviews with creation >= order purchase and answer timestamp >= review creation. Among those, select the latest answer timestamp per order; break ties by latest creation timestamp, then lexicographically largest review ID. This is deterministic and avoids weighting orders by their number of reviews. It is a snapshot policy, not evidence that the selected review was a revision of another one.\n\nMissing eligible reviews are excluded from score averages and reported separately. For late-versus-on-time comparison, restrict to eligible deliveries and show review coverage, mean score, poor-review count and rate by group. Differences describe association only. No statistical test, significance claim or causal attribution is performed in Phase 2.\n\nSeller ratings are **order-level review scores associated with the seller**, not direct seller ratings. Count each order/seller pair once, even for repeated items. Multi-seller orders contribute their order score to each associated seller; comparisons are therefore not independent seller-level experiments.",
+            "score": 0.738095
+          },
+          {
+            "id": "442ecf53b2df023a",
+            "source": "metrics.md",
+            "heading": "Successful orders and revenue",
+            "start_line": 9,
+            "end_line": 13,
+            "text": "A successful order has `order_status = 'delivered'`. Revenue means the sum of recorded `payment_value_cents` for these orders. Aggregate all payment sequences per order first. The result includes any freight contained in the recorded payments. It is a gross payment-based proxy, not profit, net revenue, cash-flow timing or accounting revenue: refund, cost and settlement data are unavailable. Canceled, unavailable and all other non-delivered statuses are excluded.\n\nOrders without payment rows have unknown payment value, not zero. Always report delivered orders, delivered orders with payments, and missing-payment coverage separately. Zero-valued recorded payments are legitimate observed values for this calculation. A sum over no eligible payments is NULL, not invented zero revenue.\n\nCurrency is BRL; storage and reference totals use integer cents. Divide by 100 for presentation. Do not sum payments after a raw join to items or reviews.",
+            "score": null,
+            "retrieval_reason": "Definition dependency of Delivery eligibility, lateness and duration"
+          },
+          {
+            "id": "2926028063930ef4",
+            "source": "metrics.md",
+            "heading": "Category and seller sales; freight",
+            "start_line": 21,
+            "end_line": 23,
+            "text": "Item sales = sum of `price_cents` on delivered orders. Freight = separate sum of `freight_value_cents`. These measures exclude non-delivered orders and do not use payment value. An item is a source line item; repeated products on an order are still separate item rows.\n\nCategory/seller rankings explicitly say **item sales**, not payment revenue. Payment-based revenue cannot be uniquely assigned across categories/sellers without an allocation policy. The baseline intentionally does not invent one. Missing categories form an explicit NULL/Unknown group; untranslated categories keep the Portuguese label. Group on the raw category key, not the display label, to avoid label collisions.",
+            "score": null,
+            "retrieval_reason": "Definition dependency of Seller and region screening"
+          }
+        ],
+        "schema_tables": [],
+        "schema_reasons": {},
+        "result": {
+          "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+          "tables": [
+            "metric_orders"
+          ],
+          "columns": [
+            "is_late",
+            "review_score",
+            "n"
+          ],
+          "rows": [
+            {
+              "is_late": 0,
+              "review_score": 1,
+              "n": 5810
+            },
+            {
+              "is_late": 0,
+              "review_score": 2,
+              "n": 2318
+            },
+            {
+              "is_late": 0,
+              "review_score": 3,
+              "n": 7043
+            },
+            {
+              "is_late": 0,
+              "review_score": 4,
+              "n": 17944
+            },
+            {
+              "is_late": 0,
+              "review_score": 5,
+              "n": 55045
+            },
+            {
+              "is_late": 1,
+              "review_score": 1,
+              "n": 3540
+            },
+            {
+              "is_late": 1,
+              "review_score": 2,
+              "n": 602
+            },
+            {
+              "is_late": 1,
+              "review_score": 3,
+              "n": 872
+            },
+            {
+              "is_late": 1,
+              "review_score": 4,
+              "n": 944
+            },
+            {
+              "is_late": 1,
+              "review_score": 5,
+              "n": 1703
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 4494.89
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "rag",
+              "sql",
+              "python"
+            ],
+            "operation": "late_reviews",
+            "reason": "Compare complete review histograms at one eligible order per observation."
+          },
+          {
+            "tool": "business_knowledge",
+            "returned_chunks": 5
+          },
+          {
+            "tool": "sql",
+            "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+            "status": "executed",
+            "returned_rows": 10,
+            "execution_ms": 4494.89
+          },
+          {
+            "tool": "python",
+            "operation": "compare_review_histograms",
+            "status": "completed"
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 4587.115,
+        "model": "deterministic-tools",
+        "route": {
+          "tools": [
+            "rag",
+            "sql",
+            "python"
+          ],
+          "operation": "late_reviews",
+          "reason": "Compare complete review histograms at one eligible order per observation."
+        },
+        "analysis": {
+          "on_time_orders": 88160,
+          "late_orders": 7661,
+          "on_time_mean": 4.294192377495463,
+          "late_mean": 2.565069834225297,
+          "mean_difference_late_minus_on_time": -1.729122543270166,
+          "probability_late_score_lower": 0.6741358581696105,
+          "probability_equal_score": 0.20548768913707466,
+          "probability_late_score_higher": 0.12037645269331482
+        }
+      }
+    }
+  ],
+  "histogram_matches_independent_csv": true,
+  "scripted_sql": {
+    "status": "ok",
+    "answer": "Total orders: 99441 [row 0, total_orders]",
+    "observations": [
+      "Total orders: 99441 [row 0, total_orders]"
+    ],
+    "caveats": [
+      "Observations are descriptive; they do not establish causality or statistical significance."
+    ],
+    "sources": [],
+    "schema_tables": [
+      "orders"
+    ],
+    "schema_reasons": {
+      "orders": "Matched: orders"
+    },
+    "result": {
+      "sql": "SELECT COUNT(*) AS total_orders FROM orders",
+      "tables": [
+        "orders"
+      ],
+      "columns": [
+        "total_orders"
+      ],
+      "rows": [
+        {
+          "total_orders": 99441
+        }
+      ],
+      "truncated": false,
+      "execution_ms": 14.121
+    },
+    "trace": [
+      {
+        "tool": "router",
+        "selected_tools": [
+          "sql"
+        ],
+        "operation": "query",
+        "reason": "Ordinary aggregation belongs in SQL."
+      },
+      {
+        "tool": "schema_retrieval",
+        "tables": [
+          "orders"
+        ],
+        "reasons": {
+          "orders": "Matched: orders"
+        }
+      },
+      {
+        "tool": "sql",
+        "attempt": 1,
+        "sql": "SELECT COUNT(*) AS total_orders FROM orders",
+        "assumptions": [],
+        "status": "executed",
+        "tables": [
+          "orders"
+        ],
+        "execution_ms": 14.121,
+        "returned_rows": 1,
+        "truncated": false
+      },
+      {
+        "stage": "explanation",
+        "status": "evidence_references_validated"
+      }
+    ],
+    "usage": [],
+    "elapsed_ms": 29.397,
+    "model": "offline-scripted-not-an-llm",
+    "route": {
+      "tools": [
+        "sql"
+      ],
+      "operation": "query",
+      "reason": "Ordinary aggregation belongs in SQL."
+    },
+    "analysis": {}
+  },
+  "live_smoke": [
+    {
+      "question": "How many orders are there? Return one column named total_orders.",
+      "response": {
+        "status": "ok",
+        "answer": "Total orders: 99441 [row 0, total_orders]",
+        "observations": [
+          "Total orders: 99441 [row 0, total_orders]"
+        ],
+        "caveats": [
+          "Observations are descriptive; they do not establish causality or statistical significance."
+        ],
+        "sources": [],
+        "schema_tables": [
+          "orders"
+        ],
+        "schema_reasons": {
+          "orders": "Matched: orders"
+        },
+        "result": {
+          "sql": "SELECT COUNT(*) AS total_orders FROM orders;",
+          "tables": [
+            "orders"
+          ],
+          "columns": [
+            "total_orders"
+          ],
+          "rows": [
+            {
+              "total_orders": 99441
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 20.801
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "sql"
+            ],
+            "operation": "query",
+            "reason": "Ordinary aggregation belongs in SQL."
+          },
+          {
+            "tool": "schema_retrieval",
+            "tables": [
+              "orders"
+            ],
+            "reasons": {
+              "orders": "Matched: orders"
+            }
+          },
+          {
+            "tool": "sql",
+            "attempt": 1,
+            "sql": "SELECT COUNT(*) AS total_orders FROM orders;",
+            "assumptions": [],
+            "status": "executed",
+            "tables": [
+              "orders"
+            ],
+            "execution_ms": 20.801,
+            "returned_rows": 1,
+            "truncated": false
+          },
+          {
+            "stage": "explanation",
+            "status": "evidence_references_validated"
+          }
+        ],
+        "usage": [
+          {
+            "input_tokens": 2590,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 35,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 2625
+          },
+          {
+            "input_tokens": 394,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 26,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 420
+          }
+        ],
+        "elapsed_ms": 9307.023,
+        "model": "gpt-4.1-mini-2025-04-14",
+        "route": {
+          "tools": [
+            "sql"
+          ],
+          "operation": "query",
+          "reason": "Ordinary aggregation belongs in SQL."
+        },
+        "analysis": {}
+      },
+      "reference_match": true
+    },
+    {
+      "question": "What is total revenue in integer cents? Return one column named revenue_cents.",
+      "response": {
+        "status": "ok",
+        "answer": "Delivered payment revenue (BRL cents): 1542246177 [row 0, revenue_cents]",
+        "observations": [
+          "Delivered payment revenue (BRL cents): 1542246177 [row 0, revenue_cents]"
+        ],
+        "caveats": [
+          "Observations are descriptive; they do not establish causality or statistical significance."
+        ],
+        "sources": [
+          {
+            "id": "442ecf53b2df023a",
+            "source": "metrics.md",
+            "heading": "Successful orders and revenue",
+            "start_line": 9,
+            "end_line": 13,
+            "text": "A successful order has `order_status = 'delivered'`. Revenue means the sum of recorded `payment_value_cents` for these orders. Aggregate all payment sequences per order first. The result includes any freight contained in the recorded payments. It is a gross payment-based proxy, not profit, net revenue, cash-flow timing or accounting revenue: refund, cost and settlement data are unavailable. Canceled, unavailable and all other non-delivered statuses are excluded.\n\nOrders without payment rows have unknown payment value, not zero. Always report delivered orders, delivered orders with payments, and missing-payment coverage separately. Zero-valued recorded payments are legitimate observed values for this calculation. A sum over no eligible payments is NULL, not invented zero revenue.\n\nCurrency is BRL; storage and reference totals use integer cents. Divide by 100 for presentation. Do not sum payments after a raw join to items or reviews.",
+            "score": 0.715716
+          },
+          {
+            "id": "2926028063930ef4",
+            "source": "metrics.md",
+            "heading": "Category and seller sales; freight",
+            "start_line": 21,
+            "end_line": 23,
+            "text": "Item sales = sum of `price_cents` on delivered orders. Freight = separate sum of `freight_value_cents`. These measures exclude non-delivered orders and do not use payment value. An item is a source line item; repeated products on an order are still separate item rows.\n\nCategory/seller rankings explicitly say **item sales**, not payment revenue. Payment-based revenue cannot be uniquely assigned across categories/sellers without an allocation policy. The baseline intentionally does not invent one. Missing categories form an explicit NULL/Unknown group; untranslated categories keep the Portuguese label. Group on the raw category key, not the display label, to avoid label collisions.",
+            "score": 0.684197
+          },
+          {
+            "id": "0c9a981e39b0b911",
+            "source": "order_lifecycle.md",
+            "heading": "Unanswerable operational questions",
+            "start_line": 17,
+            "end_line": 17,
+            "text": "The knowledge base defines metrics; it does not contain current sales totals, forecasts, external market facts, personal contact details, a return-policy window or a causal explanation of a revenue decline. Transactional totals must come from SQL over the supplied snapshot. A missing business policy should be reported as unavailable rather than invented.",
+            "score": 0.662006
+          }
+        ],
+        "schema_tables": [
+          "orders",
+          "payments"
+        ],
+        "schema_reasons": {
+          "payments": "Matched: revenue",
+          "orders": "Central order grain"
+        },
+        "result": {
+          "sql": "SELECT SUM(revenue_cents) AS revenue_cents FROM metric_orders WHERE delivered = 1 AND revenue_cents IS NOT NULL;",
+          "tables": [
+            "metric_orders"
+          ],
+          "columns": [
+            "revenue_cents"
+          ],
+          "rows": [
+            {
+              "revenue_cents": 1542246177
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 4129.51
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "rag",
+              "sql"
+            ],
+            "operation": "query",
+            "reason": "Retrieve metric conventions before SQL."
+          },
+          {
+            "tool": "schema_retrieval",
+            "tables": [
+              "orders",
+              "payments"
+            ],
+            "reasons": {
+              "payments": "Matched: revenue",
+              "orders": "Central order grain"
+            }
+          },
+          {
+            "tool": "business_knowledge",
+            "returned_chunks": 3
+          },
+          {
+            "tool": "sql",
+            "attempt": 1,
+            "sql": "SELECT SUM(revenue_cents) AS revenue_cents FROM metric_orders WHERE delivered = 1 AND revenue_cents IS NOT NULL;",
+            "assumptions": [],
+            "status": "executed",
+            "tables": [
+              "metric_orders"
+            ],
+            "execution_ms": 4129.51,
+            "returned_rows": 1,
+            "truncated": false
+          },
+          {
+            "stage": "explanation",
+            "status": "evidence_references_validated"
+          }
+        ],
+        "usage": [
+          {
+            "input_tokens": 1726,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 64,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 1790
+          },
+          {
+            "input_tokens": 419,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 35,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 454
+          }
+        ],
+        "elapsed_ms": 6985.363,
+        "model": "gpt-4.1-mini-2025-04-14",
+        "route": {
+          "tools": [
+            "rag",
+            "sql"
+          ],
+          "operation": "query",
+          "reason": "Retrieve metric conventions before SQL."
+        },
+        "analysis": {}
+      },
+      "reference_match": true
+    }
+  ],
+  "database_unchanged": true,
+  "elapsed_seconds": 62.79,
+  "method": "Same-author development routing cases; deterministic arithmetic and local RAG integration; scripted SQL is not model accuracy. Optional two-question live smoke is not the full benchmark.",
+  "all_passed": false
+}
