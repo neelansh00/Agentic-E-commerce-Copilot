@@ -46,7 +46,19 @@ Regenerated from saved reports. Deterministic checks, retrieval metrics and live
 - Database unchanged during UI verification: True.
 - Streamlit rerender and session-isolation checks are functional tests, not a usability study or production load test.
 - Evidence: [Phase 6 UI](phase6_ui.md) and [raw verification](generated/phase6_verification.json).
+
+- Phase 7: fifty frozen development questions; includes eleven previously used SQL questions. Not held out.
+- Phase 7 sql_execution: 28/30 (93.3%).
+- Phase 7 sql_result_accuracy: 28/30 (93.3%).
+- Phase 7 task_correctness: 47/50 (94.0%).
+- Phase 7 tool_selection: 48/50 (96.0%).
+- Phase 7 rag_heading_hit: 8/8 (100.0%).
+- Phase 7 offline tests: 137; passed: True.
+- Paired schema experiment input-token reduction: 17.54%; retrieved schema did not improve accuracy in this sample (8/10 vs 9/10).
+- Validation/retry experiment: execution 9/10 to 10/10; exact results 8/10 to 9/10, one shared initial-plan repair.
+- Definition experiment: all required facts covered 0/8 without context vs 6/8 with RAG, coding-assistant semantic review.
+- Phase 7 actual model API calls: 98; tokens: 181,184 input / 14,716 output. No current-price cost estimate.
+- Evidence and unresolved errors: [Phase 7 report](generated/phase7_report.md). Do not present this as 100% reliable or independent human evaluation.
 - Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
-- The approximately 50-question agent evaluation and controlled experiments remain for later phases.
 
 Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).

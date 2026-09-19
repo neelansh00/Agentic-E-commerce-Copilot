@@ -85,8 +85,22 @@ def write_project_metrics(root: Path):
                   f"- Database unchanged during UI verification: {phase6['database_unchanged']}.",
                   '- Streamlit rerender and session-isolation checks are functional tests, not a usability study or production load test.',
                   '- Evidence: [Phase 6 UI](phase6_ui.md) and [raw verification](generated/phase6_verification.json).']
-    lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.',
-              '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
+    phase7_path = root / 'docs/generated/phase7_summary.json'
+    if phase7_path.exists():
+        phase7 = json.loads(phase7_path.read_text(encoding='utf-8'))
+        lines += ['', '- Phase 7: fifty frozen development questions; includes eleven previously used SQL questions. Not held out.']
+        for label in ['sql_execution','sql_result_accuracy','task_correctness','tool_selection','rag_heading_hit']:
+            metric = phase7['benchmark'][label]
+            lines += [f"- Phase 7 {label}: {metric['numerator']}/{metric['denominator']} ({100*metric['rate']:.1f}%)."]
+        lines += [f"- Phase 7 offline tests: {phase7['offline_tests']['tests_run']}; passed: {phase7['offline_tests']['passed']}.",
+                  f"- Paired schema experiment input-token reduction: {phase7['schema_input_token_reduction_pct']:.2f}%; retrieved schema did not improve accuracy in this sample (8/10 vs 9/10).",
+                  '- Validation/retry experiment: execution 9/10 to 10/10; exact results 8/10 to 9/10, one shared initial-plan repair.',
+                  '- Definition experiment: all required facts covered 0/8 without context vs 6/8 with RAG, coding-assistant semantic review.',
+                  f"- Phase 7 actual model API calls: {phase7['total_api_calls']}; tokens: {phase7['tokens']['input']:,} input / {phase7['tokens']['output']:,} output. No current-price cost estimate.",
+                  '- Evidence and unresolved errors: [Phase 7 report](generated/phase7_report.md). Do not present this as 100% reliable or independent human evaluation.']
+    else:
+        lines += ['- The approximately 50-question agent evaluation and controlled experiments remain for later phases.']
+    lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')
 

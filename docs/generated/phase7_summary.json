@@ -1,0 +1,178 @@
+{
+  "benchmark": {
+    "sql_execution": {
+      "numerator": 28,
+      "denominator": 30,
+      "rate": 0.9333333333333333
+    },
+    "sql_result_accuracy": {
+      "numerator": 28,
+      "denominator": 30,
+      "rate": 0.9333333333333333
+    },
+    "task_correctness": {
+      "numerator": 47,
+      "denominator": 50,
+      "rate": 0.94
+    },
+    "tool_selection": {
+      "numerator": 48,
+      "denominator": 50,
+      "rate": 0.96
+    },
+    "status_accuracy": {
+      "numerator": 47,
+      "denominator": 50,
+      "rate": 0.94
+    },
+    "rag_heading_hit": {
+      "numerator": 8,
+      "denominator": 8,
+      "rate": 1.0
+    },
+    "explanation_fallbacks": 4,
+    "median_latency_ms": 2137.9269999999997,
+    "input_tokens": 107949,
+    "output_tokens": 6455,
+    "cost_usd": null,
+    "cost_note": "No current price lookup applied; token counts are measured, not an invoice."
+  },
+  "offline_tests": {
+    "command": ".venv/Scripts/python.exe -m unittest discover -s tests -v",
+    "tests_run": 137,
+    "passed": true,
+    "runtime_seconds": 10.685,
+    "captured_summary": "Ran 137 tests in 10.685s\nOK",
+    "new_evaluation_tests": 9,
+    "reference_builder_output": "Frozen 50 cases; all 30 reference SQL queries agree with independent CSV calculations.",
+    "note": "Summary recorded from the completed command output. Re-run the documented command to reproduce; it makes no API calls."
+  },
+  "groundedness_review": {
+    "numerator": 39,
+    "denominator": 40,
+    "rate": 0.975
+  },
+  "categories": {
+    "ambiguous_adversarial": {
+      "numerator": 6,
+      "denominator": 7,
+      "rate": 0.8571428571428571
+    },
+    "business_definition": {
+      "numerator": 8,
+      "denominator": 8,
+      "rate": 1.0
+    },
+    "multi_table_sql": {
+      "numerator": 10,
+      "denominator": 12,
+      "rate": 0.8333333333333334
+    },
+    "simple_sql": {
+      "numerator": 15,
+      "denominator": 15,
+      "rate": 1.0
+    },
+    "statistical": {
+      "numerator": 5,
+      "denominator": 5,
+      "rate": 1.0
+    },
+    "time_based": {
+      "numerator": 3,
+      "denominator": 3,
+      "rate": 1.0
+    }
+  },
+  "experiments": {
+    "A": {
+      "full_schema": {
+        "execution": {
+          "numerator": 9,
+          "denominator": 10,
+          "rate": 0.9
+        },
+        "accuracy": {
+          "numerator": 9,
+          "denominator": 10,
+          "rate": 0.9
+        },
+        "input_tokens": 34741,
+        "median_latency_ms": 5514.3611500025145
+      },
+      "retrieved_schema": {
+        "execution": {
+          "numerator": 9,
+          "denominator": 10,
+          "rate": 0.9
+        },
+        "accuracy": {
+          "numerator": 8,
+          "denominator": 10,
+          "rate": 0.8
+        },
+        "input_tokens": 28647,
+        "median_latency_ms": 5337.635800002317
+      }
+    },
+    "B": {
+      "no_application_validation_no_retry": {
+        "execution": {
+          "numerator": 9,
+          "denominator": 10,
+          "rate": 0.9
+        },
+        "accuracy": {
+          "numerator": 8,
+          "denominator": 10,
+          "rate": 0.8
+        }
+      },
+      "validation_and_retry": {
+        "execution": {
+          "numerator": 10,
+          "denominator": 10,
+          "rate": 1.0
+        },
+        "accuracy": {
+          "numerator": 9,
+          "denominator": 10,
+          "rate": 0.9
+        }
+      }
+    },
+    "C": {
+      "without_definitions": {
+        "semantic_contract_coverage": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": 0.0
+        },
+        "lexical_proxy": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": 0.0
+        }
+      },
+      "with_rag": {
+        "semantic_contract_coverage": {
+          "numerator": 6,
+          "denominator": 8,
+          "rate": 0.75
+        },
+        "lexical_proxy": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": 1.0
+        }
+      }
+    }
+  },
+  "total_api_calls": 98,
+  "schema_input_token_reduction_pct": 17.5412337008146,
+  "tokens": {
+    "input": 181184,
+    "output": 14716
+  },
+  "database_unchanged": true
+}

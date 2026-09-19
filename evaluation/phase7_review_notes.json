@@ -1,0 +1,31 @@
+{
+  "reviewer": "Coding assistant inspection of recorded outputs and SQL/definition evidence; not independent human annotation",
+  "benchmark_semantic_failures": {
+    "seller_performance": {
+      "category": "routing false positive",
+      "root_cause": "The word those in a self-contained seller screen triggers the router's blanket follow-up detector.",
+      "next_fix": "Recognize actual unresolved references instead of rejecting any question containing those; add complete-sentence and genuine-follow-up regressions."
+    },
+    "seller_lateness": {
+      "category": "routing false positive",
+      "root_cause": "Above-platform is a comparison, but the standalone above token triggers the follow-up detector.",
+      "next_fix": "Distinguish comparison language from references to earlier answers; test both intents."
+    },
+    "allocation": {
+      "category": "repair changes the requested metric",
+      "root_cause": "Validation correctly blocks summing order payment revenue across category rows, but its use-item-sales feedback leads repair to substitute a different metric. The final answer does not disclose the substitution or request an allocation policy.",
+      "next_fix": "Treat missing allocation policy as clarification, preserve requested metric intent across repair, and surface any explicitly approved change of metric."
+    }
+  },
+  "unsupported_answer_ids": ["allocation"],
+  "partial_summary_ids": ["overview", "monthly_revenue", "state_aov", "state_cancellation", "category_sales", "late_reviews", "category_delivery", "regional_delivery", "status_counts", "seller_states", "customer_states", "payment_types", "state_order_counts", "months_2017"],
+  "summary_notes": {
+    "monthly_revenue": "Literal fallback shows first-month coverage rather than the revenue series; full correct table is available.",
+    "seller_states": "Selected counts have row references but seller_state is missing from the canonical identity glossary, so the prose does not identify the states.",
+    "payment_types": "Payment types and payment_cents are outside the caption/group glossary; cells are real but prose omits useful identity and unit labels.",
+    "state_aov": "Accurate observations select different metrics across different states; insufficient for a coherent comparison.",
+    "allocation": "Real item-sales values do not satisfy an explicit payment-revenue question. Count as unsupported by the requested metric, even though literal cells are copied correctly."
+  },
+  "groundedness_method": "Among successful substantive answers, require support for the requested metric and population, not just real result-cell values. Eight definition responses are verbatim cited chunks. Three statistical responses reproduce the verified order-grain histogram analysis. Numeric SQL answers are compared with CSV-verified references. Abstentions are excluded from this denominator and scored separately for task/status correctness.",
+  "scope": "All 50 final benchmark responses inspected. Completeness and factual support are separate; a partial summary can be factually supported. No claim of independent human groundedness or unrestricted narrative quality."
+}

@@ -1,0 +1,10 @@
+{
+  "command": ".venv/Scripts/python.exe -m unittest discover -s tests -v",
+  "tests_run": 137,
+  "passed": true,
+  "runtime_seconds": 10.685,
+  "captured_summary": "Ran 137 tests in 10.685s\nOK",
+  "new_evaluation_tests": 9,
+  "reference_builder_output": "Frozen 50 cases; all 30 reference SQL queries agree with independent CSV calculations.",
+  "note": "Summary recorded from the completed command output. Re-run the documented command to reproduce; it makes no API calls."
+}

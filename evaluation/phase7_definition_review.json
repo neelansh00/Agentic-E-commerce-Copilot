@@ -1,0 +1,23 @@
+{
+  "experiment_sha256": "1d5513f79249a4de5cab4712413513b2d8d652937bead216e7c876c56afcbf53",
+  "reviewer": "Coding assistant semantic inspection; not independent human evaluation",
+  "method": "Compare the three required facts in each frozen definition interpretation with generated prose. All required facts must be expressed; lexical pattern matches alone do not suffice. Honest uncertainty is incomplete policy coverage, not automatically hallucination.",
+  "cases": [
+    {"id":"define_revenue","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"Generic gross-sales definition omits delivered-order payment policy and missing-payment semantics."},
+    {"id":"define_revenue","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"Explicit delivered status, recorded payments and unknown rather than zero for absent payments."},
+    {"id":"define_aov","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"Revenue divided by orders lacks eligible denominator, missing-payment exclusion and undefined-zero rule."},
+    {"id":"define_aov","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"Delivered orders with payments, missing payment exclusion and NULL when denominator is empty are explicit."},
+    {"id":"define_late","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"General promised-time delay with uncertainty; lacks strict project timestamp and missing-date policy."},
+    {"id":"define_late","mode":"with_rag","facts_supported":[true,true,false],"all_required_facts":false,"note":"Strict timestamp and equality correct. Saying unknown dates are never on time does not explicitly say they are excluded from the late-rate denominator; lexical proxy overstates complete coverage."},
+    {"id":"define_cancellation","mode":"without_definitions","facts_supported":[false,true,false],"all_required_facts":false,"note":"All-order denominator present; exact status and unavailable exclusion absent. Customer-caused cancellation is an unsupported actor restriction."},
+    {"id":"define_cancellation","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"Exact canceled status, all-order cohort and unavailable exclusion explicit."},
+    {"id":"define_poor_reviews","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"One/two stars offered only as a typical example, with project threshold explicitly unknown. No selected-review or missing-review policy."},
+    {"id":"define_poor_reviews","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"One/two threshold, eligible-first latest review selection and missing-score exclusion explicit."},
+    {"id":"define_item_sales","mode":"without_definitions","facts_supported":[false,true,false],"all_required_facts":false,"note":"Freight distinction present, but delivered item-price scope and distinction from recorded payments absent; acknowledges unknown project methods."},
+    {"id":"define_item_sales","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"Delivered item price, separate freight and explicit non-use of payment values express the required distinction without allocating payment revenue."},
+    {"id":"define_cohorts","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"Substitutes customer acquisition cohorts for order-purchase cohorts; also omits empty months and undefined-payment semantics."},
+    {"id":"define_cohorts","mode":"with_rag","facts_supported":[true,true,false],"all_required_facts":false,"note":"Purchase-month attribution and calendar coverage explicit. NULL is explained for empty months only, not a nonempty cohort with no eligible recorded payments; this omits part of the required NULL policy."},
+    {"id":"define_seller_screen","mode":"without_definitions","facts_supported":[false,false,false],"all_required_facts":false,"note":"Generic late shipments/complaints; explicitly unknown project thresholds. No thirty-order threshold, platform comparison or descriptive-screen constraint."},
+    {"id":"define_seller_screen","mode":"with_rag","facts_supported":[true,true,true],"all_required_facts":true,"note":"Thirty eligible deliveries, above-platform late rate and not-anomaly/not-fault qualification all explicit."}
+  ]
+}

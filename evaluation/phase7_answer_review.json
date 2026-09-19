@@ -1,0 +1,407 @@
+{
+  "benchmark_sha256": "104f16eaf42b03daef05762ff7fa76044ba484d9ef8b4503673dacc3b9febd9a",
+  "method": "Among successful substantive answers, require support for the requested metric and population, not just real result-cell values. Eight definition responses are verbatim cited chunks. Three statistical responses reproduce the verified order-grain histogram analysis. Numeric SQL answers are compared with CSV-verified references. Abstentions are excluded from this denominator and scored separately for task/status correctness.",
+  "reviewer": "Coding assistant inspection of recorded outputs and SQL/definition evidence; not independent human annotation",
+  "cases": [
+    {
+      "id": "overview",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "monthly_revenue",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": "Literal fallback shows first-month coverage rather than the revenue series; full correct table is available."
+    },
+    {
+      "id": "state_aov",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": "Accurate observations select different metrics across different states; insufficient for a coherent comparison."
+    },
+    {
+      "id": "state_cancellation",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "category_sales",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "late_delivery",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "late_reviews",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "category_delivery",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "seller_performance",
+      "status": "clarification",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "seller_lateness",
+      "status": "clarification",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "regional_delivery",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "order_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "status_counts",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "customer_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "buyer_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "seller_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "product_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "item_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "payment_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "review_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "missing_categories",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "seller_states",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": "Selected counts have row references but seller_state is missing from the canonical identity glossary, so the prose does not identify the states."
+    },
+    {
+      "id": "customer_states",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "payment_types",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": "Payment types and payment_cents are outside the caption/group glossary; cells are real but prose omits useful identity and unit labels."
+    },
+    {
+      "id": "state_order_counts",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "delivered_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "canceled_count",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "orders_2017",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "months_2017",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": true,
+      "note": ""
+    },
+    {
+      "id": "delivered_item_sales",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_revenue",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_aov",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_late",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_cancellation",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_poor_reviews",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_item_sales",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_cohorts",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "define_seller_screen",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "stats_late",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "stats_comparison",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "stats_definitions",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": true,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "stats_filtered",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "stats_test",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "delete",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "drop",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "causality",
+      "status": "clarification",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "followup",
+      "status": "clarification",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "forecast",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "profit",
+      "status": "unsupported",
+      "substantive_answer": false,
+      "supported_for_requested_metric": null,
+      "partial_summary": false,
+      "note": ""
+    },
+    {
+      "id": "allocation",
+      "status": "ok",
+      "substantive_answer": true,
+      "supported_for_requested_metric": false,
+      "partial_summary": false,
+      "note": "Real item-sales values do not satisfy an explicit payment-revenue question. Count as unsupported by the requested metric, even though literal cells are copied correctly."
+    }
+  ]
+}

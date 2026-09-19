@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phases 1–6 implemented, including the Streamlit chat interface.** Ask questions through the single agent and inspect SQL, result tables, definitions, tool traces and timing. The UI supports local tools, explicitly enabled live SQL and a labeled scripted demo. Phase 6 passes 128 tests and four real-data UI flows. Broader evaluation, controlled experiments and final packaging remain later phases; no unseen-question accuracy is claimed.
+**Current status: Phase 7 evaluation complete; 137 offline tests pass.** The Streamlit agent was evaluated on fifty frozen development questions: 47/50 tasks correct, 28/30 intended SQL tasks executing and matching reference values, and 48/50 tool selections correct. Controlled schema, validation/retry and definition-RAG comparisons are recorded. Two routing false positives and one metric-substitution failure remain documented. This is not held-out accuracy or production readiness. Phase 8 has not started.
 
 ## Problem and business motivation
 
@@ -14,7 +14,7 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **128/128 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
+- **137/137 automated tests passed**, covering ingestion, hand-calculated analytics, SQL safety, bounded repair, schema retrieval, provider failures, RAG, UI and evaluation scoring.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
 - Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small retrieval benchmark does not establish LLM accuracy or business impact. See the separate live evaluation below.
 
@@ -117,7 +117,7 @@ Analytics tests add exact revenue/AOV arithmetic, multiple-payment fanout, lates
 
 ## Evaluation, experiments and screenshots
 
-Phase 1 evidence is in [generated verification reports](docs/generated/verification_report.md). Phase 2 contributes [11 grounded reference questions/results](evaluation/baseline_expected.json), with expected tables, tools, interpretations and SQL. This is the seed for the approximately 50-question benchmark; it is not LLM evaluation. Controlled comparisons (schema awareness, validation/retry, business-definition retrieval) remain for Phase 7. Actual UI screenshots are available in the Phase 6 section below.
+Phase 1 evidence is in [generated verification reports](docs/generated/verification_report.md). Phase 2 contributes [11 grounded reference questions/results](evaluation/baseline_expected.json). Phase 7 expands this to [50 frozen development questions](evaluation/questions.json), with expected tables, tools, interpretations and reference SQL/results where applicable. All thirty SQL references agree with independent CSV calculations. The [evaluation report](docs/generated/phase7_report.md) includes the complete-agent live run and controlled comparisons. Actual UI screenshots are available in the Phase 6 section below.
 
 ## Reference questions available now
 
@@ -158,7 +158,7 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Phases 1–6 are complete. The next planned phase is broader evaluation and controlled experiments, followed by packaging. Phase 7 has not started. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Phases 1–7 are implemented. Phase 7 identified routing false positives, metric substitution during repair and incomplete explanation coverage; address these with a separately recorded correction pass before claiming reliable general analysis. Packaging and final polish remain Phase 8. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
 
 ## Phase 4: local business knowledge RAG
 
@@ -236,8 +236,31 @@ Open `http://127.0.0.1:8501`. The default **Local tools** mode supports definiti
 
 Each answer exposes SQL Used, Data Preview, Sources / Business Definitions, Tool Trace and Execution Information. Complete supported results receive charts or metric cards. Missing values remain missing; truncated previews are clearly marked. History stays in the browser session, with ten saved answers; every analytical question remains independent.
 
-The [UI walkthrough](docs/phase6_ui.md) covers setup, testing, design decisions and limitations. [Verification](docs/generated/phase6_verification.json) records **128 passing tests (14 new)** and **4/4 real-data UI flows**, including one live SQL smoke request. Existing full-benchmark accuracy results remain historical; this is interface validation. Phase 7 has not started.
+The [UI walkthrough](docs/phase6_ui.md) covers setup, testing, design decisions and limitations. Its saved [verification](docs/generated/phase6_verification.json) records **128 passing tests (14 new)** and **4/4 real-data UI flows**, including one live SQL smoke request. This is historical interface validation; the complete-agent evaluation follows below.
 
 ![Real delivery comparison in Streamlit](docs/screenshots/phase6_comparison.png)
 
 ![SQL inspection in Streamlit](docs/screenshots/phase6_evidence.png)
+
+## Phase 7: fifty-question evaluation and experiments
+
+The [protocol](docs/phase7_evaluation.md) defines denominators, output contracts, scoring, controls and limitations. The [measured report](docs/generated/phase7_report.md) preserves the raw answers and failure analysis. The application was not tuned during this run.
+
+| Measure | Result |
+|---|---:|
+| Intended SQL tasks executing / exact reference match | 28/30 / 28/30 |
+| Correct tasks across all categories | 47/50 |
+| Correct tool selection | 48/50 |
+| Definition heading retrieval | 8/8 |
+| Grounded substantive answers, coding-assistant review | 39/40 |
+| Offline tests | 137/137 |
+
+Two complete seller questions were falsely treated as follow-ups. A category payment-revenue request was silently changed to item sales during repair. Four explanations used literal fallbacks, and several otherwise correct answers remain incomplete. Groundedness review excludes abstentions and is not independent human review. The SQL metric uses all thirty intended SQL tasks, including routing failures.
+
+| Comparison | Observed result |
+|---|---|
+| Full schema vs retrieved schema | Both execute 9/10; exact results 9/10 vs 8/10. Retrieved schema uses 17.54% fewer input tokens; no accuracy gain shown. |
+| No application validation/retry vs validation + retry | Execution 9/10 → 10/10; exact results 8/10 → 9/10 using shared initial plans. Engine read-only restrictions remain in both arms. |
+| Generated definitions without context vs with RAG | All required facts covered 0/8 → 6/8 on semantic review; lexical scoring would overstate RAG as 8/8. |
+
+These are small, fixed-order development comparisons with one sample per arm. The fifty questions include prior development material and explicit SQL output contracts. They do not establish held-out accuracy, statistical significance or a production reliability guarantee. The runs used 98 actual API requests, 181,184 input tokens and 14,716 output tokens; no current-price cost estimate is claimed. Reproduce using the bounded opt-in commands in the protocol; regenerating the saved report requires no model calls.
