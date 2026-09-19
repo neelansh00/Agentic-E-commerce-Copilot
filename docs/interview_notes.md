@@ -212,3 +212,14 @@ The requested direction is one primary agent with clearly defined SQL, business-
 **Why these metrics?** Hit@3 asks whether the needed section is present in retrieved context, Top-1 measures first-result usefulness and MRR rewards high placement. Unknown-topic abstention measures one failure mode; latency separates model startup from per-query cost. Ten supported reserved questions are too few to generalize. The freight question ranks the wrong section first, demonstrating why Hit@3 alone can hide a practical weakness. LLM answer groundedness and no-RAG versus RAG comparisons remain unmeasured.
 
 **How does source freshness work?** Store source/model checksums alongside the index and refuse stale or incompatible artifacts. Atomic metadata replacement prevents half-published builds. Hashes detect accidental changes, not malicious replacement of all local files. At production scale use controlled artifact publication, authorization, audit logs and safe index lifecycle management.
+
+
+## What changed when we tested a real model?
+
+The first live evaluation used the configured GPT-4.1 mini snapshot on 11 reference questions in two context modes. Both matched 8/11 complete results, even though SQL executed in 10/11 static and 11/11 RAG runs. This is a development set with explicit output shapes, not evidence of generalization. We preserved all initial failures and did not tune the prompts during the run.
+
+The strongest interview lesson is that three checks answer different questions. SQL safety asks whether a query may run. Result comparison asks whether the calculations follow the metric contract. Explanation review asks whether prose faithfully describes the evidence. A query can pass safety while averaging repeated item rows, and a model can point to a real state count while calling it the highest when it is not.
+
+Offline scripted tests demonstrated plumbing, not model behavior. Live generation revealed missing calendar months, NULL-to-zero errors, wrong delivery eligibility, an overly restrictive EXISTS check and repeated invalid explanation references. Two accepted explanations still had misleading group/extrema labels. These are documented weaknesses, not hidden behind an execution-rate score. Next improvements should have regression cases and separate paraphrases; rerunning the same examples until they pass would inflate the reported result.
+
+The answer interface is constrained generation: the model picks labels/cells and Python supplies values. We measured structural acceptance and reviewed label meaning and coverage. We have not measured unrestricted narrative quality. See the [live report](generated/live_evaluation.md) for exact counts, usage and review limitations.

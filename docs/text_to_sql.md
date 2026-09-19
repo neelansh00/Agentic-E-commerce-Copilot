@@ -1,5 +1,8 @@
 # Phase 3 — schema-aware text-to-SQL, tested offline
 
+**Historical phase walkthrough:** the later [live model evaluation](live_evaluation.md) now records actual API-backed SQL and constrained explanation results. Statements below about unmeasured live behavior describe the original phase completion.
+
+
 Phase 3 implements an inspectable planning/validation/execution/explanation pipeline. At the user's request **all verification is offline**, with scripted model responses and real SQLite execution. No model API calls were made; live generation quality is unmeasured. There is no multi-agent framework, RAG index, Python analytics tool or UI in this phase.
 
 ## Run the offline demos

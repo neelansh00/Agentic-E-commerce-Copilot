@@ -1,0 +1,161 @@
+{
+  "evaluation_sha256": "038a6aba0e550ff5fff246be57605b10a69c35d559bdbabe8756d0c14ff83c70",
+  "reviewer": "Coding assistant semantic review; not independent human annotation or a second paid LLM judge",
+  "rubric": "Inspect every accepted rendered observation against its referenced row and column; verify group attribution, units and any ranking claim against the complete returned table. Record query accuracy separately. Coverage describes whether observations address the core metric, not whether every result row is verbalized.",
+  "results": [
+    {
+      "id": "overview",
+      "mode": "static",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "partial",
+      "note": "Correct labels and values, but the five-observation cap omits requested AOV."
+    },
+    {
+      "id": "overview",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "partial",
+      "note": "Accurate counts; omits revenue, AOV and cancellation rate from the explanation."
+    },
+    {
+      "id": "monthly_revenue",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation labels must be short and nonnumeric"
+    },
+    {
+      "id": "monthly_revenue",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation labels must be short and nonnumeric"
+    },
+    {
+      "id": "state_aov",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation referenced a nonexistent result cell"
+    },
+    {
+      "id": "state_aov",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation referenced a nonexistent result cell"
+    },
+    {
+      "id": "state_cancellation",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation labels must be short and nonnumeric"
+    },
+    {
+      "id": "state_cancellation",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Highest/lowest rates and state-specific denominators agree with the returned table; small-group caveat would improve interpretation."
+    },
+    {
+      "id": "category_sales",
+      "mode": "static",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "partial",
+      "note": "Labels refer to the right categories, but mixes freight/counts/category key instead of summarizing the sales ranking."
+    },
+    {
+      "id": "category_sales",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation labels must be short and nonnumeric"
+    },
+    {
+      "id": "late_delivery",
+      "mode": "static",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Correct eligible denominator, excluded count, late count and percentage."
+    },
+    {
+      "id": "late_delivery",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Displayed late counts and rate match reference; complete SQL result fails because mean delivery duration uses an ineligible population. On-time analysis is imprecise wording for the eligible delivery population."
+    },
+    {
+      "id": "late_reviews",
+      "mode": "static",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Both groups have the correct mean score and poor-review percentage, with a descriptive-only caveat."
+    },
+    {
+      "id": "late_reviews",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "partial",
+      "note": "Selected cells are correct, but omits late mean score and on-time poor-review percentage, weakening the requested group comparison."
+    },
+    {
+      "id": "category_delivery",
+      "mode": "static",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "partial",
+      "note": "Labels are faithful to the returned cells, but SQL overweights repeated category items; returned delivery metrics are wrong."
+    },
+    {
+      "id": "category_delivery",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Names several categories and their correct mean delivery durations; shows one eligibility denominator."
+    },
+    {
+      "id": "seller_performance",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. SQL exhausted its three attempts; no numerical answer was produced."
+    },
+    {
+      "id": "seller_performance",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": false,
+      "question_coverage": "partial",
+      "note": "Repeated Top seller labels mix rows zero, one and two without seller identity. Platform reference also differs because SQL substitutes non-null delivery date for delivered status."
+    },
+    {
+      "id": "seller_lateness",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation labels must be short and nonnumeric"
+    },
+    {
+      "id": "seller_lateness",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": true,
+      "question_coverage": "addresses_core",
+      "note": "Correct top seller identifier, denominator, late count, late rate and platform comparison. Only the leading seller is discussed; the complete ranking is in the result table."
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "static",
+      "labels_faithful_to_returned_result": null,
+      "question_coverage": "not_generated",
+      "note": "No accepted model explanation. Literal fallback: Explanation referenced a nonexistent result cell"
+    },
+    {
+      "id": "regional_delivery",
+      "mode": "rag",
+      "labels_faithful_to_returned_result": false,
+      "question_coverage": "partial",
+      "note": "Highest order volume references SE with 350, although SP has 41746. Lowest delivery duration references SE with 21.519788 days, although SP has 8.761386. Valid cell references do not validate superlatives."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phases 1–4 implemented; LLM integration remains tested offline.** The project has audited data, verified SQL, guarded text-to-SQL, and local business-definition retrieval with cited excerpts. Phase 4 uses real local embeddings, while SQL model responses remain scripted by user request. Live LLM quality has not been evaluated. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
+**Current status: Phases 1–4 implemented; initial live OpenAI evaluation completed before Phase 5.** Local RAG and guarded text-to-SQL are working. The configured GPT-4.1 mini snapshot matched 8/11 complete reference results with each of two context modes. Live testing exposed SQL-semantic and explanation-label failures; the project is not yet a reliably correct analyst. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
 
 ## Problem and business motivation
 
@@ -14,9 +14,9 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **71/71 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
+- **76/76 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
-- Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small benchmark does not establish LLM accuracy or business impact.
+- Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small retrieval benchmark does not establish LLM accuracy or business impact. See the separate live evaluation below.
 
 Read the [CSV audit](docs/generated/dataset_audit.md), [data model](docs/data_model.md), [quality interpretation](docs/data_quality.md), [verification evidence](docs/generated/verification_report.md), and [automatically generated project metrics](docs/project_metrics.md).
 
@@ -126,7 +126,7 @@ Phase 1 evidence is in [generated verification reports](docs/generated/verificat
 - How do selected review averages differ between late and on-time deliveries?
 - Which sellers combine high sales with poor delivery performance?
 
-These fixed queries have verified baseline results. Offline Phase 3 demos replay fixed responses; they do not perform arbitrary natural-language generation. The optional `scripts/ask.py --live --question "..." --json` path requires explicit local model configuration and has not been used. Revenue is delivered-order payment value; category/seller sales are item value, and the distinction is explicit.
+These fixed queries have verified baseline results. Offline Phase 3 demos replay fixed responses; they do not perform arbitrary natural-language generation. The optional `scripts/ask.py --live --question "..." --json` path requires explicit local model configuration; it has now been exercised in the live evaluation. Revenue is delivered-order payment value; category/seller sales are item value, and the distinction is explicit.
 
 ## Project structure
 
@@ -154,7 +154,7 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Next: **Phase 4 â€” business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Live model evaluation is pending the user's decision to enable it. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Next: **Phase 4 â€” business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Initial live evaluation is now available; fix its documented reliability gaps before Phase 5. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
 
 ## Phase 4: local business knowledge RAG
 
@@ -171,6 +171,14 @@ Run once with network access to download pinned public model weights, then build
 .venv/Scripts/python.exe scripts/check_project.py --report-name phase4_integration
 ```
 
-`--define` performs real semantic lookup and returns verbatim excerpts with source lines. `--rag` supplies retrieved definitions to SQL planning and records sources in the result; `--demo` still uses fixed scripted SQL. The optional live path accepts `--rag` but has not been evaluated. With no sufficiently similar definition, the RAG path asks for clarification. Similarity cannot guarantee relevance or completeness, especially for compound questions.
+`--define` performs real semantic lookup and returns verbatim excerpts with source lines. `--rag` supplies retrieved definitions to SQL planning and records sources in the result; `--demo` still uses fixed scripted SQL. The optional live path accepts `--rag`; its initial evaluation is reported below. With no sufficiently similar definition, the RAG path asks for clarification. Similarity cannot guarantee relevance or completeness, especially for compound questions.
 
 Rebuild the index whenever Markdown documents change; stale indexes are rejected. Weights and indexes are ignored by Git and contain no transaction rows. The final check rebuilds the database from the original archive and tests all implemented phases together. It requires the archive, installed dependencies and downloaded weights, but makes no API calls.
+
+## Initial live model evaluation
+
+The [live results and failure analysis](docs/generated/live_evaluation.md) record 22 real model-generated SQL runs on 11 development questions, each with full-contract and retrieved-context prompting. Exact result accuracy was **8/11 (72.7%) for both contexts**. SQL executed in 10/11 full-contract runs and 11/11 RAG runs. This is a small, single-sample development comparison with explicit output contracts, not held-out accuracy or proof that RAG improves answers.
+
+Of 13 structurally accepted explanations, assistant review found two with incorrect seller attribution or extrema labels. Valid references and copied numbers alone do not guarantee truthful business prose. Eight other executions used literal fallback explanations; one question exhausted SQL retries. The [review annotations](evaluation/live_answer_review.json) separate label meaning, question coverage and underlying SQL accuracy.
+
+Read [methodology and reproduction](docs/live_evaluation.md). Live evaluation requires configured `.env` and explicit `--live`, caps API calls and preserves prior reports. Offline scripts and tests continue to use scripted models and make no API calls. The initial benchmark used 48 API calls, with an estimated cost of USD 0.063627 excluding connectivity smoke tests; this is a token-based estimate, not an invoice.

@@ -1,5 +1,8 @@
 # Phase 4: business knowledge retrieval
 
+**Historical phase walkthrough:** the later [live model evaluation](live_evaluation.md) now records actual API-backed SQL and constrained explanation results. Statements below about unmeasured live behavior describe the original phase completion.
+
+
 Phase 4 adds real local semantic retrieval and an optional RAG context path into the guarded SQL planner. Definition answers are verbatim, cited excerpts. They do not need a generative model. Live SQL generation and generative answer quality remain unmeasured because development is offline by user request.
 
 ```mermaid

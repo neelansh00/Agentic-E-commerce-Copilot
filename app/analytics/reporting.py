@@ -38,7 +38,20 @@ def write_project_metrics(root: Path):
         for split, metrics in rag['groups'].items():
             lines += [f"- RAG {split}: {metrics['supported']} supported / {metrics['unknown']} unknown questions; Hit@3 {metrics['hit_at_3']:.1%}, Top-1 {metrics['top1_accuracy']:.1%}, MRR@3 {metrics['mrr_at_3']:.3f}, unknown abstention {metrics['abstention_accuracy']:.1%}; median query {metrics['median_query_ms']} ms (startup excluded)."]
         lines += ['- Retrieval scores measure expected-heading matches on a small same-author benchmark, not generated-answer accuracy. See [retrieval evidence](generated/rag_report.md).']
-    lines += ['- LLM execution accuracy, generated-answer accuracy, latency improvement and API cost: not measured.',
+    live_path = root / 'docs/generated/live_evaluation.json'
+    if live_path.exists():
+        live = json.loads(live_path.read_text(encoding='utf-8'))
+        lines += [f"- Live model: `{live['model']}`; preliminary development evaluation, one sample per question/context."]
+        for mode, summary in live['summaries'].items():
+            if not summary:
+                continue
+            count = summary['questions']
+            lines += [f"- Live {mode}: {summary['executed']}/{count} questions executed; {summary['exact_results']}/{count} complete results match reference; {summary['structurally_valid_explanations']}/{count} explanations pass structural validation (not semantic quality); median {summary['median_latency_ms']} ms."]
+        lines += [f"- Live benchmark API calls: {sum(s.get('api_calls', 0) for s in live['summaries'].values())}; estimated USD cost {live.get('estimated_cost_usd', 'unavailable')} (not invoice; smoke tests excluded).",
+                  '- Semantic label review found wrong group/extrema claims despite valid cell references. See [live evaluation and answer review](generated/live_evaluation.md).']
+    else:
+        lines += ['- Live SQL generation and model answer quality: not measured.']
+    lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')

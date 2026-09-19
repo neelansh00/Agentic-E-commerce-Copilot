@@ -20,7 +20,12 @@ Regenerated from saved reports by the verification and baseline scripts. These a
 - RAG dev: 8 supported / 4 unknown questions; Hit@3 100.0%, Top-1 100.0%, MRR@3 1.000, unknown abstention 100.0%; median query 31.61 ms (startup excluded).
 - RAG test: 10 supported / 2 unknown questions; Hit@3 100.0%, Top-1 90.0%, MRR@3 0.950, unknown abstention 100.0%; median query 41.007 ms (startup excluded).
 - Retrieval scores measure expected-heading matches on a small same-author benchmark, not generated-answer accuracy. See [retrieval evidence](generated/rag_report.md).
-- LLM execution accuracy, generated-answer accuracy, latency improvement and API cost: not measured.
+- Live model: `gpt-4.1-mini-2025-04-14`; preliminary development evaluation, one sample per question/context.
+- Live static: 10/11 questions executed; 8/11 complete results match reference; 5/11 explanations pass structural validation (not semantic quality); median 10581.49 ms.
+- Live rag: 11/11 questions executed; 8/11 complete results match reference; 8/11 explanations pass structural validation (not semantic quality); median 9118.08 ms.
+- Live benchmark API calls: 48; estimated USD cost 0.063627 (not invoice; smoke tests excluded).
+- Semantic label review found wrong group/extrema claims despite valid cell references. See [live evaluation and answer review](generated/live_evaluation.md).
+- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
 - The approximately 50-question agent evaluation and controlled experiments remain for later phases.
 
 Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).
