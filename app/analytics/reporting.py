@@ -76,6 +76,15 @@ def write_project_metrics(root: Path):
                   f"- Complete delivery/review histogram agrees with independent raw CSV calculation: {phase5['histogram_matches_independent_csv']}.",
                   f"- Phase 5 live smoke exact matches: {sum(r['reference_match'] for r in live)}/{len(live)}; two-question smoke, not a new full benchmark.",
                   '- One restricted Python operation; all five SQL/RAG/Python tool combinations exercised. See [Phase 5](phase5_agent.md).']
+    phase6_path = root / 'docs/generated/phase6_verification.json'
+    if phase6_path.exists():
+        phase6 = json.loads(phase6_path.read_text(encoding='utf-8'))
+        flows = phase6['flows']
+        lines += ['', f"- Phase 6 offline tests: {phase6['offline_tests']}; passed: {phase6['tests_passed']}.",
+                  f"- Real-data Streamlit flows passed: {sum(f['passed'] for f in flows)}/{len(flows)}; includes explicitly labeled scripted/local/live modes.",
+                  f"- Database unchanged during UI verification: {phase6['database_unchanged']}.",
+                  '- Streamlit rerender and session-isolation checks are functional tests, not a usability study or production load test.',
+                  '- Evidence: [Phase 6 UI](phase6_ui.md) and [raw verification](generated/phase6_verification.json).']
     lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']

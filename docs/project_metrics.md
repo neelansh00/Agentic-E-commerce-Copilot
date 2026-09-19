@@ -40,6 +40,12 @@ Regenerated from saved reports. Deterministic checks, retrieval metrics and live
 - Complete delivery/review histogram agrees with independent raw CSV calculation: True.
 - Phase 5 live smoke exact matches: 2/2; two-question smoke, not a new full benchmark.
 - One restricted Python operation; all five SQL/RAG/Python tool combinations exercised. See [Phase 5](phase5_agent.md).
+
+- Phase 6 offline tests: 128; passed: True.
+- Real-data Streamlit flows passed: 4/4; includes explicitly labeled scripted/local/live modes.
+- Database unchanged during UI verification: True.
+- Streamlit rerender and session-isolation checks are functional tests, not a usability study or production load test.
+- Evidence: [Phase 6 UI](phase6_ui.md) and [raw verification](generated/phase6_verification.json).
 - Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
 - The approximately 50-question agent evaluation and controlled experiments remain for later phases.
 
