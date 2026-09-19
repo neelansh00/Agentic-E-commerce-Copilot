@@ -2,7 +2,7 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phases 1–2 complete; Phase 3 implemented and tested offline.** The project now has schema retrieval, modular structured SQL generation, read-only validation/execution, bounded repair and evidence-linked explanations. Per user request, model responses are scripted in tests/demos; **live LLM quality has not been evaluated**. RAG, the Python analytics tool, agent routing, Streamlit and the full benchmark remain later phases.
+**Current status: Phases 1–4 implemented; LLM integration remains tested offline.** The project has audited data, verified SQL, guarded text-to-SQL, and local business-definition retrieval with cited excerpts. Phase 4 uses real local embeddings, while SQL model responses remain scripted by user request. Live LLM quality has not been evaluated. Python analytics, agent routing, Streamlit and the full benchmark remain later phases.
 
 ## Problem and business motivation
 
@@ -14,9 +14,9 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **53/53 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures and evidence references.
+- **71/71 automated tests passed**, covering ingestion, hand-calculated analytics, frozen-result regression detection, SQL safety, bounded repair, schema retrieval, provider failures, evidence references and RAG integrity.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
-- No LLM accuracy, RAG performance, experimental improvements or business-impact claims have been measured.
+- Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small benchmark does not establish LLM accuracy or business impact.
 
 Read the [CSV audit](docs/generated/dataset_audit.md), [data model](docs/data_model.md), [quality interpretation](docs/data_quality.md), [verification evidence](docs/generated/verification_report.md), and [automatically generated project metrics](docs/project_metrics.md).
 
@@ -26,7 +26,7 @@ For Phase 3, read the [text-to-SQL walkthrough](docs/text_to_sql.md) and [offlin
 
 ## Local setup and reproduction
 
-Requires Python **3.11+** (verified here with Python 3.12.2). Phases 1–2 remain standard-library-only. Phase 3 adds SQLGlot, Pydantic, python-dotenv and a replaceable OpenAI SDK adapter; offline execution needs no API key or model request. Dependency installation requires package access.
+Requires Python **3.12+** (verified here with Python 3.12.2). Phases 1â€“2 remain standard-library-only. Phase 3 adds SQLGlot, Pydantic, python-dotenv and a replaceable OpenAI SDK adapter; offline execution needs no API key or model request. Dependency installation requires package access.
 
 Place the supplied ZIP in the repository root, then run:
 
@@ -134,7 +134,8 @@ These fixed queries have verified baseline results. Offline Phase 3 demos replay
 app/database/       Schema, ingestion, read-only connection, verification
 app/analytics/      Fixed-query registry, SQL, independent CSV reference, reports
 app/text_to_sql/    Model adapter, schema matching, validator, executor, bounded loop
-knowledge_base/     Versioned business definitions (not indexed for RAG yet)
+app/rag/            Local embeddings, heading chunks, exact cosine retrieval
+knowledge_base/     Versioned business definitions with source citations
 evaluation/         Frozen reference questions and expected results
 data/raw/           Extracted supplied CSVs (ignored)
 data/processed/     Rebuildable SQLite database (ignored)
@@ -153,4 +154,23 @@ docs/project_metrics.md
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Next: **Phase 4 — business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Live model evaluation is pending the user's decision to enable it. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Next: **Phase 4 â€” business-definition RAG**, followed by a single agent with tools, UI, evaluation and packaging. Live model evaluation is pending the user's decision to enable it. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+
+## Phase 4: local business knowledge RAG
+
+Read the [RAG walkthrough](docs/rag.md), [retrieval results](docs/generated/rag_report.md) and [combined integration check](docs/generated/phase4_integration.md). Two Markdown documents produce 13 heading-aware chunks. The [final focused check](docs/generated/phase4_final_checks.md) includes all 71 unit tests after the last RAG integrity fix. BGE-small English embeddings run locally on CPU through FastEmbed; FAISS performs exact cosine search over 384-dimensional normalized vectors. No inference API or credentials are needed.
+
+Run once with network access to download pinned public model weights, then build and query offline:
+
+```powershell
+.venv/Scripts/python.exe scripts/download_embedding_model.py
+.venv/Scripts/python.exe scripts/build_knowledge_index.py
+.venv/Scripts/python.exe scripts/ask.py --define "What does late delivery mean?" --json
+.venv/Scripts/python.exe scripts/ask.py --demo cancellation --rag --json
+.venv/Scripts/python.exe scripts/verify_rag.py
+.venv/Scripts/python.exe scripts/check_project.py --report-name phase4_integration
+```
+
+`--define` performs real semantic lookup and returns verbatim excerpts with source lines. `--rag` supplies retrieved definitions to SQL planning and records sources in the result; `--demo` still uses fixed scripted SQL. The optional live path accepts `--rag` but has not been evaluated. With no sufficiently similar definition, the RAG path asks for clarification. Similarity cannot guarantee relevance or completeness, especially for compound questions.
+
+Rebuild the index whenever Markdown documents change; stale indexes are rejected. Weights and indexes are ignored by Git and contain no transaction rows. The final check rebuilds the database from the original archive and tests all implemented phases together. It requires the archive, installed dependencies and downloaded weights, but makes no API calls.

@@ -13,7 +13,7 @@
     "olist_geolocation_dataset.csv": "b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6"
   },
   "database_sha256": "73aa457f83e27454daa278991c57695dca75308c0efd95f53a4901a83f4bb918",
-  "generated_at_utc": "2026-09-17T23:30:29.899153+00:00",
+  "generated_at_utc": "2026-09-19T01:06:19.372723+00:00",
   "queries": {
     "overview": {
       "question": "How many orders and buyers are there, and what are delivered-order revenue, AOV and cancellation rate?",
@@ -49,7 +49,7 @@
           "cancellation_pct": 0.628513
         }
       ],
-      "execution_ms": 4630.064,
+      "execution_ms": 5056.154,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -335,7 +335,7 @@
           "aov_cents": null
         }
       ],
-      "execution_ms": 10295.804,
+      "execution_ms": 6988.726,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -576,7 +576,7 @@
           "aov_cents": 14247.57084
         }
       ],
-      "execution_ms": 7486.399,
+      "execution_ms": 3945.614,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -760,7 +760,7 @@
           "cancellation_pct": 0.0
         }
       ],
-      "execution_ms": 9083.288,
+      "execution_ms": 3884.281,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -868,7 +868,7 @@
           "freight_cents": 7577458
         }
       ],
-      "execution_ms": 5917.998,
+      "execution_ms": 1274.9,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -901,7 +901,7 @@
           "calendar_day_late_orders": 6534
         }
       ],
-      "execution_ms": 7338.097,
+      "execution_ms": 3691.815,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -944,7 +944,7 @@
           "poor_review_pct": 9.219601
         }
       ],
-      "execution_ms": 4291.164,
+      "execution_ms": 3394.936,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -1053,7 +1053,7 @@
           "mean_delivery_days": 13.712452
         }
       ],
-      "execution_ms": 6783.871,
+      "execution_ms": 3361.773,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -1241,7 +1241,7 @@
           "platform_mean_review_score": 4.155976
         }
       ],
-      "execution_ms": 11195.369,
+      "execution_ms": 7149.393,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -1407,7 +1407,7 @@
           "platform_late_pct": 8.112367
         }
       ],
-      "execution_ms": 12635.129,
+      "execution_ms": 7029.441,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -1647,7 +1647,7 @@
           "mean_delivery_days": 29.387546
         }
       ],
-      "execution_ms": 7370.086,
+      "execution_ms": 4709.334,
       "execution_ok": true,
       "reference_match": true,
       "errors": []
@@ -1656,5 +1656,5 @@
   "snapshot_status": "matched",
   "snapshot_errors": [],
   "all_passed": true,
-  "elapsed_seconds": 93.153
+  "elapsed_seconds": 57.298
 }

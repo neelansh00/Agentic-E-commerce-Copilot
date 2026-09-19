@@ -1,0 +1,170 @@
+[
+  {
+    "id": "rag_01",
+    "split": "dev",
+    "question": "What does revenue mean?",
+    "expected_heading": "Successful orders and revenue",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_02",
+    "split": "dev",
+    "question": "How is AOV calculated?",
+    "expected_heading": "Average order value",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_03",
+    "split": "dev",
+    "question": "What counts as a canceled order?",
+    "expected_heading": "Cancellation rate",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_04",
+    "split": "dev",
+    "question": "What is a late delivery?",
+    "expected_heading": "Delivery eligibility, lateness and duration",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_05",
+    "split": "dev",
+    "question": "What is a poor review score?",
+    "expected_heading": "Review score and poor reviews",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_06",
+    "split": "dev",
+    "question": "How are sellers screened for poor delivery?",
+    "expected_heading": "Seller and region screening",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_07",
+    "split": "dev",
+    "question": "Which month receives the revenue?",
+    "expected_heading": "Time cohorts and missing periods",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_08",
+    "split": "dev",
+    "question": "How do installments affect payment totals?",
+    "expected_heading": "Payments, installments and item value",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_09",
+    "split": "dev",
+    "question": "What is the capital of France?",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  },
+  {
+    "id": "rag_10",
+    "split": "dev",
+    "question": "Explain quantum entanglement.",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  },
+  {
+    "id": "rag_11",
+    "split": "dev",
+    "question": "Give me a recipe for chocolate cake.",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  },
+  {
+    "id": "rag_12",
+    "split": "dev",
+    "question": "Who won the football world cup?",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  },
+  {
+    "id": "rag_13",
+    "split": "test",
+    "question": "Are freight charges included in the revenue proxy?",
+    "expected_heading": "Successful orders and revenue",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_14",
+    "split": "test",
+    "question": "Do orders with no payments enter the average order value denominator?",
+    "expected_heading": "Average order value",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_15",
+    "split": "test",
+    "question": "Should unavailable orders be treated as cancellations?",
+    "expected_heading": "Cancellation rate",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_16",
+    "split": "test",
+    "question": "Is arrival later on the promised calendar date considered overdue?",
+    "expected_heading": "Delivery eligibility, lateness and duration",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_17",
+    "split": "test",
+    "question": "Which review is selected when an order has multiple reviews?",
+    "expected_heading": "Review score and poor reviews",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_18",
+    "split": "test",
+    "question": "What minimum sample is used for seller lateness screening?",
+    "expected_heading": "Seller and region screening",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_19",
+    "split": "test",
+    "question": "Can the first and last purchase months be incomplete?",
+    "expected_heading": "Time cohorts and missing periods",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_20",
+    "split": "test",
+    "question": "Can payment revenue be assigned directly to product categories?",
+    "expected_heading": "Category and seller sales; freight",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_21",
+    "split": "test",
+    "question": "Do status labels show the complete order transition history?",
+    "expected_heading": "Order lifecycle",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_22",
+    "split": "test",
+    "question": "What timezone are these timestamps in?",
+    "expected_heading": "Limitations shared by all metrics",
+    "expected_interpretation": "Return the cited definition; do not invent transactional totals."
+  },
+  {
+    "id": "rag_23",
+    "split": "test",
+    "question": "How do I repair a bicycle tire?",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  },
+  {
+    "id": "rag_24",
+    "split": "test",
+    "question": "Translate hello into Japanese.",
+    "expected_heading": null,
+    "expected_interpretation": "Abstain: topic outside the knowledge base."
+  }
+]

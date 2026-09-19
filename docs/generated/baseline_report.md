@@ -8,17 +8,17 @@ These results validate manually authored SQL; they do not measure LLM accuracy, 
 
 | Query | SQL ran | CSV agreement | Rows | Execution ms |
 |---|---|---|---:|---:|
-| overview | True | True | 1 | 4630.064 |
-| monthly_revenue | True | True | 26 | 10295.804 |
-| state_aov | True | True | 27 | 7486.399 |
-| state_cancellation | True | True | 27 | 9083.288 |
-| category_sales | True | True | 10 | 5917.998 |
-| late_delivery | True | True | 1 | 7338.097 |
-| late_reviews | True | True | 2 | 4291.164 |
-| category_delivery | True | True | 10 | 6783.871 |
-| seller_performance | True | True | 20 | 11195.369 |
-| seller_lateness | True | True | 20 | 12635.129 |
-| regional_delivery | True | True | 27 | 7370.086 |
+| overview | True | True | 1 | 5056.154 |
+| monthly_revenue | True | True | 26 | 6988.726 |
+| state_aov | True | True | 27 | 3945.614 |
+| state_cancellation | True | True | 27 | 3884.281 |
+| category_sales | True | True | 10 | 1274.9 |
+| late_delivery | True | True | 1 | 3691.815 |
+| late_reviews | True | True | 2 | 3394.936 |
+| category_delivery | True | True | 10 | 3361.773 |
+| seller_performance | True | True | 20 | 7149.393 |
+| seller_lateness | True | True | 20 | 7029.441 |
+| regional_delivery | True | True | 27 | 4709.334 |
 
 Full results, executed SQL, parameters, source hashes and errors are in `baseline_report.json`. Only the first five rows per query are shown below. Timing is one local sequential execution per query, including fetching results; it is not a benchmark comparison.
 

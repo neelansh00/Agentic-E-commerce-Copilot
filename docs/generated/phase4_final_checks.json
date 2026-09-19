@@ -1,0 +1,91 @@
+{
+  "started_at_utc": "2026-09-19T01:08:11.367098+00:00",
+  "scope": "rag and all unit tests",
+  "mode": "offline only; no model API calls",
+  "steps": [
+    {
+      "command": [
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.932,
+      "stdout_tail": "No broken requirements found.\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "-m",
+        "compileall",
+        "-q",
+        "app",
+        "scripts",
+        "tests"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.261,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/build_knowledge_index.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.178,
+      "stdout_tail": "{\n  \"model\": {\n    \"model\": \"BAAI/bge-small-en-v1.5\",\n    \"repository\": \"Qdrant/bge-small-en-v1.5-onnx-Q\",\n    \"revision\": \"52398278842ec682c6f32300af41344b1c0b0bb2\",\n    \"files\": {\n      \"config.json\": \"13582bcf2effc85b7bf3d3f5532e686bc1c9ce86bb009d10f0ec33cbe92299dd\",\n      \"model_optimized.onnx\": \"51f1bd0addd6e859e42c2c8021a5e5461385bb676a649f4b269aa445449f2431\",\n      \"README.md\": \"3bf78bc7cb0def03b30a901331fa50ace3ddf7d6e411d7089a8a2db64f066f03\",\n      \"special_tokens_map.json\": \"5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a\",\n      \"tokenizer.json\": \"d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66\",\n      \"tokenizer_config.json\": \"0b29c7bfc889e53b36d9dd3e686dd4300f6525110eaa98c76a5dafceb2029f53\"\n    },\n    \"fastembed\": \"0.8.0\"\n  },\n  \"sources\": {\n    \"metrics.md\": \"e40c923858302bc38a498d2ba2efefa080dc9de011209cef012a49938b35b291\",\n    \"order_lifecycle.md\": \"c768fb10b35b6c4bc842db99e93ce834688ab029331d1f1636bcaadf17774465\"\n  },\n  \"dimension\": 384,\n  \"chunks\": 13,\n  \"elapsed_seconds\": 7.184\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/verify_rag.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.607,
+      "stdout_tail": " periods', 'Payments, installments and item value']\nrag_03 PASS [0.829137, 0.690629, 0.679504] ['Cancellation rate', 'Business metric contract \ufffd version 1', 'Delivery eligibility, lateness and duration']\nrag_04 PASS [0.777834, 0.652126, 0.61501] ['Delivery eligibility, lateness and duration', 'Seller and region screening', 'Order lifecycle']\nrag_05 PASS [0.761374, 0.653241] ['Review score and poor reviews', 'Seller and region screening']\nrag_06 PASS [0.745009, 0.641276, 0.631738] ['Seller and region screening', 'Category and seller sales; freight', 'Review score and poor reviews']\nrag_07 PASS [0.728195, 0.675416, 0.653488] ['Time cohorts and missing periods', 'Successful orders and revenue', 'Category and seller sales; freight']\nrag_08 PASS [0.77693, 0.728095, 0.710669] ['Payments, installments and item value', 'Time cohorts and missing periods', 'Average order value']\nrag_09 PASS [] []\nrag_10 PASS [] []\nrag_11 PASS [] []\nrag_12 PASS [] []\nrag_13 PASS [0.728208, 0.680562, 0.664523] ['Category and seller sales; freight', 'Successful orders and revenue', 'Payments, installments and item value']\nrag_14 PASS [0.796346, 0.794246, 0.76392] ['Average order value', 'Payments, installments and item value', 'Successful orders and revenue']\nrag_15 PASS [0.804115, 0.669249, 0.639837] ['Cancellation rate', 'Successful orders and revenue', 'Delivery eligibility, lateness and duration']\nrag_16 PASS [0.736764, 0.651895, 0.639569] ['Delivery eligibility, lateness and duration', 'Time cohorts and missing periods', 'Order lifecycle']\nrag_17 PASS [0.777947, 0.696251, 0.651015] ['Review score and poor reviews', 'Seller and region screening', 'Payments, installments and item value']\nrag_18 PASS [0.811479, 0.74627, 0.68242] ['Seller and region screening', 'Review score and poor reviews', 'Delivery eligibility, lateness and duration']\nrag_19 PASS [0.776509, 0.692998, 0.677766] ['Time cohorts and missing periods', 'Delivery eligibility, lateness and duration', 'Payments, installments and item value']\nrag_20 PASS [0.785688, 0.703559, 0.669145] ['Category and seller sales; freight', 'Payments, installments and item value', 'Successful orders and revenue']\nrag_21 PASS [0.822594, 0.687941, 0.671338] ['Order lifecycle', 'Business metric contract \ufffd version 1', 'Delivery eligibility, lateness and duration']\nrag_22 PASS [0.770202, 0.653856, 0.637205] ['Limitations shared by all metrics', 'Delivery eligibility, lateness and duration', 'Order lifecycle']\nrag_23 PASS [] []\nrag_24 PASS [] []\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/ask.py",
+        "--define",
+        "What does late delivery mean?",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.361,
+      "stdout_tail": " on time.\\n\\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.\\n\\n[metrics.md:47-51 | Seller and region screening]\\nSeller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\\n\\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\\n\\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.\\n\\n[metrics.md:55-57 | Time cohorts and missing periods]\\nAssign revenue to purchase month of the eventually delivered order, not payment or delivery month. Calendar months between first and last purchase are included, including months without orders. Empty-month observed revenue and AOV are NULL; counts are zero. An observed cohort with payment records totaling zero has revenue zero.\\n\\nFlag the first and last observed purchase months as dataset-boundary months. Also report delivered/payment coverage. Interior months are not guaranteed complete; recent cohorts can be immature at the snapshot. Do not interpret apparent decline as causal evidence or compare incomplete cohorts without qualification. A revenue-change explanation would require explicit period selection, coverage checks and descriptive decomposition in later work.\",\n  \"mode\": \"Local semantic retrieval with verbatim excerpts; no LLM synthesis\",\n  \"trace\": [\n    {\n      \"tool\": \"business_knowledge\",\n      \"returned_chunks\": 3\n    }\n  ]\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "scripts/ask.py",
+        "--demo",
+        "cancellation",
+        "--rag",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.092,
+      "stdout_tail": "{\n  \"status\": \"ok\",\n  \"answer\": \"Cancellation percentage: 0.628513 [row 0, cancellation_pct]\",\n  \"observations\": [\n    \"Cancellation percentage: 0.628513 [row 0, cancellation_pct]\"\n  ],\n  \"caveats\": [\n    \"Observations are descriptive; they do not establish causality or statistical significance.\"\n  ],\n  \"sources\": [\n    {\n      \"id\": \"f85293d2d3ec687d\",\n      \"source\": \"metrics.md\",\n      \"heading\": \"Cancellation rate\",\n      \"start_line\": 27,\n      \"end_line\": 27,\n      \"text\": \"Cancellation rate = orders with status exactly `canceled` / all orders in the selected purchase cohort. `unavailable` is a distinct status, not automatically a cancellation. Count orders even if no item/payment/review exists. Report numerator, denominator and percentage (0\ufffd100); all statuses in this snapshot represent the observed state, not complete lifecycle history.\",\n      \"score\": 0.7789\n    }\n  ],\n  \"schema_tables\": [\n    \"orders\"\n  ],\n  \"schema_reasons\": {\n    \"orders\": \"Matched: cancellation\"\n  },\n  \"result\": {\n    \"sql\": \"SELECT COUNT(*) total_orders, SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) canceled_orders, ROUND(100.0 * SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) / NULLIF(COUNT(*),0),6) cancellation_pct FROM orders\",\n    \"tables\": [\n      \"orders\"\n    ],\n    \"columns\": [\n      \"total_orders\",\n      \"canceled_orders\",\n      \"cancellation_pct\"\n    ],\n    \"rows\": [\n      {\n        \"total_orders\": 99441,\n        \"canceled_orders\": 625,\n        \"cancellation_pct\": 0.628513\n      }\n    ],\n    \"truncated\": false,\n    \"execution_ms\": 13.012\n  },\n  \"trace\": [\n    {\n      \"tool\": \"schema_retrieval\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"reasons\": {\n        \"orders\": \"Matched: cancellation\"\n      }\n    },\n    {\n      \"tool\": \"business_knowledge\",\n      \"returned_chunks\": 1\n    },\n    {\n      \"tool\": \"sql\",\n      \"attempt\": 1,\n      \"sql\": \"SELECT COUNT(*) total_orders, SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) canceled_orders, ROUND(100.0 * SUM(CASE WHEN order_status='canceled' THEN 1 ELSE 0 END) / NULLIF(COUNT(*),0),6) cancellation_pct FROM orders\",\n      \"assumptions\": [],\n      \"status\": \"executed\",\n      \"tables\": [\n        \"orders\"\n      ],\n      \"execution_ms\": 13.012,\n      \"returned_rows\": 1,\n      \"truncated\": false\n    },\n    {\n      \"stage\": \"explanation\",\n      \"status\": \"evidence_references_validated\"\n    }\n  ],\n  \"usage\": [],\n  \"elapsed_ms\": 44.611,\n  \"model\": \"offline-scripted-not-an-llm\"\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 16.772,
+      "stdout_tail": "",
+      "stderr_tail": "test_model_failure_is_explicit (test_text_to_sql.PipelineTests.test_model_failure_is_explicit) ... ok\ntest_no_rows_not_a_zero_business_answer (test_text_to_sql.PipelineTests.test_no_rows_not_a_zero_business_answer) ... ok\ntest_nonfinite_output_rejected (test_text_to_sql.PipelineTests.test_nonfinite_output_rejected) ... ok\ntest_retry_exhaustion_has_no_fabricated_result (test_text_to_sql.PipelineTests.test_retry_exhaustion_has_no_fabricated_result) ... ok\ntest_row_limit_marks_truncation (test_text_to_sql.PipelineTests.test_row_limit_marks_truncation) ... ok\ntest_schema_expansion_is_traceable_and_bounded (test_text_to_sql.PipelineTests.test_schema_expansion_is_traceable_and_bounded) ... ok\ntest_schema_retrieval_avoids_unrelated_tables (test_text_to_sql.PipelineTests.test_schema_retrieval_avoids_unrelated_tables) ... ok\ntest_sqlite_authorizer_blocks_mutations_even_without_parser (test_text_to_sql.PipelineTests.test_sqlite_authorizer_blocks_mutations_even_without_parser) ... ok\ntest_syntax_and_wrong_table_repaired_within_three_attempts (test_text_to_sql.PipelineTests.test_syntax_and_wrong_table_repaired_within_three_attempts) ... ok\ntest_valid_select_and_result_transparency (test_text_to_sql.PipelineTests.test_valid_select_and_result_transparency) ... ok\ntest_write_attempt_never_changes_database (test_text_to_sql.PipelineTests.test_write_attempt_never_changes_database) ... ok\ntest_adapter_does_not_expose_provider_secrets (test_text_to_sql.ProviderTests.test_adapter_does_not_expose_provider_secrets) ... ok\ntest_adapter_uses_structured_output_and_no_storage (test_text_to_sql.ProviderTests.test_adapter_uses_structured_output_and_no_storage) ... ok\ntest_missing_credentials_no_network_fallback (test_text_to_sql.ProviderTests.test_missing_credentials_no_network_fallback) ... ok\ntest_refusal_or_incomplete_response_is_explicit (test_text_to_sql.ProviderTests.test_refusal_or_incomplete_response_is_explicit) ... ok\ntest_comments_strings_ctes_unions_and_alias_shadowing (test_text_to_sql.SQLSafetyTests.test_comments_strings_ctes_unions_and_alias_shadowing) ... ok\ntest_empty_oversized_malformed_sql (test_text_to_sql.SQLSafetyTests.test_empty_oversized_malformed_sql) ... ok\ntest_forbidden_sql_corpus (test_text_to_sql.SQLSafetyTests.test_forbidden_sql_corpus) ... ok\ntest_unknown_table_and_schema_scope (test_text_to_sql.SQLSafetyTests.test_unknown_table_and_schema_scope) ... ok\n\n----------------------------------------------------------------------\nRan 71 tests in 15.246s\n\nOK\n"
+    }
+  ],
+  "all_passed": true,
+  "finished_at_utc": "2026-09-19T01:08:49.572734+00:00"
+}

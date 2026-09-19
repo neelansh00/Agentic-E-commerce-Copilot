@@ -2,6 +2,7 @@
 *.zip
 data/raw/
 data/processed/
+data/models/
 *.sqlite
 *.sqlite-journal
 *.sqlite-wal

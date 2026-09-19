@@ -1,0 +1,256 @@
+{
+  "mode": "Real local embeddings; no LLM/API calls",
+  "threshold": 0.6,
+  "top_k": 3,
+  "startup_seconds": 1.072,
+  "groups": {
+    "dev": {
+      "questions": 12,
+      "supported": 8,
+      "unknown": 4,
+      "hit_at_3": 1.0,
+      "top1_accuracy": 1.0,
+      "mrr_at_3": 1.0,
+      "abstention_accuracy": 1.0,
+      "median_query_ms": 7.712
+    }
+  },
+  "results": [
+    {
+      "id": "rag_01",
+      "split": "dev",
+      "question": "What does revenue mean?",
+      "expected_heading": "Successful orders and revenue",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Successful orders and revenue",
+        "Category and seller sales; freight",
+        "Unanswerable operational questions"
+      ],
+      "scores": [
+        0.716656,
+        0.686607,
+        0.625536
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 12.884
+    },
+    {
+      "id": "rag_02",
+      "split": "dev",
+      "question": "How is AOV calculated?",
+      "expected_heading": "Average order value",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Average order value",
+        "Time cohorts and missing periods",
+        "Payments, installments and item value"
+      ],
+      "scores": [
+        0.768481,
+        0.652156,
+        0.626783
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.657
+    },
+    {
+      "id": "rag_03",
+      "split": "dev",
+      "question": "What counts as a canceled order?",
+      "expected_heading": "Cancellation rate",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Cancellation rate",
+        "Business metric contract \u2014 version 1",
+        "Delivery eligibility, lateness and duration"
+      ],
+      "scores": [
+        0.829137,
+        0.690629,
+        0.679504
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 8.345
+    },
+    {
+      "id": "rag_04",
+      "split": "dev",
+      "question": "What is a late delivery?",
+      "expected_heading": "Delivery eligibility, lateness and duration",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Delivery eligibility, lateness and duration",
+        "Seller and region screening",
+        "Order lifecycle"
+      ],
+      "scores": [
+        0.777834,
+        0.652126,
+        0.61501
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.893
+    },
+    {
+      "id": "rag_05",
+      "split": "dev",
+      "question": "What is a poor review score?",
+      "expected_heading": "Review score and poor reviews",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Review score and poor reviews",
+        "Seller and region screening"
+      ],
+      "scores": [
+        0.761374,
+        0.653241
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.737
+    },
+    {
+      "id": "rag_06",
+      "split": "dev",
+      "question": "How are sellers screened for poor delivery?",
+      "expected_heading": "Seller and region screening",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Seller and region screening",
+        "Category and seller sales; freight",
+        "Review score and poor reviews"
+      ],
+      "scores": [
+        0.745009,
+        0.641276,
+        0.631738
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.585
+    },
+    {
+      "id": "rag_07",
+      "split": "dev",
+      "question": "Which month receives the revenue?",
+      "expected_heading": "Time cohorts and missing periods",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Time cohorts and missing periods",
+        "Successful orders and revenue",
+        "Category and seller sales; freight"
+      ],
+      "scores": [
+        0.728195,
+        0.675416,
+        0.653488
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.862
+    },
+    {
+      "id": "rag_08",
+      "split": "dev",
+      "question": "How do installments affect payment totals?",
+      "expected_heading": "Payments, installments and item value",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Payments, installments and item value",
+        "Time cohorts and missing periods",
+        "Average order value"
+      ],
+      "scores": [
+        0.77693,
+        0.728095,
+        0.710669
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.404
+    },
+    {
+      "id": "rag_09",
+      "split": "dev",
+      "question": "What is the capital of France?",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.122
+    },
+    {
+      "id": "rag_10",
+      "split": "dev",
+      "question": "Explain quantum entanglement.",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.686
+    },
+    {
+      "id": "rag_11",
+      "split": "dev",
+      "question": "Give me a recipe for chocolate cake.",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 7.153
+    },
+    {
+      "id": "rag_12",
+      "split": "dev",
+      "question": "Who won the football world cup?",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 8.11
+    }
+  ],
+  "model": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "repository": "Qdrant/bge-small-en-v1.5-onnx-Q",
+    "revision": "52398278842ec682c6f32300af41344b1c0b0bb2",
+    "files": {
+      "config.json": "13582bcf2effc85b7bf3d3f5532e686bc1c9ce86bb009d10f0ec33cbe92299dd",
+      "model_optimized.onnx": "51f1bd0addd6e859e42c2c8021a5e5461385bb676a649f4b269aa445449f2431",
+      "README.md": "3bf78bc7cb0def03b30a901331fa50ace3ddf7d6e411d7089a8a2db64f066f03",
+      "special_tokens_map.json": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "tokenizer_config.json": "0b29c7bfc889e53b36d9dd3e686dd4300f6525110eaa98c76a5dafceb2029f53"
+    },
+    "fastembed": "0.8.0"
+  },
+  "sources": {
+    "metrics.md": "e40c923858302bc38a498d2ba2efefa080dc9de011209cef012a49938b35b291",
+    "order_lifecycle.md": "c768fb10b35b6c4bc842db99e93ce834688ab029331d1f1636bcaadf17774465"
+  }
+}

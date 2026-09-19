@@ -31,7 +31,14 @@ def write_project_metrics(root: Path):
                   f"- Keyword schema retrieval contains required tables: {sum(r['retrieval_contains_expected'] for r in results.values())}/{len(results)} reference questions (development set).",
                   f"- Database unchanged after guarded execution: {text_sql['database_unchanged']}.",
                   f"- Phase 3 model API calls: {text_sql['model_api_calls']} (offline by user request)."]
-    lines += ['- LLM execution accuracy, answer accuracy, RAG retrieval accuracy, latency improvement and cost: not measured.',
+    rag_path = root / 'docs/generated/rag_report.json'
+    if rag_path.exists():
+        rag = json.loads(rag_path.read_text(encoding='utf-8'))
+        lines += [f"- Phase 4 retrieval benchmark: {len(rag['results'])} manually authored cases; real local embeddings, zero LLM API calls."]
+        for split, metrics in rag['groups'].items():
+            lines += [f"- RAG {split}: {metrics['supported']} supported / {metrics['unknown']} unknown questions; Hit@3 {metrics['hit_at_3']:.1%}, Top-1 {metrics['top1_accuracy']:.1%}, MRR@3 {metrics['mrr_at_3']:.3f}, unknown abstention {metrics['abstention_accuracy']:.1%}; median query {metrics['median_query_ms']} ms (startup excluded)."]
+        lines += ['- Retrieval scores measure expected-heading matches on a small same-author benchmark, not generated-answer accuracy. See [retrieval evidence](generated/rag_report.md).']
+    lines += ['- LLM execution accuracy, generated-answer accuracy, latency improvement and API cost: not measured.',
               '- The approximately 50-question agent evaluation and controlled experiments remain for later phases.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')

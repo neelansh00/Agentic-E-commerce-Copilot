@@ -21,10 +21,26 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--demo', choices=DEMOS)
     mode.add_argument('--live', action='store_true')
+    mode.add_argument('--define', help='Retrieve cited business definitions locally')
+    parser.add_argument('--rag', action='store_true', help='Use retrieved definitions in SQL planning')
     parser.add_argument('--question')
     parser.add_argument('--database', type=Path, default=ROOT / 'data/processed/olist.sqlite')
     parser.add_argument('--json', action='store_true', help='Show SQL, data, schema selection, trace and execution information')
     args = parser.parse_args()
+    retriever = None
+    if args.rag or args.define:
+        from app.rag.embeddings import LocalEmbedder
+        from app.rag.retrieval import Retriever, definition_answer
+        try:
+            retriever = Retriever(LocalEmbedder())
+            if args.define:
+                if args.question:
+                    parser.error('--define already contains the question')
+                response = definition_answer(args.define, retriever)
+                print(json.dumps(response, indent=2) if args.json else response['answer'])
+                return
+        except (ValueError, OSError, RuntimeError) as exc:
+            parser.error(str(exc))
     if args.demo:
         if args.question:
             parser.error('--demo replays a fixed example; use --live --question for natural-language generation')
@@ -39,7 +55,7 @@ def main():
             model = OpenAIModel(ModelConfig.from_env())
         except ValueError as exc:
             parser.error(str(exc))
-    result = answer_question(question, args.database, model)
+    result = answer_question(question, args.database, model, retriever=retriever)
     if args.json:
         print(result.model_dump_json(indent=2))
     else:

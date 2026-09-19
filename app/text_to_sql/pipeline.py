@@ -51,24 +51,36 @@ def fallback_observations(result):
             for column, value in list(result.rows[0].items())[:5]]
 
 
-def answer_question(question, database, model, limits=None):
+def answer_question(question, database, model, limits=None, retriever=None):
     limits = limits or QueryLimits()
     start = time.perf_counter()
     trace, usage_start = [], len(model.usage)
+    sources, knowledge_context = [], None
     tables, reasons = retrieve_schema(question)
     def finish(status, answer, result=None, observations=None, caveats=None):
         return PipelineResult(status=status, answer=answer, result=result,
             observations=observations or [], caveats=caveats or [], schema_tables=tables,
-            schema_reasons=reasons, trace=trace, usage=model.usage[usage_start:],
+            schema_reasons=reasons, sources=sources, trace=trace, usage=model.usage[usage_start:],
             elapsed_ms=round((time.perf_counter()-start)*1000, 3), model=model.name)
     if not question.strip() or len(question) > 4000:
         return finish('clarification', 'Provide a nonempty analytics question of at most 4000 characters.')
     trace.append({'tool': 'schema_retrieval', 'tables': list(tables), 'reasons': dict(reasons)})
+    if retriever is not None:
+        from app.rag.retrieval import context_for
+        try:
+            sources = retriever.retrieve(question)
+            trace.append({'tool': 'business_knowledge', 'returned_chunks': len(sources)})
+            if not sources:
+                return finish('clarification', 'No sufficiently relevant business definition was found. Please clarify the metric.')
+            knowledge_context = context_for(sources)
+        except (ValueError, OSError, RuntimeError) as exc:
+            trace.append({'tool': 'business_knowledge', 'error': str(exc)[:300]})
+            return finish('failed', 'Business knowledge retrieval failed. Inspect the tool trace for setup, index, or input details.')
     feedback, expanded = '', False
     for attempt in range(1, limits.max_attempts + 1):
         try:
             context = schema_context(database, tables)
-            plan = SQLPlan.model_validate(model.generate(planning_messages(question, context, feedback), SQLPlan))
+            plan = SQLPlan.model_validate(model.generate(planning_messages(question, context, feedback, knowledge_context), SQLPlan))
         except (ModelError, ValidationError, ValueError, OSError, sqlite3.Error) as exc:
             trace.append({'stage': 'model_or_schema', 'attempt': attempt, 'error': str(exc)[:500]})
             return finish('failed', 'Unable to generate a validated SQL plan. No numerical answer was produced.')

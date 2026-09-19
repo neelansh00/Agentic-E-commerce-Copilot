@@ -40,6 +40,7 @@ class PipelineResult(StrictModel):
     answer: str
     observations: list[str] = Field(default_factory=list)
     caveats: list[str] = Field(default_factory=list)
+    sources: list[dict] = Field(default_factory=list)
     schema_tables: list[str] = Field(default_factory=list)
     schema_reasons: dict[str, str] = Field(default_factory=dict)
     result: QueryResult | None = None

@@ -1,0 +1,503 @@
+{
+  "mode": "Real local embeddings; no LLM/API calls",
+  "threshold": 0.6,
+  "top_k": 3,
+  "startup_seconds": 2.049,
+  "groups": {
+    "dev": {
+      "questions": 12,
+      "supported": 8,
+      "unknown": 4,
+      "hit_at_3": 1.0,
+      "top1_accuracy": 1.0,
+      "mrr_at_3": 1.0,
+      "abstention_accuracy": 1.0,
+      "median_query_ms": 31.61
+    },
+    "test": {
+      "questions": 12,
+      "supported": 10,
+      "unknown": 2,
+      "hit_at_3": 1.0,
+      "top1_accuracy": 0.9,
+      "mrr_at_3": 0.95,
+      "abstention_accuracy": 1.0,
+      "median_query_ms": 41.007
+    }
+  },
+  "results": [
+    {
+      "id": "rag_01",
+      "split": "dev",
+      "question": "What does revenue mean?",
+      "expected_heading": "Successful orders and revenue",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Successful orders and revenue",
+        "Category and seller sales; freight",
+        "Unanswerable operational questions"
+      ],
+      "scores": [
+        0.716656,
+        0.686607,
+        0.625536
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 40.332
+    },
+    {
+      "id": "rag_02",
+      "split": "dev",
+      "question": "How is AOV calculated?",
+      "expected_heading": "Average order value",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Average order value",
+        "Time cohorts and missing periods",
+        "Payments, installments and item value"
+      ],
+      "scores": [
+        0.768481,
+        0.652156,
+        0.626783
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 36.564
+    },
+    {
+      "id": "rag_03",
+      "split": "dev",
+      "question": "What counts as a canceled order?",
+      "expected_heading": "Cancellation rate",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Cancellation rate",
+        "Business metric contract \u2014 version 1",
+        "Delivery eligibility, lateness and duration"
+      ],
+      "scores": [
+        0.829137,
+        0.690629,
+        0.679504
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 34.182
+    },
+    {
+      "id": "rag_04",
+      "split": "dev",
+      "question": "What is a late delivery?",
+      "expected_heading": "Delivery eligibility, lateness and duration",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Delivery eligibility, lateness and duration",
+        "Seller and region screening",
+        "Order lifecycle"
+      ],
+      "scores": [
+        0.777834,
+        0.652126,
+        0.61501
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 29.015
+    },
+    {
+      "id": "rag_05",
+      "split": "dev",
+      "question": "What is a poor review score?",
+      "expected_heading": "Review score and poor reviews",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Review score and poor reviews",
+        "Seller and region screening"
+      ],
+      "scores": [
+        0.761374,
+        0.653241
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 31.724
+    },
+    {
+      "id": "rag_06",
+      "split": "dev",
+      "question": "How are sellers screened for poor delivery?",
+      "expected_heading": "Seller and region screening",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Seller and region screening",
+        "Category and seller sales; freight",
+        "Review score and poor reviews"
+      ],
+      "scores": [
+        0.745009,
+        0.641276,
+        0.631738
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 33.803
+    },
+    {
+      "id": "rag_07",
+      "split": "dev",
+      "question": "Which month receives the revenue?",
+      "expected_heading": "Time cohorts and missing periods",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Time cohorts and missing periods",
+        "Successful orders and revenue",
+        "Category and seller sales; freight"
+      ],
+      "scores": [
+        0.728195,
+        0.675416,
+        0.653488
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 30.298
+    },
+    {
+      "id": "rag_08",
+      "split": "dev",
+      "question": "How do installments affect payment totals?",
+      "expected_heading": "Payments, installments and item value",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Payments, installments and item value",
+        "Time cohorts and missing periods",
+        "Average order value"
+      ],
+      "scores": [
+        0.77693,
+        0.728095,
+        0.710669
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 31.496
+    },
+    {
+      "id": "rag_09",
+      "split": "dev",
+      "question": "What is the capital of France?",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 29.834
+    },
+    {
+      "id": "rag_10",
+      "split": "dev",
+      "question": "Explain quantum entanglement.",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 28.415
+    },
+    {
+      "id": "rag_11",
+      "split": "dev",
+      "question": "Give me a recipe for chocolate cake.",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 32.54
+    },
+    {
+      "id": "rag_12",
+      "split": "dev",
+      "question": "Who won the football world cup?",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 31.454
+    },
+    {
+      "id": "rag_13",
+      "split": "test",
+      "question": "Are freight charges included in the revenue proxy?",
+      "expected_heading": "Successful orders and revenue",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Category and seller sales; freight",
+        "Successful orders and revenue",
+        "Payments, installments and item value"
+      ],
+      "scores": [
+        0.728208,
+        0.680562,
+        0.664523
+      ],
+      "rank": 2,
+      "top1_correct": false,
+      "passed": true,
+      "elapsed_ms": 38.167
+    },
+    {
+      "id": "rag_14",
+      "split": "test",
+      "question": "Do orders with no payments enter the average order value denominator?",
+      "expected_heading": "Average order value",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Average order value",
+        "Payments, installments and item value",
+        "Successful orders and revenue"
+      ],
+      "scores": [
+        0.796346,
+        0.794246,
+        0.76392
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 46.629
+    },
+    {
+      "id": "rag_15",
+      "split": "test",
+      "question": "Should unavailable orders be treated as cancellations?",
+      "expected_heading": "Cancellation rate",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Cancellation rate",
+        "Successful orders and revenue",
+        "Delivery eligibility, lateness and duration"
+      ],
+      "scores": [
+        0.804115,
+        0.669249,
+        0.639837
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 37.38
+    },
+    {
+      "id": "rag_16",
+      "split": "test",
+      "question": "Is arrival later on the promised calendar date considered overdue?",
+      "expected_heading": "Delivery eligibility, lateness and duration",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Delivery eligibility, lateness and duration",
+        "Time cohorts and missing periods",
+        "Order lifecycle"
+      ],
+      "scores": [
+        0.736764,
+        0.651895,
+        0.639569
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 43.741
+    },
+    {
+      "id": "rag_17",
+      "split": "test",
+      "question": "Which review is selected when an order has multiple reviews?",
+      "expected_heading": "Review score and poor reviews",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Review score and poor reviews",
+        "Seller and region screening",
+        "Payments, installments and item value"
+      ],
+      "scores": [
+        0.777947,
+        0.696251,
+        0.651015
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 43.212
+    },
+    {
+      "id": "rag_18",
+      "split": "test",
+      "question": "What minimum sample is used for seller lateness screening?",
+      "expected_heading": "Seller and region screening",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Seller and region screening",
+        "Review score and poor reviews",
+        "Delivery eligibility, lateness and duration"
+      ],
+      "scores": [
+        0.811479,
+        0.74627,
+        0.68242
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 49.7
+    },
+    {
+      "id": "rag_19",
+      "split": "test",
+      "question": "Can the first and last purchase months be incomplete?",
+      "expected_heading": "Time cohorts and missing periods",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Time cohorts and missing periods",
+        "Delivery eligibility, lateness and duration",
+        "Payments, installments and item value"
+      ],
+      "scores": [
+        0.776509,
+        0.692998,
+        0.677766
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 42.455
+    },
+    {
+      "id": "rag_20",
+      "split": "test",
+      "question": "Can payment revenue be assigned directly to product categories?",
+      "expected_heading": "Category and seller sales; freight",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Category and seller sales; freight",
+        "Payments, installments and item value",
+        "Successful orders and revenue"
+      ],
+      "scores": [
+        0.785688,
+        0.703559,
+        0.669145
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 41.583
+    },
+    {
+      "id": "rag_21",
+      "split": "test",
+      "question": "Do status labels show the complete order transition history?",
+      "expected_heading": "Order lifecycle",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Order lifecycle",
+        "Business metric contract \u2014 version 1",
+        "Delivery eligibility, lateness and duration"
+      ],
+      "scores": [
+        0.822594,
+        0.687941,
+        0.671338
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 40.43
+    },
+    {
+      "id": "rag_22",
+      "split": "test",
+      "question": "What timezone are these timestamps in?",
+      "expected_heading": "Limitations shared by all metrics",
+      "expected_interpretation": "Return the cited definition; do not invent transactional totals.",
+      "headings": [
+        "Limitations shared by all metrics",
+        "Delivery eligibility, lateness and duration",
+        "Order lifecycle"
+      ],
+      "scores": [
+        0.770202,
+        0.653856,
+        0.637205
+      ],
+      "rank": 1,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 39.476
+    },
+    {
+      "id": "rag_23",
+      "split": "test",
+      "question": "How do I repair a bicycle tire?",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 37.618
+    },
+    {
+      "id": "rag_24",
+      "split": "test",
+      "question": "Translate hello into Japanese.",
+      "expected_heading": null,
+      "expected_interpretation": "Abstain: topic outside the knowledge base.",
+      "headings": [],
+      "scores": [],
+      "rank": null,
+      "top1_correct": true,
+      "passed": true,
+      "elapsed_ms": 33.004
+    }
+  ],
+  "chunks": 13,
+  "model": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "repository": "Qdrant/bge-small-en-v1.5-onnx-Q",
+    "revision": "52398278842ec682c6f32300af41344b1c0b0bb2",
+    "files": {
+      "config.json": "13582bcf2effc85b7bf3d3f5532e686bc1c9ce86bb009d10f0ec33cbe92299dd",
+      "model_optimized.onnx": "51f1bd0addd6e859e42c2c8021a5e5461385bb676a649f4b269aa445449f2431",
+      "README.md": "3bf78bc7cb0def03b30a901331fa50ace3ddf7d6e411d7089a8a2db64f066f03",
+      "special_tokens_map.json": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
+      "tokenizer.json": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "tokenizer_config.json": "0b29c7bfc889e53b36d9dd3e686dd4300f6525110eaa98c76a5dafceb2029f53"
+    },
+    "fastembed": "0.8.0"
+  },
+  "sources": {
+    "metrics.md": "e40c923858302bc38a498d2ba2efefa080dc9de011209cef012a49938b35b291",
+    "order_lifecycle.md": "c768fb10b35b6c4bc842db99e93ce834688ab029331d1f1636bcaadf17774465"
+  }
+}

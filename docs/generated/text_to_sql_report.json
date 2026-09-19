@@ -21,8 +21,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 1,
-      "elapsed_ms": 18322.99,
-      "execution_ms": 18266.417,
+      "elapsed_ms": 1875.192,
+      "execution_ms": 1810.636,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -63,7 +63,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 18266.417,
+          "execution_ms": 1810.636,
           "returned_rows": 1,
           "truncated": false
         },
@@ -88,8 +88,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 26,
-      "elapsed_ms": 20761.605,
-      "execution_ms": 20691.462,
+      "elapsed_ms": 4677.65,
+      "execution_ms": 4627.807,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -129,7 +129,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 20691.462,
+          "execution_ms": 4627.807,
           "returned_rows": 26,
           "truncated": false
         },
@@ -156,8 +156,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 27,
-      "elapsed_ms": 17212.476,
-      "execution_ms": 17146.31,
+      "elapsed_ms": 3213.493,
+      "execution_ms": 3151.48,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -198,7 +198,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 17146.31,
+          "execution_ms": 3151.48,
           "returned_rows": 27,
           "truncated": false
         },
@@ -223,8 +223,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 27,
-      "elapsed_ms": 18021.381,
-      "execution_ms": 17952.626,
+      "elapsed_ms": 2719.607,
+      "execution_ms": 2667.428,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -264,7 +264,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 17952.626,
+          "execution_ms": 2667.428,
           "returned_rows": 27,
           "truncated": false
         },
@@ -293,8 +293,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 10,
-      "elapsed_ms": 6695.686,
-      "execution_ms": 6624.366,
+      "elapsed_ms": 1511.224,
+      "execution_ms": 1463.038,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -342,7 +342,7 @@
             "products",
             "reviews"
           ],
-          "execution_ms": 6624.366,
+          "execution_ms": 1463.038,
           "returned_rows": 10,
           "truncated": false
         },
@@ -365,8 +365,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 1,
-      "elapsed_ms": 14385.734,
-      "execution_ms": 14363.727,
+      "elapsed_ms": 3248.818,
+      "execution_ms": 3182.767,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -405,7 +405,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 14363.727,
+          "execution_ms": 3182.767,
           "returned_rows": 1,
           "truncated": false
         },
@@ -430,8 +430,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 2,
-      "elapsed_ms": 14730.598,
-      "execution_ms": 14652.593,
+      "elapsed_ms": 3118.853,
+      "execution_ms": 3043.668,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -471,7 +471,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 14652.593,
+          "execution_ms": 3043.668,
           "returned_rows": 2,
           "truncated": false
         },
@@ -500,8 +500,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 10,
-      "elapsed_ms": 12048.069,
-      "execution_ms": 12027.212,
+      "elapsed_ms": 3631.37,
+      "execution_ms": 3552.955,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -549,7 +549,7 @@
             "products",
             "reviews"
           ],
-          "execution_ms": 12027.212,
+          "execution_ms": 3552.955,
           "returned_rows": 10,
           "truncated": false
         },
@@ -577,8 +577,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 20,
-      "elapsed_ms": 12968.519,
-      "execution_ms": 12935.52,
+      "elapsed_ms": 4361.198,
+      "execution_ms": 4252.694,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -623,7 +623,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 12935.52,
+          "execution_ms": 4252.694,
           "returned_rows": 20,
           "truncated": false
         },
@@ -649,8 +649,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 20,
-      "elapsed_ms": 22289.908,
-      "execution_ms": 22206.23,
+      "elapsed_ms": 4966.207,
+      "execution_ms": 4887.554,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -694,7 +694,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 22206.23,
+          "execution_ms": 4887.554,
           "returned_rows": 20,
           "truncated": false
         },
@@ -719,8 +719,8 @@
       ],
       "retrieval_contains_expected": true,
       "result_rows": 27,
-      "elapsed_ms": 10738.556,
-      "execution_ms": 10676.782,
+      "elapsed_ms": 2958.026,
+      "execution_ms": 2885.137,
       "trace": [
         {
           "tool": "schema_retrieval",
@@ -760,7 +760,7 @@
             "payments",
             "reviews"
           ],
-          "execution_ms": 10676.782,
+          "execution_ms": 2885.137,
           "returned_rows": 27,
           "truncated": false
         },
@@ -773,6 +773,6 @@
     }
   },
   "all_passed": true,
-  "elapsed_seconds": 169.366,
+  "elapsed_seconds": 36.868,
   "live_model_evaluation": "not run; user requested offline only"
 }
