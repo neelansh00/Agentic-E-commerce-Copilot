@@ -1,0 +1,10 @@
+{
+  "bundle_sha256": "0da928e7b08c6024e02b66a1cc9cb6d3bbc13e814158530321844842f159517e",
+  "bundle_bytes": 140602729,
+  "passed": true,
+  "stdout": "[{\"mode\": \"Scripted demo\", \"question\": \"How many orders are there?\", \"status\": \"ok\"}, {\"mode\": \"Local tools\", \"question\": \"What does late delivery mean?\", \"status\": \"ok\"}, {\"mode\": \"Local tools\", \"question\": \"Are late deliveries associated with lower ratings?\", \"status\": \"ok\"}]\n",
+  "stderr": "2026-09-20 17:08:33.231 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2026-09-20 17:08:35.709 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2026-09-20 17:08:37.590 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n",
+  "database_unchanged": true,
+  "model_api_calls": 0,
+  "scope": "Clean temporary checkout, real bundle and hosted Streamlit entry point on local Windows; not a deployed cloud/Linux test."
+}

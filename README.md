@@ -4,7 +4,7 @@ A placement-focused project for answering e-commerce business questions with ins
 
 **Current status: Phase 8 packaging and documentation.** The Streamlit agent was evaluated on fifty frozen development questions: 47/50 tasks correct, 28/30 intended SQL tasks executing and matching reference values, and 48/50 tool selections correct. Controlled schema, validation/retry and definition-RAG comparisons are recorded. Two routing false positives and one metric-substitution failure remain documented. This is not held-out accuracy or production readiness. See the [Phase 8 verification record](docs/phase8_release.md) for what was actually tested.
 
-Start with the [complete setup and demo guide](docs/demo_guide.md), [interview notes](docs/interview_notes.md), or [evaluation report](docs/generated/phase7_report.md). The guide includes optional API setup, Docker, troubleshooting and evidence-backed resume wording.
+Start with the [complete setup and demo guide](docs/demo_guide.md), [local/Streamlit/Railway deployment guide](docs/deployment.md), [interview notes](docs/interview_notes.md), or [evaluation report](docs/generated/phase7_report.md). Docker is not required. On this PC, double-click `run_local.bat` after setup. The latest release verification passes 146 tests and both local and hosted-entry smoke flows; actual cloud deployment is still a separate step.
 
 ## Problem and business motivation
 
@@ -16,7 +16,7 @@ The supplied Olist archive contains **9 CSVs and 1,550,922 records**, including 
 
 - **20/20 database verification checks passed**, including six joins/cardinality checks and three exact monetary reconciliations.
 - **11/11 reference queries match independent calculations over original CSVs**, covering 171 result rows.
-- **137/137 automated tests passed**, covering ingestion, hand-calculated analytics, SQL safety, bounded repair, schema retrieval, provider failures, RAG, UI and evaluation scoring.
+- **146/146 automated tests passed** in the latest local release, covering ingestion, hand-calculated analytics, SQL safety, bounded repair, schema retrieval, provider failures, RAG, UI, evaluation scoring and deployment asset integrity.
 - All nine source row counts are preserved; there are zero enforced foreign-key violations.
 - Local retrieval: 24 manually authored questions; the reserved 10 supported questions achieve Hit@3 100%, Top-1 90%, MRR@3 0.950. Two reserved unrelated questions abstain. This small retrieval benchmark does not establish LLM accuracy or business impact. See the separate live evaluation below.
 
@@ -162,11 +162,11 @@ SQLite is a local starting point, not a concurrent production service. The audit
 
 Phase 7 identified routing false positives, metric substitution during repair and incomplete explanation coverage; address these with a separately recorded correction pass before claiming reliable general analysis. Next priorities are preserving requested metrics through retries, narrower follow-up detection, held-out paraphrases and independent explanation review. Packaging does not resolve these accuracy failures. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
 
-## Docker packaging
+## Local and managed deployment
 
-Prepare the database, embedding weights and index using the setup above. With Docker's Linux engine running, use `docker compose up --build -d`, then open `http://127.0.0.1:8501`. Stop a local Streamlit instance first if it uses that port. Use `docker compose down` to stop the container.
+Run locally with `run_local.bat` or the Streamlit command above. For Streamlit Community Cloud use `streamlit_app.py`; Railway uses the checked-in Railpack configuration and `scripts/start_hosted.py`. Both hosted paths consume a checksummed runtime bundle exported from your prepared data.
 
-The non-root image contains runtime code and definitions; host data is mounted read-only. Credentials stay outside the image. The default port is localhost only. See the [Docker guide](docs/demo_guide.md#docker) and [verification scope](docs/phase8_release.md). No authentication or public hosting is included.
+Follow the [deployment guide](docs/deployment.md) for asset export, secrets, platform setup and acceptance checks. The bundle has been restored and tested locally; nothing has been uploaded or publicly deployed. No authentication was added. Earlier Docker attempts remain historical evidence only.
 
 ## Phase 4: local business knowledge RAG
 

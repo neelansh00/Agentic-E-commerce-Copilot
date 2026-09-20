@@ -1,0 +1,6 @@
+{
+  "port": 8502,
+  "http_status": 200,
+  "body": "ok",
+  "scope": "Railway launcher run locally on Windows using existing assets; not cloud deployment."
+}

@@ -106,6 +106,16 @@ def write_project_metrics(root: Path):
         lines += ['', f"- Phase 8 offline tests: {phase8['offline_tests']}; passed: {phase8['tests_passed']}.",
                   f"- Phase 8 real-data local UI flows: {sum(f['passed'] for f in phase8['flows'])}/{len(phase8['flows'])}; database unchanged: {phase8['database_unchanged']}.",
                   '- Phase 8 makes no new live-accuracy or improvement claim. See [packaging verification](phase8_release.md) for container test scope.']
+    local_release_path = root / 'docs/generated/local_release_verification.json'
+    hosting_path = root / 'docs/generated/hosting_verification.json'
+    if local_release_path.exists():
+        release = json.loads(local_release_path.read_text(encoding='utf-8'))
+        lines += ['', f"- Current no-Docker release: {release['offline_tests']} offline tests; passed: {release['tests_passed']}; {sum(f['passed'] for f in release['flows'])}/{len(release['flows'])} local UI flows passed."]
+    if hosting_path.exists():
+        hosting = json.loads(hosting_path.read_text(encoding='utf-8'))
+        lines += [f"- Hosted-entry bundle restoration smoke passed: {hosting['passed']}; database unchanged: {hosting['database_unchanged']}; model API calls: {hosting['model_api_calls']}.",
+                  f"- Runtime bundle size: {hosting['bundle_bytes']:,} bytes. Verification scope: {hosting['scope']}",
+                  '- Current setup: [local and managed deployment](deployment.md). Docker removed from scope; no actual hosted deployment is claimed.']
     lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')

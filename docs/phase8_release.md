@@ -1,5 +1,7 @@
 # Phase 8: packaging, verification and portfolio handoff
 
+**Current scope supersedes the Docker attempt below:** at the user's request, Docker files were removed. Local Python is the primary runtime, with prepared Streamlit Community Cloud and Railway paths. The latest verification passed 146 tests, three local UI flows and three hosted-entry flows restored from a real asset bundle on this PC. See [current deployment instructions and limitations](deployment.md). Actual cloud deployment has not been performed. Earlier Docker results below are retained as history, not a current blocker for local use.
+
 Phase 8 adds a Dockerfile, Compose configuration, an allowlisted image build context, an integrated setup/demo/troubleshooting guide, grounded resume examples and interview explanations of packaging choices. It updates automatic project metrics from the new local verification artifact. No routing, metric, SQL generation, RAG or answer behavior changed.
 
 ## Verification

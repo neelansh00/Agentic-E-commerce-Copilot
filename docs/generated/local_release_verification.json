@@ -1,0 +1,308 @@
+{
+  "offline_tests": 146,
+  "tests_passed": true,
+  "test_output": "test_definition_needs_no_database_or_model (test_agent.AgentTests.test_definition_needs_no_database_or_model) ... ok\ntest_missing_tools_and_provider_failure (test_agent.AgentTests.test_missing_tools_and_provider_failure) ... ok\ntest_rag_failure_and_empty_hits (test_agent.AgentTests.test_rag_failure_and_empty_hits) ... ok\ntest_rejected_query_retry_limit_propagates (test_agent.AgentTests.test_rejected_query_retry_limit_propagates) ... ok\ntest_sql_only_and_sql_rag (test_agent.AgentTests.test_sql_only_and_sql_rag) ... ok\ntest_statistics_complete_sql_to_python (test_agent.AgentTests.test_statistics_complete_sql_to_python) ... ok\ntest_statistics_with_knowledge (test_agent.AgentTests.test_statistics_with_knowledge) ... ok\ntest_truncated_statistics_and_database_failure (test_agent.AgentTests.test_truncated_statistics_and_database_failure) ... ok\ntest_hand_calculated_distribution (test_agent.PythonTests.test_hand_calculated_distribution) ... ok\ntest_incomplete_empty_invalid_and_duplicate_inputs (test_agent.PythonTests.test_incomplete_empty_invalid_and_duplicate_inputs) ... ok\ntest_all_five_combinations (test_agent.RoutingTests.test_all_five_combinations) ... ok\ntest_business_drop_and_explain_are_not_commands_or_definitions (test_agent.RoutingTests.test_business_drop_and_explain_are_not_commands_or_definitions) ... ok\ntest_causal_writes_followups_and_limits (test_agent.RoutingTests.test_causal_writes_followups_and_limits) ... ok\ntest_filtered_statistical_request_not_silently_global (test_agent.RoutingTests.test_filtered_statistical_request_not_silently_global) ... ok\ntest_no_python_for_sql_aggregation (test_agent.RoutingTests.test_no_python_for_sql_aggregation) ... ok\ntest_category_sales_retains_unknown_and_untranslated (test_analytics.AnalyticsTests.test_category_sales_retains_unknown_and_untranslated) ... ok\ntest_cli_frozen_snapshot_detects_regression_without_overwriting (test_analytics.AnalyticsTests.test_cli_frozen_snapshot_detects_regression_without_overwriting) ... ok\ntest_comparator_detects_wrong_values_order_and_nulls (test_analytics.AnalyticsTests.test_comparator_detects_wrong_values_order_and_nulls) ... ok\ntest_each_sql_query_matches_independent_fixture_reference (test_analytics.AnalyticsTests.test_each_sql_query_matches_independent_fixture_reference) ... ok\ntest_hand_calculated_revenue_aov_and_cancellations (test_analytics.AnalyticsTests.test_hand_calculated_revenue_aov_and_cancellations) ... ok\ntest_latest_valid_review_tiebreak_and_missing_coverage (test_analytics.AnalyticsTests.test_latest_valid_review_tiebreak_and_missing_coverage) ... ok\ntest_month_spine_keeps_empty_period_and_boundaries (test_analytics.AnalyticsTests.test_month_spine_keeps_empty_period_and_boundaries) ... ok\ntest_no_deliveries_produces_undefined_rates_not_zero (test_analytics.AnalyticsTests.test_no_deliveries_produces_undefined_rates_not_zero) ... ok\ntest_query_names_and_parameters_are_fixed (test_analytics.AnalyticsTests.test_query_names_and_parameters_are_fixed) ... ok\ntest_repeated_category_items_do_not_weight_delivery (test_analytics.AnalyticsTests.test_repeated_category_items_do_not_weight_delivery) ... ok\ntest_seller_deduplication_and_thresholds (test_analytics.AnalyticsTests.test_seller_deduplication_and_thresholds) ... ok\ntest_strict_timestamp_lateness_and_invalid_dates (test_analytics.AnalyticsTests.test_strict_timestamp_lateness_and_invalid_dates) ... ok\ntest_counts_csv_records_not_physical_lines (test_audit.AuditTests.test_counts_csv_records_not_physical_lines) ... ok\ntest_extraction_preserves_bytes (test_audit.AuditTests.test_extraction_preserves_bytes) ... ok\ntest_path_traversal_is_rejected (test_audit.AuditTests.test_path_traversal_is_rejected) ... ok\ntest_conversion_rejects_precision_loss_and_bad_dates (test_database.DatabaseTests.test_conversion_rejects_precision_loss_and_bad_dates) ... ok\ntest_duplicate_composite_key_is_rejected (test_database.DatabaseTests.test_duplicate_composite_key_is_rejected) ... ok\ntest_failed_rebuild_preserves_previous_database (test_database.DatabaseTests.test_failed_rebuild_preserves_previous_database) ... ok\ntest_header_drift_is_rejected (test_database.DatabaseTests.test_header_drift_is_rejected) ... ok\ntest_invalid_review_score_is_rejected (test_database.DatabaseTests.test_invalid_review_score_is_rejected) ... ok\ntest_load_preserves_grain_types_nulls_and_sources (test_database.DatabaseTests.test_load_preserves_grain_types_nulls_and_sources) ... ok\ntest_readonly_connection_supports_select_rejects_write (test_database.DatabaseTests.test_readonly_connection_supports_select_rejects_write) ... ok\ntest_rebuild_is_idempotent (test_database.DatabaseTests.test_rebuild_is_idempotent) ... ok\ntest_reviews_allow_shared_id_across_orders (test_database.DatabaseTests.test_reviews_allow_shared_id_across_orders) ... ok\ntest_untranslated_category_is_preserved (test_database.DatabaseTests.test_untranslated_category_is_preserved) ... ok\ntest_download_and_network_error_sanitization (test_deployment.DeploymentTests.test_download_and_network_error_sanitization) ... ok\ntest_existing_local_data_preserved (test_deployment.DeploymentTests.test_existing_local_data_preserved) ... ok\ntest_hash_failure_leaves_no_data (test_deployment.DeploymentTests.test_hash_failure_leaves_no_data) ... ok\ntest_http_and_missing_hash_rejected_before_download (test_deployment.DeploymentTests.test_http_and_missing_hash_rejected_before_download) ... ok\ntest_local_assets_need_no_network (test_deployment.DeploymentTests.test_local_assets_need_no_network) ... ok\ntest_size_limit_and_missing_files (test_deployment.DeploymentTests.test_size_limit_and_missing_files) ... ok\ntest_symlink_rejected (test_deployment.DeploymentTests.test_symlink_rejected) ... ok\ntest_traversal_absolute_and_unexpected_paths (test_deployment.DeploymentTests.test_traversal_absolute_and_unexpected_paths) ... ok\ntest_valid_install_and_cached_restart_do_not_download (test_deployment.DeploymentTests.test_valid_install_and_cached_restart_do_not_download) ... ok\ntest_engine_still_denies_mutations_and_external_reads (test_evaluation.EngineBaselineTests.test_engine_still_denies_mutations_and_external_reads) ... ok\ntest_expensive_query_bounded (test_evaluation.EngineBaselineTests.test_expensive_query_bounded) ... ok\ntest_select_and_metric_views_work (test_evaluation.EngineBaselineTests.test_select_and_metric_views_work) ... ok\ntest_empty_truncated_wrong_alias_and_duplicate_rows_fail (test_evaluation.ScoringTests.test_empty_truncated_wrong_alias_and_duplicate_rows_fail) ... ok\ntest_execution_is_not_accuracy (test_evaluation.ScoringTests.test_execution_is_not_accuracy) ... ok\ntest_frozen_benchmark_shape_and_categories (test_evaluation.ScoringTests.test_frozen_benchmark_shape_and_categories) ... ok\ntest_missing_results_count_in_denominator (test_evaluation.ScoringTests.test_missing_results_count_in_denominator) ... ok\ntest_wrong_tool_not_hidden_by_correct_result (test_evaluation.ScoringTests.test_wrong_tool_not_hidden_by_correct_result) ... ok\ntest_zero_denominator_and_rubric_label (test_evaluation.ScoringTests.test_zero_denominator_and_rubric_label) ... ok\ntest_budget_prevents_extra_calls (test_live_evaluation.LiveEvaluationTests.test_budget_prevents_extra_calls) ... ok\ntest_execution_and_answer_format_do_not_imply_result_accuracy (test_live_evaluation.LiveEvaluationTests.test_execution_and_answer_format_do_not_imply_result_accuracy) ... ok\ntest_failed_provider_call_consumes_attempt_budget (test_live_evaluation.LiveEvaluationTests.test_failed_provider_call_consumes_attempt_budget) ... ok\ntest_row_order_does_not_change_group_accuracy (test_live_evaluation.LiveEvaluationTests.test_row_order_does_not_change_group_accuracy) ... ok\ntest_wrong_values_missing_rows_and_columns_fail (test_live_evaluation.LiveEvaluationTests.test_wrong_values_missing_rows_and_columns_fail) ... ok\ntest_category_repeated_items_do_not_weight_delivery (test_phase45.MetricViewsTests.test_category_repeated_items_do_not_weight_delivery) ... ok\ntest_delivery_duration_and_lateness_share_eligible_population (test_phase45.MetricViewsTests.test_delivery_duration_and_lateness_share_eligible_population) ... ok\ntest_delivery_timestamp_is_not_successful_order_status (test_phase45.MetricViewsTests.test_delivery_timestamp_is_not_successful_order_status) ... ok\ntest_exists_is_valid_readonly_sql_and_executes (test_phase45.MetricViewsTests.test_exists_is_valid_readonly_sql_and_executes) ... ok\ntest_month_spine_retains_empty_month_with_null_money (test_phase45.MetricViewsTests.test_month_spine_retains_empty_month_with_null_money) ... ok\ntest_payments_and_reviews_do_not_multiply_order_grain (test_phase45.MetricViewsTests.test_payments_and_reviews_do_not_multiply_order_grain) ... ok\ntest_review_eligibility_precedes_latest_selection (test_phase45.MetricViewsTests.test_review_eligibility_precedes_latest_selection) ... ok\ntest_seller_order_grain_preserves_item_sales_and_single_review (test_phase45.MetricViewsTests.test_seller_order_grain_preserves_item_sales_and_single_review) ... ok\ntest_views_survive_executor_setup_and_do_not_modify_database (test_phase45.MetricViewsTests.test_views_survive_executor_setup_and_do_not_modify_database) ... ok\ntest_zero_payments_are_observations_missing_payments_are_null (test_phase45.MetricViewsTests.test_zero_payments_are_observations_missing_payments_are_null) ... ok\ntest_benchmark_questions_are_exactly_unchanged (test_phase45.SemanticBoundaryTests.test_benchmark_questions_are_exactly_unchanged) ... ok\ntest_calendar_gap_rejected_only_for_continuous_series (test_phase45.SemanticBoundaryTests.test_calendar_gap_rejected_only_for_continuous_series) ... ok\ntest_explanation_rows_have_explicit_indices (test_phase45.SemanticBoundaryTests.test_explanation_rows_have_explicit_indices) ... ok\ntest_inflated_late_numerator_rejected (test_phase45.SemanticBoundaryTests.test_inflated_late_numerator_rejected) ... ok\ntest_mixed_seller_rows_receive_their_own_identity (test_phase45.SemanticBoundaryTests.test_mixed_seller_rows_receive_their_own_identity) ... ok\ntest_previous_invalid_explanations_still_fail_closed (test_phase45.SemanticBoundaryTests.test_previous_invalid_explanations_still_fail_closed) ... ok\ntest_rag_includes_transitive_metric_dependencies (test_phase45.SemanticBoundaryTests.test_rag_includes_transitive_metric_dependencies) ... ok\ntest_raw_child_fanout_and_payment_allocation_rejected (test_phase45.SemanticBoundaryTests.test_raw_child_fanout_and_payment_allocation_rejected) ... ok\ntest_recorded_explanation_failures_are_rejected_or_neutrally_rendered (test_phase45.SemanticBoundaryTests.test_recorded_explanation_failures_are_rejected_or_neutrally_rendered) ... ok\ntest_recorded_monthly_failures_rejected_without_using_reference_answers (test_phase45.SemanticBoundaryTests.test_recorded_monthly_failures_rejected_without_using_reference_answers) ... ok\ntest_wrong_highest_lowest_labels_never_enter_answer (test_phase45.SemanticBoundaryTests.test_wrong_highest_lowest_labels_never_enter_answer) ... ok\ntest_zero_denominator_aov_rejected (test_phase45.SemanticBoundaryTests.test_zero_denominator_aov_rejected) ... ok\ntest_zero_revenue_without_payment_records_rejected (test_phase45.SemanticBoundaryTests.test_zero_revenue_without_payment_records_rejected) ... ok\ntest_abstention_and_no_invented_answer (test_rag.RagTests.test_abstention_and_no_invented_answer) ... ok\ntest_chunk_bounds_and_overlap (test_rag.RagTests.test_chunk_bounds_and_overlap) ... ok\ntest_chunks_preserve_exact_lines_and_stable_ids (test_rag.RagTests.test_chunks_preserve_exact_lines_and_stable_ids) ... ok\ntest_corrupt_index_rejected (test_rag.RagTests.test_corrupt_index_rejected) ... ok\ntest_cosine_ranking_and_citations (test_rag.RagTests.test_cosine_ranking_and_citations) ... ok\ntest_dimension_mismatch_rejected (test_rag.RagTests.test_dimension_mismatch_rejected) ... ok\ntest_edit_during_build_preserves_previous_index (test_rag.RagTests.test_edit_during_build_preserves_previous_index) ... ok\ntest_input_limits (test_rag.RagTests.test_input_limits) ... ok\ntest_long_paragraph_rejected (test_rag.RagTests.test_long_paragraph_rejected) ... ok\ntest_missing_model_is_explicit_without_download (test_rag.RagTests.test_missing_model_is_explicit_without_download) ... ok\ntest_model_mismatch_rejected (test_rag.RagTests.test_model_mismatch_rejected) ... ok\ntest_pipeline_no_match_does_not_call_model (test_rag.RagTests.test_pipeline_no_match_does_not_call_model) ... ok\ntest_pipeline_stale_index_reports_failure (test_rag.RagTests.test_pipeline_stale_index_reports_failure) ... ok\ntest_retrieved_context_replaces_full_contract (test_rag.RagTests.test_retrieved_context_replaces_full_contract) ... ok\ntest_sql_pipeline_receives_citations_and_keeps_query_evidence (test_rag.RagTests.test_sql_pipeline_receives_citations_and_keeps_query_evidence) ... ok\ntest_stale_documents_rejected_after_loading (test_rag.RagTests.test_stale_documents_rejected_after_loading) ... ok\ntest_token_overflow_rejected_instead_of_silent_truncation (test_rag.RagTests.test_token_overflow_rejected_instead_of_silent_truncation) ... ok\ntest_byte_limit_does_not_claim_zero_rows (test_text_to_sql.PipelineTests.test_byte_limit_does_not_claim_zero_rows) ... ok\ntest_clarification_and_unsupported_skip_sql (test_text_to_sql.PipelineTests.test_clarification_and_unsupported_skip_sql) ... ok\ntest_duplicate_column_alias_rejected (test_text_to_sql.PipelineTests.test_duplicate_column_alias_rejected) ... ok\ntest_executor_connection_failure_uses_standard_error_boundary (test_text_to_sql.PipelineTests.test_executor_connection_failure_uses_standard_error_boundary) ... ok\ntest_expensive_query_times_out (test_text_to_sql.PipelineTests.test_expensive_query_times_out) ... ok\ntest_invalid_aggregation_then_repair (test_text_to_sql.PipelineTests.test_invalid_aggregation_then_repair) ... ok\ntest_invalid_column_then_bounded_correction (test_text_to_sql.PipelineTests.test_invalid_column_then_bounded_correction) ... ok\ntest_invalid_evidence_uses_literal_fallback (test_text_to_sql.PipelineTests.test_invalid_evidence_uses_literal_fallback) ... ok\ntest_malformed_model_output_fails_closed (test_text_to_sql.PipelineTests.test_malformed_model_output_fails_closed) ... ok\ntest_missing_database_is_handled (test_text_to_sql.PipelineTests.test_missing_database_is_handled) ... ok\ntest_model_failure_is_explicit (test_text_to_sql.PipelineTests.test_model_failure_is_explicit) ... ok\ntest_no_rows_not_a_zero_business_answer (test_text_to_sql.PipelineTests.test_no_rows_not_a_zero_business_answer) ... ok\ntest_nonfinite_output_rejected (test_text_to_sql.PipelineTests.test_nonfinite_output_rejected) ... ok\ntest_retry_exhaustion_has_no_fabricated_result (test_text_to_sql.PipelineTests.test_retry_exhaustion_has_no_fabricated_result) ... ok\ntest_row_limit_marks_truncation (test_text_to_sql.PipelineTests.test_row_limit_marks_truncation) ... ok\ntest_schema_expansion_is_traceable_and_bounded (test_text_to_sql.PipelineTests.test_schema_expansion_is_traceable_and_bounded) ... ok\ntest_schema_retrieval_avoids_unrelated_tables (test_text_to_sql.PipelineTests.test_schema_retrieval_avoids_unrelated_tables) ... ok\ntest_sqlite_authorizer_blocks_mutations_even_without_parser (test_text_to_sql.PipelineTests.test_sqlite_authorizer_blocks_mutations_even_without_parser) ... ok\ntest_syntax_and_wrong_table_repaired_within_three_attempts (test_text_to_sql.PipelineTests.test_syntax_and_wrong_table_repaired_within_three_attempts) ... ok\ntest_valid_select_and_result_transparency (test_text_to_sql.PipelineTests.test_valid_select_and_result_transparency) ... ok\ntest_write_attempt_never_changes_database (test_text_to_sql.PipelineTests.test_write_attempt_never_changes_database) ... ok\ntest_adapter_does_not_expose_provider_secrets (test_text_to_sql.ProviderTests.test_adapter_does_not_expose_provider_secrets) ... ok\ntest_adapter_uses_structured_output_and_no_storage (test_text_to_sql.ProviderTests.test_adapter_uses_structured_output_and_no_storage) ... ok\ntest_missing_credentials_no_network_fallback (test_text_to_sql.ProviderTests.test_missing_credentials_no_network_fallback) ... ok\ntest_refusal_or_incomplete_response_is_explicit (test_text_to_sql.ProviderTests.test_refusal_or_incomplete_response_is_explicit) ... ok\ntest_comments_strings_ctes_unions_and_alias_shadowing (test_text_to_sql.SQLSafetyTests.test_comments_strings_ctes_unions_and_alias_shadowing) ... ok\ntest_empty_oversized_malformed_sql (test_text_to_sql.SQLSafetyTests.test_empty_oversized_malformed_sql) ... ok\ntest_forbidden_sql_corpus (test_text_to_sql.SQLSafetyTests.test_forbidden_sql_corpus) ... ok\ntest_unknown_table_and_schema_scope (test_text_to_sql.SQLSafetyTests.test_unknown_table_and_schema_scope) ... ok\ntest_cents_converted_once_and_null_not_zero (test_ui.PresentationTests.test_cents_converted_once_and_null_not_zero) ... ok\ntest_monthly_gaps_break_line_and_sort (test_ui.PresentationTests.test_monthly_gaps_break_line_and_sort) ... ok\ntest_no_chart_for_truncation_duplicate_groups_or_unknown_metrics (test_ui.PresentationTests.test_no_chart_for_truncation_duplicate_groups_or_unknown_metrics) ... ok\ntest_summary_preserves_unknown_and_omits_truncated (test_ui.PresentationTests.test_summary_preserves_unknown_and_omits_truncated) ... ok\ntest_demo_does_not_accept_arbitrary_queries (test_ui.ServiceTests.test_demo_does_not_accept_arbitrary_queries) ... ok\ntest_live_boundary_uses_new_provider_and_sanitizes_setup_error (test_ui.ServiceTests.test_live_boundary_uses_new_provider_and_sanitizes_setup_error) ... ok\ntest_local_definitions_need_no_model (test_ui.ServiceTests.test_local_definitions_need_no_model) ... ok\ntest_local_mode_never_creates_model_for_query (test_ui.ServiceTests.test_local_mode_never_creates_model_for_query) ... ok\ntest_all_evidence_panels_and_reruns_do_not_repeat_execution (test_ui.StreamlitTests.test_all_evidence_panels_and_reruns_do_not_repeat_execution) ... 2026-09-20 17:07:51.507 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\ntest_clear_and_independent_sessions (test_ui.StreamlitTests.test_clear_and_independent_sessions) ... 2026-09-20 17:07:54.223 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2026-09-20 17:07:54.506 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\ntest_example_click_runs_once (test_ui.StreamlitTests.test_example_click_runs_once) ... 2026-09-20 17:07:54.806 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\ntest_failed_and_truncated_results_visible (test_ui.StreamlitTests.test_failed_and_truncated_results_visible) ... 2026-09-20 17:07:55.142 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\n2026-09-20 17:07:55.497 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\ntest_history_is_bounded (test_ui.StreamlitTests.test_history_is_bounded) ... 2026-09-20 17:07:55.786 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\ntest_startup_local_default_no_execution (test_ui.StreamlitTests.test_startup_local_default_no_execution) ... 2026-09-20 17:07:56.824 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.\nok\n\n----------------------------------------------------------------------\nRan 146 tests in 27.159s\n\nOK\n",
+  "flows": [
+    {
+      "mode": "Scripted demo",
+      "question": "How many orders are there?",
+      "response": {
+        "status": "ok",
+        "answer": "Total orders: 99441 [row 0, total_orders]",
+        "observations": [
+          "Total orders: 99441 [row 0, total_orders]"
+        ],
+        "caveats": [
+          "Observations are descriptive; they do not establish causality or statistical significance."
+        ],
+        "sources": [],
+        "schema_tables": [
+          "orders"
+        ],
+        "schema_reasons": {
+          "orders": "Matched: orders"
+        },
+        "result": {
+          "sql": "SELECT COUNT(*) AS total_orders FROM orders",
+          "tables": [
+            "orders"
+          ],
+          "columns": [
+            "total_orders"
+          ],
+          "rows": [
+            {
+              "total_orders": 99441
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 5.815
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "sql"
+            ],
+            "operation": "query",
+            "reason": "Ordinary aggregation belongs in SQL."
+          },
+          {
+            "tool": "schema_retrieval",
+            "tables": [
+              "orders"
+            ],
+            "reasons": {
+              "orders": "Matched: orders"
+            }
+          },
+          {
+            "tool": "sql",
+            "attempt": 1,
+            "sql": "SELECT COUNT(*) AS total_orders FROM orders",
+            "assumptions": [],
+            "status": "executed",
+            "tables": [
+              "orders"
+            ],
+            "execution_ms": 5.815,
+            "returned_rows": 1,
+            "truncated": false
+          },
+          {
+            "stage": "explanation",
+            "status": "evidence_references_validated"
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 21.728,
+        "model": "offline-scripted-not-an-llm",
+        "route": {
+          "tools": [
+            "sql"
+          ],
+          "operation": "query",
+          "reason": "Ordinary aggregation belongs in SQL."
+        },
+        "analysis": {}
+      },
+      "exceptions": [],
+      "rerun_preserves_answer": true,
+      "passed": true
+    },
+    {
+      "mode": "Local tools",
+      "question": "What does late delivery mean?",
+      "response": {
+        "status": "ok",
+        "answer": "[metrics.md:31-35 | Delivery eligibility, lateness and duration]\nEligible delivery = status `delivered`, non-null delivered and estimated timestamps, and delivered timestamp >= purchase timestamp. Excluded delivered orders are counted. This is a purchase-to-customer metric and does not require a carrier timestamp.\n\nLate means `order_delivered_customer_date > order_estimated_delivery_date` using the full timestamp. Equality is on time. Arrival later on the estimated calendar date counts late under this strict rule; this is deliberate and must be disclosed. A calendar-day sensitivity count is also reported, but does not replace the strict definition. NULL dates are unknown, never on time.\n\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.\n\n[metrics.md:47-51 | Seller and region screening]\nSeller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\n\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\n\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.\n\n[metrics.md:55-57 | Time cohorts and missing periods]\nAssign revenue to purchase month of the eventually delivered order, not payment or delivery month. Calendar months between first and last purchase are included, including months without orders. Empty-month observed revenue and AOV are NULL; counts are zero. An observed cohort with payment records totaling zero has revenue zero.\n\nFlag the first and last observed purchase months as dataset-boundary months. Also report delivered/payment coverage. Interior months are not guaranteed complete; recent cohorts can be immature at the snapshot. Do not interpret apparent decline as causal evidence or compare incomplete cohorts without qualification. A revenue-change explanation would require explicit period selection, coverage checks and descriptive decomposition in later work.",
+        "observations": [],
+        "caveats": [],
+        "sources": [
+          {
+            "id": "bcd37fda08d2ca59",
+            "source": "metrics.md",
+            "heading": "Delivery eligibility, lateness and duration",
+            "start_line": 31,
+            "end_line": 35,
+            "text": "Eligible delivery = status `delivered`, non-null delivered and estimated timestamps, and delivered timestamp >= purchase timestamp. Excluded delivered orders are counted. This is a purchase-to-customer metric and does not require a carrier timestamp.\n\nLate means `order_delivered_customer_date > order_estimated_delivery_date` using the full timestamp. Equality is on time. Arrival later on the estimated calendar date counts late under this strict rule; this is deliberate and must be disclosed. A calendar-day sensitivity count is also reported, but does not replace the strict definition. NULL dates are unknown, never on time.\n\nLate rate = late eligible orders / all eligible delivery orders. Delivery days = elapsed purchase-to-customer seconds / 86,400, not rounded calendar days or business days. A category contributes at most once per order to category delivery analysis, even if an order has several items in that category. A multi-category order can appear in several category groups, so group order counts are not additive.",
+            "score": 0.788369
+          },
+          {
+            "id": "bb27556ad2ac6ccb",
+            "source": "metrics.md",
+            "heading": "Seller and region screening",
+            "start_line": 47,
+            "end_line": 51,
+            "text": "Seller sales/rating screen: require at least 20 reviewed delivered orders, retain sellers whose mean selected order score is below the platform's order-weighted mean across reviewed delivered orders, and rank by delivered item sales (top 20). This is a candidate review list; high sales means relative ranking, not a statistical threshold.\n\nSeller late-delivery screen: require at least 30 eligible delivered orders and a late rate above the platform eligible-order late rate; rank by rate, then sample size, then seller ID (top 20). This is an above-average descriptive screen, not an anomaly test or proof of seller fault. Thresholds are configurable named SQL parameters.\n\nCategory delivery ranking requires at least 30 eligible order/category pairs. Regional delivery reports show all customer states with order counts, eligible deliveries, late counts/rates and mean delivery days; no arbitrary high-volume or poor-performance cutoff is implied. Carrier, route and geography may confound seller comparisons.",
+            "score": 0.653862
+          },
+          {
+            "id": "a22bb35274856387",
+            "source": "metrics.md",
+            "heading": "Time cohorts and missing periods",
+            "start_line": 55,
+            "end_line": 57,
+            "text": "Assign revenue to purchase month of the eventually delivered order, not payment or delivery month. Calendar months between first and last purchase are included, including months without orders. Empty-month observed revenue and AOV are NULL; counts are zero. An observed cohort with payment records totaling zero has revenue zero.\n\nFlag the first and last observed purchase months as dataset-boundary months. Also report delivered/payment coverage. Interior months are not guaranteed complete; recent cohorts can be immature at the snapshot. Do not interpret apparent decline as causal evidence or compare incomplete cohorts without qualification. A revenue-change explanation would require explicit period selection, coverage checks and descriptive decomposition in later work.",
+            "score": 0.61906
+          }
+        ],
+        "schema_tables": [],
+        "schema_reasons": {},
+        "result": null,
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "rag"
+            ],
+            "operation": "definition",
+            "reason": "Retrieve cited business definitions without querying transactions."
+          },
+          {
+            "tool": "business_knowledge",
+            "returned_chunks": 3
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 19.915,
+        "model": "deterministic-tools",
+        "route": {
+          "tools": [
+            "rag"
+          ],
+          "operation": "definition",
+          "reason": "Retrieve cited business definitions without querying transactions."
+        },
+        "analysis": {}
+      },
+      "exceptions": [],
+      "rerun_preserves_answer": true,
+      "passed": true
+    },
+    {
+      "mode": "Local tools",
+      "question": "Are late deliveries associated with lower ratings?",
+      "response": {
+        "status": "ok",
+        "answer": "Reviewed eligible orders: 7,661 late; 88,160 on time.\nMean review score: late 2.565; on time 4.294 (one-to-five scale).\nLate minus on-time mean: -1.729 score points.\nAcross all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs.",
+        "observations": [
+          "Reviewed eligible orders: 7,661 late; 88,160 on time.",
+          "Mean review score: late 2.565; on time 4.294 (one-to-five scale).",
+          "Late minus on-time mean: -1.729 score points.",
+          "Across all cross-group pairs, the late order has a lower score in 67.41% and an equal score in 20.55% of pairs."
+        ],
+        "caveats": [
+          "Descriptive association only; no causal effect or statistical significance is established.",
+          "Reviews are ordinal. Mean scores assume equally spaced score points; pairwise comparisons preserve ordering.",
+          "Population: delivered orders with valid delivery dates and an eligible selected review. Missing reviews are excluded; this can introduce selection bias.",
+          "Repeated customers and shared sellers can create dependence. No independent-observation hypothesis test is performed."
+        ],
+        "sources": [],
+        "schema_tables": [],
+        "schema_reasons": {},
+        "result": {
+          "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+          "tables": [
+            "metric_orders"
+          ],
+          "columns": [
+            "is_late",
+            "review_score",
+            "n"
+          ],
+          "rows": [
+            {
+              "is_late": 0,
+              "review_score": 1,
+              "n": 5810
+            },
+            {
+              "is_late": 0,
+              "review_score": 2,
+              "n": 2318
+            },
+            {
+              "is_late": 0,
+              "review_score": 3,
+              "n": 7043
+            },
+            {
+              "is_late": 0,
+              "review_score": 4,
+              "n": 17944
+            },
+            {
+              "is_late": 0,
+              "review_score": 5,
+              "n": 55045
+            },
+            {
+              "is_late": 1,
+              "review_score": 1,
+              "n": 3540
+            },
+            {
+              "is_late": 1,
+              "review_score": 2,
+              "n": 602
+            },
+            {
+              "is_late": 1,
+              "review_score": 3,
+              "n": 872
+            },
+            {
+              "is_late": 1,
+              "review_score": 4,
+              "n": 944
+            },
+            {
+              "is_late": 1,
+              "review_score": 5,
+              "n": 1703
+            }
+          ],
+          "truncated": false,
+          "execution_ms": 1597.263
+        },
+        "trace": [
+          {
+            "tool": "router",
+            "selected_tools": [
+              "sql",
+              "python"
+            ],
+            "operation": "late_reviews",
+            "reason": "Compare complete review histograms at one eligible order per observation."
+          },
+          {
+            "tool": "sql",
+            "sql": "SELECT is_late, delivered_review_score AS review_score, COUNT(*) AS n\nFROM metric_orders WHERE delivery_eligible = 1 AND delivered_review_score IS NOT NULL\nGROUP BY is_late, delivered_review_score ORDER BY is_late, review_score",
+            "status": "executed",
+            "returned_rows": 10,
+            "execution_ms": 1597.263
+          },
+          {
+            "tool": "python",
+            "operation": "compare_review_histograms",
+            "status": "completed"
+          }
+        ],
+        "usage": [],
+        "elapsed_ms": 1615.416,
+        "model": "deterministic-tools",
+        "route": {
+          "tools": [
+            "sql",
+            "python"
+          ],
+          "operation": "late_reviews",
+          "reason": "Compare complete review histograms at one eligible order per observation."
+        },
+        "analysis": {
+          "on_time_orders": 88160,
+          "late_orders": 7661,
+          "on_time_mean": 4.294192377495463,
+          "late_mean": 2.565069834225297,
+          "mean_difference_late_minus_on_time": -1.729122543270166,
+          "probability_late_score_lower": 0.6741358581696105,
+          "probability_equal_score": 0.20548768913707466,
+          "probability_late_score_higher": 0.12037645269331482
+        }
+      },
+      "exceptions": [],
+      "rerun_preserves_answer": true,
+      "passed": true
+    }
+  ],
+  "database_unchanged": true,
+  "method": "Streamlit AppTest using the real local database and embeddings. Scripted demo is not model-generated SQL. Optional single live flow is an integration smoke, not an accuracy benchmark.",
+  "source_hashes": {
+    "app\\main.py": "cf1b2248368f4a337adfdd5fe242e6c2d08b6ba1bffbc4c8abdab095b9f2bec0",
+    "app\\ui\\presentation.py": "d4566ab85fed285c5741fb32d1a7a3a0868e66c1d311356904a9334b22c3f31f",
+    "app\\ui\\service.py": "5cba8a2911dd90323f6fda855c6ee604aea27d0b8520299274a22c37f18cc857",
+    "app\\ui\\__init__.py": "1441260887bedfa0c8c57e883c2bb3912076f254d76b105178261754e1686e76"
+  },
+  "all_passed": true
+}

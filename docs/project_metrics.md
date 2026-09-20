@@ -63,6 +63,11 @@ Regenerated from saved reports. Deterministic checks, retrieval metrics and live
 - Phase 8 offline tests: 137; passed: True.
 - Phase 8 real-data local UI flows: 3/3; database unchanged: True.
 - Phase 8 makes no new live-accuracy or improvement claim. See [packaging verification](phase8_release.md) for container test scope.
+
+- Current no-Docker release: 146 offline tests; passed: True; 3/3 local UI flows passed.
+- Hosted-entry bundle restoration smoke passed: True; database unchanged: True; model API calls: 0.
+- Runtime bundle size: 140,602,729 bytes. Verification scope: Clean temporary checkout, real bundle and hosted Streamlit entry point on local Windows; not a deployed cloud/Linux test.
+- Current setup: [local and managed deployment](deployment.md). Docker removed from scope; no actual hosted deployment is claimed.
 - Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
 
 Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).

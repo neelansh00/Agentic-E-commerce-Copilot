@@ -8,6 +8,8 @@ data/models/
 *.sqlite-wal
 *.sqlite-shm
 .env
+.streamlit/secrets.toml
+dist/
 .env.*
 !.env.example
 .venv/

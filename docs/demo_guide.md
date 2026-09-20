@@ -17,7 +17,7 @@ python -m venv .venv
 
 If several ZIPs exist, pass `--archive "your-file.zip"` to the inspection script. On macOS/Linux replace `.venv/Scripts/python.exe` with `.venv/bin/python`. Raw CSVs are never manually edited. Loading again replaces the generated database; indexing again rebuilds the generated index. Do not run either while investigating a historical benchmark. Setup audit/loading reports are regenerated; preserved Phase 7 live evidence is not.
 
-Open http://127.0.0.1:8501. Stop with Ctrl+C. The default Local tools mode does not generate arbitrary SQL; it supports cited definitions and the global late-delivery/review comparison. Scripted demo replays a fixed count query and is explicitly labeled.
+Open http://127.0.0.1:8501. Stop with Ctrl+C. For subsequent Windows runs, double-click `run_local.bat`. The default Local tools mode does not generate arbitrary SQL; it supports cited definitions and the global late-delivery/review comparison. Scripted demo replays a fixed count query and is explicitly labeled.
 
 ## Optional live SQL
 
@@ -27,7 +27,7 @@ Open http://127.0.0.1:8501. Stop with Ctrl+C. The default Local tools mode does 
 4. Ask “How many orders are there? Return one column named total_orders.” Inspect SQL Used and Data Preview; the supplied snapshot has 99,441 orders.
 5. If the provider fails, inspect the sanitized error/trace and model configuration. Do not interpret a failed response as a zero value.
 
-Never print `docker compose config` or the container environment when credentials are configured: interpolation can reveal them. Docker daemon administrators can inspect runtime environment variables; this is a local demo deployment, not secret management for a shared service.
+Keep keys in the local `.env` or the selected hosting platform's secrets settings. Never print credentials or commit `.streamlit/secrets.toml`.
 
 ## Five-minute interview demo
 
@@ -39,24 +39,9 @@ Never print `docker compose config` or the container environment when credential
 
 Use the checked-in [screenshots](phase6_ui.md) if a presentation machine lacks data/model assets. Do not present scripted playback as live generation.
 
-## Docker
+## Hosted deployment
 
-First prepare `data/processed/olist.sqlite`, `data/models/bge-small-en-v1.5/` and `data/processed/knowledge_index/` using local setup above. Docker Desktop must have its Linux engine running. The image installs pinned direct dependencies and copies runtime source/definitions only; it excludes data, credentials, historical results and tests. The Python base tag and transitive dependencies are not fully locked, so this is a repeatable recipe, not a bit-identical build.
-
-```powershell
-docker compose build
-docker compose up -d
-docker compose ps
-docker compose logs --tail 30 copilot
-```
-
-Open http://127.0.0.1:8501. Stop any locally running Streamlit on that port first, or change the host side of the mapping to `127.0.0.1:8502:8501`. Compose reads the two optional settings from the host `.env`; it never copies that file into the image. With neither setting, local tools still work. Data is a read-only bind mount and the process runs as a non-root user. The health check tests HTTP availability; it does not prove model accuracy or asset readiness. Keep this unauthenticated demo bound to localhost.
-
-```powershell
-docker compose down
-```
-
-This stops/removes the service; it does not delete your host data. Rebuild the image after code/knowledge changes and rebuild the index after knowledge changes. Linux file permissions must allow UID 10001 to read mounted assets.
+Docker is no longer part of the project setup. The [deployment guide](deployment.md) gives step-by-step Streamlit Community Cloud and Railway instructions, including how to supply the ignored database/model/index files as a verified bundle. Local use does not need hosting, an asset URL or a rebuild.
 
 ## Verification and common failures
 
@@ -73,7 +58,7 @@ The last command runs the suite plus three real-data UI flows, requires prepared
 | Missing database | Run ingestion after extracting the supplied archive. |
 | Missing weights/manifest | Run the explicit model-download script, then build the index. |
 | Stale index or hash mismatch | Check whether knowledge/model files changed; rebuild from the intended version. Do not disable integrity checks. |
-| Docker engine unavailable | Start Docker Desktop's Linux engine and check `docker version`. |
+| Hosted assets missing | Follow the bundle export and URL/hash configuration in the deployment guide. |
 | Port already in use | Stop the previous app or choose another localhost host port. |
 | SQL failure after repair limit | Read the trace, restate scope/metric, and retain the failure for evaluation. |
 | Seller request unexpectedly refused | Known Phase 7 follow-up keyword false positive; report it rather than claiming arbitrary language support. |
