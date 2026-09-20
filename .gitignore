@@ -19,3 +19,15 @@ __pycache__/
 .coverage
 htmlcov/
 .DS_Store
+# Local tooling and credentials; examples remain versioned.
+.idea/
+.vscode/
+venv/
+env/
+*.log
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.pem
+*.key
+credentials.json

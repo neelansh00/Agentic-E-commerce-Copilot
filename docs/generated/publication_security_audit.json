@@ -1,0 +1,113 @@
+{
+  "head": "a6c4a8b34adfb03032265ef9b9cd0a5a7017491a",
+  "commits": 13,
+  "history_blobs": 248,
+  "history_candidates": [
+    {
+      "object": "3fa77e653647d0d7556513dcd9d92c1b3fe5a415",
+      "path": "docs/deployment.md",
+      "rule": "literal_secret_assignment",
+      "line": 40
+    }
+  ],
+  "working_candidates": [
+    {
+      "path": "docs/deployment.md",
+      "rule": "literal_secret_assignment",
+      "line": 40
+    }
+  ],
+  "local_path_locations": [
+    {
+      "path": "docs/generated/phase5_attempt2.json",
+      "line": 3
+    }
+  ],
+  "tracked_files": 168,
+  "tracked_forbidden_files": [],
+  "largest_history_blobs": [
+    {
+      "path": "docs/generated/live_evaluation.json",
+      "bytes": 424495
+    },
+    {
+      "path": "docs/generated/phase7_benchmark.json",
+      "bytes": 379481
+    },
+    {
+      "path": "docs/generated/phase7_experiments.json",
+      "bytes": 375107
+    },
+    {
+      "path": "docs/generated/phase45_live_evaluation.json",
+      "bytes": 359807
+    },
+    {
+      "path": "evaluation/questions.json",
+      "bytes": 115036
+    },
+    {
+      "path": "docs/generated/baseline_report.json",
+      "bytes": 77410
+    },
+    {
+      "path": "docs/generated/baseline_report.json",
+      "bytes": 77405
+    },
+    {
+      "path": "docs/generated/text_to_sql_report.json",
+      "bytes": 72696
+    },
+    {
+      "path": "docs/generated/phase45_reference_replay/text_to_sql_report.json",
+      "bytes": 72668
+    },
+    {
+      "path": "docs/generated/text_to_sql_report.json",
+      "bytes": 72668
+    }
+  ],
+  "exclusions": [
+    {
+      "path": ".env",
+      "ignored": true
+    },
+    {
+      "path": ".streamlit/secrets.toml",
+      "ignored": true
+    },
+    {
+      "path": ".venv/placeholder",
+      "ignored": true
+    },
+    {
+      "path": "data/raw/placeholder.csv",
+      "ignored": true
+    },
+    {
+      "path": "data/processed/olist.sqlite",
+      "ignored": true
+    },
+    {
+      "path": "data/models/placeholder",
+      "ignored": true
+    },
+    {
+      "path": "dist/runtime-assets.zip",
+      "ignored": true
+    }
+  ],
+  "ignored_local_candidates": [
+    {
+      "path": ".env",
+      "rule": "provider_token",
+      "line": 3
+    },
+    {
+      "path": ".env",
+      "rule": "exact_local_secret",
+      "line": 3
+    }
+  ],
+  "method": "All reachable Git blobs and tracked/untracked publishing files scanned with token/credential patterns plus exact local .env secret comparison. Ignored first-party text scanned separately; dependencies, original data, binary assets and dist excluded. Candidate matches require review; no secret values emitted. Not a proof of absence of every possible credential."
+}

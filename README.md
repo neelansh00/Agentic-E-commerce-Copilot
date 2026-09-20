@@ -2,6 +2,8 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
+**Run it:** follow the [exact Windows local-run guide](docs/local_run_guide.md) for cloning, Python 3.12 setup, dataset preparation, API configuration and five manual checks. On an already prepared Windows checkout, double-click `run_local.bat` and open `http://127.0.0.1:8501`.
+
 **Current status: Phase 8 packaging and documentation.** The Streamlit agent was evaluated on fifty frozen development questions: 47/50 tasks correct, 28/30 intended SQL tasks executing and matching reference values, and 48/50 tool selections correct. Controlled schema, validation/retry and definition-RAG comparisons are recorded. Two routing false positives and one metric-substitution failure remain documented. This is not held-out accuracy or production readiness. See the [Phase 8 verification record](docs/phase8_release.md) for what was actually tested.
 
 Start with the [complete setup and demo guide](docs/demo_guide.md), [local/Streamlit/Railway deployment guide](docs/deployment.md), [interview notes](docs/interview_notes.md), or [evaluation report](docs/generated/phase7_report.md). Docker is not required. On this PC, double-click `run_local.bat` after setup. The latest release verification passes 146 tests and both local and hosted-entry smoke flows; actual cloud deployment is still a separate step.
@@ -30,7 +32,7 @@ For Phase 3, read the [text-to-SQL walkthrough](docs/text_to_sql.md) and [offlin
 
 Use Python **3.12** (verified here with Python 3.12.2). Phases 1–2 remain standard-library-only. Later phases add the pinned dependencies in `requirements.txt`; offline execution needs no API key or model request. Dependency installation and the explicit one-time embedding download require network access.
 
-Place the supplied ZIP in the repository root, then run:
+The dataset is not included in Git. Download [Brazilian E-Commerce Public Dataset by Olist from Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), leave the download zipped, and place it in the repository root beside this README. The audit script extracts it; see the [full setup guide](docs/local_run_guide.md) for explicit archive selection and API configuration. Then run:
 
 ```powershell
 python -m venv .venv
