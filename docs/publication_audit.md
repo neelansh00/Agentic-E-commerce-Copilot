@@ -1,6 +1,6 @@
 # Publication audit and local verification
 
-Audited on 20 September 2026. This record covers preparation; successful GitHub publication and remote HEAD agreement must be confirmed separately after authentication/push.
+Audited on 20 September 2026. Publication succeeded after the user refreshed GitHub authentication. The original history was pushed normally to `main` at [neelansh00/Agentic-E-commerce-Copilot](https://github.com/neelansh00/Agentic-E-commerce-Copilot); no force push or history rewrite was used.
 
 ## Security and repository contents
 
@@ -35,7 +35,21 @@ The test server was stopped after verification. The Windows launcher's pre-exist
 
 ## Publishing and reproduction boundaries
 
-The original branch was `master`, with no remotes. It was renamed to `main` without rewriting history, and the user-specified GitHub repository was configured as `origin`. Initial remote access rejected the saved GitHub credential; publication requires successful account authentication. No force push, squash, history deletion or repository reinitialization is authorized or needed.
+The original branch was `master`, with no remotes. It was renamed to `main` without rewriting history, and the user-specified GitHub repository was configured as `origin`. Initial remote access rejected the saved GitHub credential; after the user authenticated, access and publication succeeded. GitHub's default HEAD and `main` both matched local commit `8a5ecc15ff5ede565bca6a7bcf8a07f0ed16f0b6` at first publication. `main` tracks `origin/main`. A subsequent ordinary documentation commit records the post-push check below.
+
+## Post-push fresh-clone verification
+
+Cloned the repository from GitHub into an isolated ignored directory after publication. Installed `requirements.txt` into a separate newly created Python 3.12 virtual environment, then used that environment to run the GitHub clone's checks. The original working virtual environment and hidden local configuration were not copied.
+
+- Dependency installation completed and `pip check` passed.
+- Imports and source compilation passed.
+- **All 146 offline tests passed from the GitHub clone.**
+- All required setup/application/deployment files were present among the 175 files tracked at the tested commit.
+- `.env`, real Streamlit secrets, raw CSVs, SQLite database, model assets and `.venv` were absent from that clone.
+- Real-data UI/live API checks were intentionally not repeated inside the clone: they require the separately obtained Kaggle ZIP, model download and user-configured API credentials. The primary working copy's six fresh UI/entry checks passed as recorded above.
+- No cloud deployment was performed. The fresh-clone test confirms the Windows setup, not Linux/cloud portability.
+
+Raw evidence: [publication_fresh_clone.json](generated/publication_fresh_clone.json). This report identifies the exact tested commit; the following publication-evidence commit changes only this document and the new report.
 
 The exact [local run guide](local_run_guide.md) covers fresh cloning, Python 3.12 environment creation/activation, dependency installation, `.env`, Kaggle ZIP placement, database/model/index preparation, batch/manual startup, representative tool paths, tests and troubleshooting.
 
