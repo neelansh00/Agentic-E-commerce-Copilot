@@ -27,6 +27,10 @@ Choose a new report filename when reproducing; the verifier refuses to overwrite
 
 Docker CLI 28.3.0 was installed, but `docker version` could not reach `dockerDesktopLinuxEngine`. Starting Docker Desktop (including `docker desktop start`) did not produce a running engine; `docker desktop status` reported that status could not be retrieved. An explicitly permitted `docker build -t olist-copilot:phase8 .` failed because the engine pipe was absent. This is an environment blocker, not a successful build. Once the engine is working, run the Docker guide, confirm a healthy service, and repeat the three local UI flows before marking container verification complete.
 
+### Docker retry, 20 September 2026
+
+After the user requested another attempt, the installed CLI reported 29.8.0 and Docker Desktop's log identified version 4.91.0. Starting Desktop launched the backend, but the engine never became ready. The backend log reported `starting services: initializing Inference manager` followed by a failed rename of `%LOCALAPPDATA%/Docker/run/dockerInference` to `dockerInference.stale`: `The file cannot be accessed by the system.` Desktop reported an unexpected error and offered Quit or Reset to factory defaults. The waiting CLI/build invocation was cancelled; image construction and container tests did not run. No factory reset, Docker-data deletion, application change or model API call was performed. Container verification remains blocked by Docker startup, with a more specific failure identified than the initial missing engine pipe.
+
 ## Packaging scope
 
 The image uses Python 3.12 slim and pinned direct dependencies. It copies only runtime code, definitions and Streamlit configuration. Compose binds the UI to localhost, passes the two optional model settings and mounts prepared data read-only. The application runs as UID 10001. HTTP health checking is provided. Downloading weights and ingesting CSVs remain explicit local preparation steps.
