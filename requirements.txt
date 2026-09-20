@@ -1,4 +1,4 @@
-# Python 3.12+ for the complete pinned stack. Phases 1–2 remain standard-library-only.
+# Python 3.12 is the verified minor version. Phases 1–2 remain standard-library-only.
 # Direct Phase 3 dependencies pinned to the versions tested in the project venv.
 openai==3.16.0
 pydantic==2.13.5

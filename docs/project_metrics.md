@@ -59,6 +59,10 @@ Regenerated from saved reports. Deterministic checks, retrieval metrics and live
 - Definition experiment: all required facts covered 0/8 without context vs 6/8 with RAG, coding-assistant semantic review.
 - Phase 7 actual model API calls: 98; tokens: 181,184 input / 14,716 output. No current-price cost estimate.
 - Evidence and unresolved errors: [Phase 7 report](generated/phase7_report.md). Do not present this as 100% reliable or independent human evaluation.
+
+- Phase 8 offline tests: 137; passed: True.
+- Phase 8 real-data local UI flows: 3/3; database unchanged: True.
+- Phase 8 makes no new live-accuracy or improvement claim. See [packaging verification](phase8_release.md) for container test scope.
 - Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.
 
 Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).

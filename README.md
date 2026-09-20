@@ -2,7 +2,9 @@
 
 A placement-focused project for answering e-commerce business questions with inspectable, data-grounded analysis.
 
-**Current status: Phase 7 evaluation complete; 137 offline tests pass.** The Streamlit agent was evaluated on fifty frozen development questions: 47/50 tasks correct, 28/30 intended SQL tasks executing and matching reference values, and 48/50 tool selections correct. Controlled schema, validation/retry and definition-RAG comparisons are recorded. Two routing false positives and one metric-substitution failure remain documented. This is not held-out accuracy or production readiness. Phase 8 has not started.
+**Current status: Phase 8 packaging and documentation.** The Streamlit agent was evaluated on fifty frozen development questions: 47/50 tasks correct, 28/30 intended SQL tasks executing and matching reference values, and 48/50 tool selections correct. Controlled schema, validation/retry and definition-RAG comparisons are recorded. Two routing false positives and one metric-substitution failure remain documented. This is not held-out accuracy or production readiness. See the [Phase 8 verification record](docs/phase8_release.md) for what was actually tested.
+
+Start with the [complete setup and demo guide](docs/demo_guide.md), [interview notes](docs/interview_notes.md), or [evaluation report](docs/generated/phase7_report.md). The guide includes optional API setup, Docker, troubleshooting and evidence-backed resume wording.
 
 ## Problem and business motivation
 
@@ -26,20 +28,20 @@ For Phase 3, read the [text-to-SQL walkthrough](docs/text_to_sql.md) and [offlin
 
 ## Local setup and reproduction
 
-Requires Python **3.12+** (verified here with Python 3.12.2). Phases 1â€“2 remain standard-library-only. Phase 3 adds SQLGlot, Pydantic, python-dotenv and a replaceable OpenAI SDK adapter; offline execution needs no API key or model request. Dependency installation requires package access.
+Use Python **3.12** (verified here with Python 3.12.2). Phases 1–2 remain standard-library-only. Later phases add the pinned dependencies in `requirements.txt`; offline execution needs no API key or model request. Dependency installation and the explicit one-time embedding download require network access.
 
 Place the supplied ZIP in the repository root, then run:
 
 ```powershell
 python -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements.txt
-python scripts/inspect_dataset.py
-python scripts/load_database.py
-python scripts/verify_database.py
-python scripts/run_baseline.py
+.venv/Scripts/python.exe scripts/inspect_dataset.py
+.venv/Scripts/python.exe scripts/load_database.py
+.venv/Scripts/python.exe scripts/verify_database.py
+.venv/Scripts/python.exe scripts/download_embedding_model.py
+.venv/Scripts/python.exe scripts/build_knowledge_index.py
 .venv/Scripts/python.exe -m unittest discover -s tests -v
-.venv/Scripts/python.exe scripts/ask.py --demo count --json
-.venv/Scripts/python.exe scripts/verify_text_to_sql.py
+.venv/Scripts/python.exe -m streamlit run app/main.py
 ```
 
 If there is more than one archive, select it explicitly:
@@ -154,11 +156,17 @@ docs/interview_notes.md
 docs/project_metrics.md
 ```
 
-## Limitations and next phases
+## Limitations and future improvements
 
 SQLite is a local starting point, not a concurrent production service. The audit uses in-memory sets for exact distinct counts. Data checks cannot prove business semantics or causality. The revenue proxy is not net accounting revenue. Geography, incomplete time coverage and review selection limit interpretation. Reference timings are single local runs, not a performance comparison.
 
-Phases 1–7 are implemented. Phase 7 identified routing false positives, metric substitution during repair and incomplete explanation coverage; address these with a separately recorded correction pass before claiming reliable general analysis. Packaging and final polish remain Phase 8. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+Phase 7 identified routing false positives, metric substitution during repair and incomplete explanation coverage; address these with a separately recorded correction pass before claiming reliable general analysis. Next priorities are preserving requested metrics through retries, narrower follow-up detection, held-out paraphrases and independent explanation review. Packaging does not resolve these accuracy failures. Interview explanations are maintained in [interview notes](docs/interview_notes.md).
+
+## Docker packaging
+
+Prepare the database, embedding weights and index using the setup above. With Docker's Linux engine running, use `docker compose up --build -d`, then open `http://127.0.0.1:8501`. Stop a local Streamlit instance first if it uses that port. Use `docker compose down` to stop the container.
+
+The non-root image contains runtime code and definitions; host data is mounted read-only. Credentials stay outside the image. The default port is localhost only. See the [Docker guide](docs/demo_guide.md#docker) and [verification scope](docs/phase8_release.md). No authentication or public hosting is included.
 
 ## Phase 4: local business knowledge RAG
 

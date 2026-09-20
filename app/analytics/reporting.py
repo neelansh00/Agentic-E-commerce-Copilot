@@ -100,6 +100,12 @@ def write_project_metrics(root: Path):
                   '- Evidence and unresolved errors: [Phase 7 report](generated/phase7_report.md). Do not present this as 100% reliable or independent human evaluation.']
     else:
         lines += ['- The approximately 50-question agent evaluation and controlled experiments remain for later phases.']
+    phase8_path = root / 'docs/generated/phase8_local_verification.json'
+    if phase8_path.exists():
+        phase8 = json.loads(phase8_path.read_text(encoding='utf-8'))
+        lines += ['', f"- Phase 8 offline tests: {phase8['offline_tests']}; passed: {phase8['tests_passed']}.",
+                  f"- Phase 8 real-data local UI flows: {sum(f['passed'] for f in phase8['flows'])}/{len(phase8['flows'])}; database unchanged: {phase8['database_unchanged']}.",
+                  '- Phase 8 makes no new live-accuracy or improvement claim. See [packaging verification](phase8_release.md) for container test scope.']
     lines += ['- Unrestricted narrative-answer accuracy, statistically established improvements and business impact: not measured.', '',
               'Evidence: [database verification](generated/verification_report.md), [baseline report](generated/baseline_report.md), [offline text-to-SQL integration](generated/text_to_sql_report.md).', '']
     (root / 'docs/project_metrics.md').write_text('\n'.join(lines), encoding='utf-8')
